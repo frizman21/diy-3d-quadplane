@@ -6,6 +6,10 @@ requires-python = ">=3.12,<3.13"
 dependencies = [
     "build123d>=0.9",
     "numpy",
+    "scipy",
+    "matplotlib",
+    "aerosandbox>=4.2",
+    "neuralfoil",
 ]
 
 [dependency-groups]
