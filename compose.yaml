@@ -1,0 +1,12 @@
+services:
+  cad:
+    build: .
+    image: quadplane-cad
+    working_dir: /work
+    # Use Docker's default bridge: no per-project network (host has no free address pools).
+    network_mode: bridge
+    volumes:
+      - .:/work
+    # Port 3939: ocp_vscode web viewer (`make viewer`), for viewing models in a browser.
+    ports:
+      - "3939:3939"
