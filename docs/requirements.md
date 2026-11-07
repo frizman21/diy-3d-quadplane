@@ -45,7 +45,8 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | ID | Requirement | Source |
 |---|---|---|
 | SIZE-1 | The assembled aircraft fits through a standard **80 in × 36 in (2032 × 914 mm)** doorway, carried sideways. This limits the overall wingspan to **1.9 m or less** (about 130 mm of margin for hands and handling). | Stated (doorway); the span limit is Derived |
-| SIZE-2 | The assembled aircraft fits in the back of a Chevrolet Suburban with the 2nd and 3rd rows folded down and the tailgate closed. **VERIFY:** measure the usable floor length (tailgate to the back of the front seats), the width between the wheel wells, the width above them, and the height of the tailgate opening. | Stated |
+| SIZE-2 | The assembled aircraft fits in the back of a Chevrolet Suburban with the 2nd and 3rd rows folded down and the tailgate closed. Load it with the wings running lengthwise. Working limits, **estimated** (see note below): overall length (nose to tail) **≤ 1.2 m**, overall height including props and landing gear **≤ 0.9 m**. The span limit is set by SIZE-1. | Stated; the limits are Derived and estimated |
+| SIZE-2a | **How the Suburban limits were estimated:** stated cargo volume of 144.7 ft³ (4.1 m³) behind the 1st row, opening at least 39 in (990 mm) tall, exterior width 81 in. That implies a floor about 2.3–2.5 m long and about 1.25 m wide between the wheel wells (≈ 1.6 m above them). A 1.8–1.9 m span fits along the length. The 1.2 m length limit is the conservative width between the wheel wells. **VERIFY** with a tape measure before the airframe is final. | Derived (estimate) |
 | SIZE-3 | One-piece airframe: no field assembly. Printed sections can be glued together permanently. | Stated (coming apart not required) |
 | SIZE-4 | The aircraft can rest on its landing gear or on a simple cradle in the vehicle without loading the props or the camera. | Derived |
 
@@ -65,12 +66,29 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | ID | Requirement | Source |
 |---|---|---|
 | SYS-1 | **Layout:** quadplane with 4 lift motors on two booms running fore and aft, plus 1 pusher motor for cruise. Conventional tail on the booms. | Derived (simplest common layout, well supported by ArduPilot); **open for review** |
-| SYS-2 | **Flight software:** ArduPilot QuadPlane (owner has used ArduPilot before). **Flight controller board:** TBD (e.g. a Matek H743 class board). | Stated (ArduPilot); board **open** |
+| SYS-2 | **Flight software:** ArduPilot QuadPlane (owner has used ArduPilot before). **Flight controller:** a Matek H743 class board, e.g. H743-WING, which has enough outputs for 5 motors plus 4 or more servos. | Stated |
 | SYS-3 | GPS with compass, needed for position hold in hover tuning and for return-to-launch. | Derived |
 | SYS-4 | Telemetry to a ground station for tuning and log review. Onboard logging enabled. | Derived (tuning goal) |
 | SYS-5 | **Battery:** preliminary choice is a **6S Li-ion pack** (e.g. 6S2P 21700, about 190 Wh, about 900 g) to meet PERF-1 with margin; 6S LiPo is the fallback. Final choice after the weight and power estimate. | Derived (see §9) |
 | SYS-6 | The battery is reachable through a hatch without tools and can slide fore and aft to set the balance point. | Derived |
 | SYS-7 | Arming safety: a safety switch or an equivalent arming procedure, and failsafes configured for loss of radio control link and low battery. | Derived |
+
+## 6a. Radio control link (shared across iterations)
+
+The handset and radio system bought for v1 will be **reused on later aircraft**,
+up to about a **150 kg (330 lb)** drone with tilting rotors or wings, lights, flaps and a
+pneumatic gimbal (up/down). Choose it for that future aircraft, not for v1.
+
+| ID | Requirement | Source |
+|---|---|---|
+| RC-1 | One handset and radio system is used for v1 and all later iterations. | Stated |
+| RC-2 | **At least 16 RC channels**, plus switches, sliders and knobs for modes, flaps, tilt, lights and the gimbal. | Derived (future function list) |
+| RC-3 | **Two-way MAVLink telemetry** over the same link, so the ground station (on the handset or a laptop) shows flight data, logs and parameters. | Derived (tuning, and larger aircraft) |
+| RC-4 | **Range of at least 10 km** line of sight, with a link-quality indication and an RC failsafe that ArduPilot recognises. | Derived (over-spec margin) |
+| RC-5 | Preferred: a **digital HD video downlink** for the camera or gimbal on the same system. | Derived (gimbal on future aircraft) |
+| RC-6 | Supported by ArduPilot without custom firmware. | Derived |
+| RC-7 | The air unit (on the aircraft) weighs **150 g or less** so it can fly on v1. | Derived (fits the v1 weight budget) |
+| RC-8 | Has a path to a **redundant link** (for example a second receiver or a second band) for the 150 kg aircraft. | Derived (safety at that mass) |
 
 ## 7. Regulatory (USA, FAA)
 
@@ -79,6 +97,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | REG-1 | The aircraft is over 250 g, so it **must be registered with the FAA** and show its registration number on the outside. | Derived (FAA rules) |
 | REG-2 | **Remote ID:** a standard Remote ID build or a broadcast module, unless it only flies inside a FAA-Recognized Identification Area (FRIA). | Derived (FAA rules) |
 | REG-3 | The pilot holds a TRUST certificate (recreational) or a Part 107 certificate, as applicable. | Derived (FAA rules) |
+| REG-4 | *Future, not v1:* an aircraft over 55 lb (25 kg) is outside Part 107 and needs FAA approval (for example a 49 U.S.C. 44807 exemption, or flying under a community-based organisation's large-model program). Plan for this before the 150 kg iteration. | Derived (FAA rules) |
 
 ## 8. Verification
 
@@ -124,7 +143,7 @@ A 6S1P pack (≈ 97 Wh) has no margin.
 
 ## 10. Open questions
 
-1. Suburban cargo measurements (SIZE-2). Owner to measure.
-2. Flight controller board and radio system: anything already owned?
+1. Suburban cargo measurements (SIZE-2). Using estimates for now; measure before the airframe is final.
+2. Which radio system meets RC-1 to RC-8 (see the candidates in the chat discussion).
 3. Which GoPro model (it sets the mount and the weight)?
 4. Confirm the layout (SYS-1) before the CAD starts.
