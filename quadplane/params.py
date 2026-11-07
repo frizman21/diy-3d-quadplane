@@ -20,8 +20,8 @@ class Wing:
     airfoil: str = "sd7032"  # Report §3 (airfoil trade)
     span: float = 1.80  # §4: doorway limit 1.9 m less 0.1 m handling margin
     center_span: float = 0.60  # constant-chord centre section between the booms
-    root_chord: float = 0.240  # §4: length limit (1.2 m) binds the chord
-    tip_chord: float = 0.155  # §4: taper 0.65 on the outer panels; tip Re >= 1e5
+    root_chord: float = 0.260  # §4: smallest chord meeting Vs <= 10.5 m/s at the CAD mass
+    tip_chord: float = 0.167  # §4: outer-panel taper 0.643; tip Re >= 1e5
     root_incidence_deg: float = 1.0  # §6: fuselage ~level at 18 m/s cruise
     tip_twist_deg: float = -2.0  # washout at the tip (§4: benign tip stall)
     dihedral_deg: float = 0.0  # §6: flat wing so one straight spar runs tip-to-tip
@@ -93,12 +93,12 @@ class Tail:
     # U-tail: horizontal stabiliser between the booms + two fins hanging below the booms
     # (fins double as the rear landing gear). §6 stability.
     h_span: float = 0.60  # between the boom centrelines (stab halves meet the fin sleeves)
-    h_chord: float = 0.140
+    h_chord: float = 0.150  # §6: largest chord inside the 1.2 m length limit
     h_airfoil: str = "naca0009"
     elevator_chord_frac: float = 0.35
     v_height: float = 0.190  # each fin, below the boom; tips are the rear landing skids
-    v_root_chord: float = 0.140
-    v_tip_chord: float = 0.100
+    v_root_chord: float = 0.120  # keeps the boom a standard 1.000 m tube (§4)
+    v_tip_chord: float = 0.090
     v_airfoil: str = "naca0009"
     h_incidence_deg: float = 1.0  # §6: near-zero elevator at cruise trim
     h_z: float = -0.013  # stab chord plane: on top of the boom sleeves (boom z + 17 mm)
@@ -155,7 +155,7 @@ class Aircraft:
     @property
     def overall_length(self) -> float:
         front = max(self.x_lift_front + self.lift.radius, self.fuselage.x_nose)
-        rear = min(self.x_tail_le - self.tail.v_root_chord, self.booms.x_rear)
+        rear = min(self.x_tail_le - max(self.tail.v_root_chord, self.tail.h_chord), self.booms.x_rear)
         return front - rear
 
 

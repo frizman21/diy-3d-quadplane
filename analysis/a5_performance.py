@@ -102,7 +102,7 @@ def main():
     axs[1].axvline(vs, color="0.5", ls=":", label=f"Vs {vs:.1f} m/s")
     axs[1].plot(v[i_end], p_elec[i_end], "go", label=f"min power {v[i_end]:.1f} m/s")
     axs[1].plot(v[i_rng], p_elec[i_rng], "bs", label=f"max range {v[i_rng]:.1f} m/s")
-    axs[1].set(xlabel="airspeed (m/s)", ylabel="W", title="Power required", ylim=(0, 360))
+    axs[1].set(xlabel="airspeed (m/s)", ylabel="W", title="Power required", ylim=(0, 430))
     axs[1].legend(fontsize=8)
     axs[2].plot(v, roc, "k")
     axs[2].set(xlabel="airspeed (m/s)", ylabel="m/s", title="Rate of climb (pusher only)")

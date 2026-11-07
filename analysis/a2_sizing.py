@@ -27,6 +27,7 @@ CLMAX_3D_FACTOR = 0.88  # wing CLmax / section CLmax (taper + washout; Raymer 12
 BATTERY_WH_USABLE = 194 * (1 - AC.mission.reserve_frac)
 SPAN_MAX = 1.80  # 1.9 m doorway limit less 0.1 m handling margin (decision D-013)
 TIP_MIN = 0.150  # tip Re >= 1e5 at 10 m/s, spar/print depth (decision D-013)
+VS_MAX = 10.5  # stall speed limit incl. 0.5 m/s reserve for further mass growth (D-013)
 
 
 def section_clmax(airfoil: str, re: float = 1.6e5) -> float:
@@ -107,7 +108,7 @@ def main():
         for c in ROOT_CHORDS:
             r = evaluate(b, c, clmax2d)
             r["tip_chord"] = float(c * TAPER_OUTER)
-            r["feasible"] = bool(r["span"] <= SPAN_MAX + 1e-9 and r["vs"] <= 11.0
+            r["feasible"] = bool(r["span"] <= SPAN_MAX + 1e-9 and r["vs"] <= VS_MAX
                                  and r["length"] <= 1.20 + 1e-9 and r["tip_chord"] >= TIP_MIN - 1e-9)
             rows.append(r)
             print(f"b={b:.2f} c={c:.2f} S={r['area']:.3f} AR={r['AR']:.1f} m={r['mass']:.3f} "
@@ -133,7 +134,7 @@ def main():
                            (axs[2], "ld_max", "Max L/D (whole aircraft)")):
         cs = ax.contourf(B, C * 1000, grid(key), 14, cmap="viridis")
         fig.colorbar(cs, ax=ax)
-        ax.contour(B, C * 1000, grid("vs"), [11.0], colors="w", linewidths=2, linestyles="--")
+        ax.contour(B, C * 1000, grid("vs"), [VS_MAX], colors="w", linewidths=2, linestyles="--")
         ax.contour(B, C * 1000, grid("length"), [1.20], colors="r", linewidths=2)
         ax.contour(B, C * 1000, C * TAPER_OUTER, [TIP_MIN], colors="orange", linewidths=2)
         ax.axvline(SPAN_MAX, color="m", lw=2)

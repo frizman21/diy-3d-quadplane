@@ -72,9 +72,9 @@ def main():
     x_np = x_np_avl + d_body
     x_cg = x_np + SM_TARGET * w.mac
 
-    # place the battery to hit x_cg (limited by the nose: pack front >= 60 mm behind the tip)
+    # place the battery to hit x_cg (limited by the nose: pack front >= 50 mm behind the tip)
     xb = M.battery_x_for_cg(x_cg)
-    xb_max = AC.fuselage.x_nose - 0.060 - 0.070
+    xb_max = AC.fuselage.x_nose - 0.050 - 0.070  # pack front 50 mm behind the nose tip (fits 77x85 mm section)
     if xb > xb_max:
         print(f"WARNING: battery x {xb:+.3f} beyond forward limit {xb_max:+.3f}; CG will be aft of target")
         xb = xb_max

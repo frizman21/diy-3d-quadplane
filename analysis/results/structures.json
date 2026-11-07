@@ -1,16 +1,16 @@
 {
   "spar": {
     "n_ultimate": 6.0,
-    "root_moment_ult_nm": 39.94889366918168,
-    "root_shear_ult_n": 100.062,
-    "root_stress_mpa": 240.06848938299612,
-    "ms_root": 0.6661911816417325,
+    "root_moment_ult_nm": 39.92996989426989,
+    "root_shear_ult_n": 100.06199999999998,
+    "root_stress_mpa": 239.9547690358416,
+    "ms_root": 0.6669808297923545,
     "spar_end_y": 0.65,
-    "moment_at_spar_end_nm": 2.184050241276677,
+    "moment_at_spar_end_nm": 2.1799429536444874,
     "outer_tube": "8x6",
-    "outer_stress_mpa": 63.56158022587058,
-    "ms_outer": 5.293109746148092,
-    "spar_end_deflection_limit_mm": 34.7963247963101,
+    "outer_stress_mpa": 63.4420474022156,
+    "ms_outer": 5.304966759096597,
+    "spar_end_deflection_limit_mm": 34.77195189816918,
     "spar_length_m": 1.3
   },
   "booms": [
