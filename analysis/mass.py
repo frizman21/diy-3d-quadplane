@@ -1,0 +1,135 @@
+"""Mass and balance model.
+
+Every item carries its mass and position (body frame, m, origin at the wing root LE).
+COTS masses come from manufacturer data (docs/cots-selection.md). Printed-structure
+masses are estimates from areal densities until the CAD exists; `printed_from_cad()`
+replaces them with CAD volumes x material density.
+"""
+
+from dataclasses import dataclass
+
+import numpy as np
+
+from quadplane.params import AIRCRAFT as AC
+
+CARBON_DENSITY = 1550.0  # kg/m^3, roll-wrapped CF/epoxy tube
+LWPLA_FOAMED = 0.75  # g/cm^3: LW-PLA printed at ~230 C (≈40% foaming); VERIFY on coupon
+PLA_PETG = 1.25
+
+
+@dataclass
+class Item:
+    name: str
+    mass: float  # kg
+    x: float
+    y: float = 0.0
+    z: float = 0.0
+    group: str = "misc"
+
+
+def tube_mass(od: float, id_: float, length: float) -> float:
+    return CARBON_DENSITY * np.pi / 4 * (od ** 2 - id_ ** 2) * length
+
+
+def components(battery_mass: float = 0.860, battery_x: float = -0.06,
+               lift_motor_mass: float = 0.103, pusher_motor_mass: float = 0.120,
+               printed: dict | None = None) -> list[Item]:
+    w, b, t = AC.wing, AC.booms, AC.tail
+    xf, xr = AC.x_lift_front, AC.x_lift_rear
+    zm = b.z + AC.lift.motor_height
+    items: list[Item] = []
+
+    # --- propulsion ---
+    for s in (+1, -1):
+        items += [
+            Item("lift motor front", lift_motor_mass, xf, s * b.y, zm, "propulsion"),
+            Item("lift motor rear", lift_motor_mass, xr, s * b.y, zm, "propulsion"),
+            Item("lift prop front", 0.020, xf, s * b.y, zm + 0.02, "propulsion"),
+            Item("lift prop rear", 0.020, xr, s * b.y, zm + 0.02, "propulsion"),
+            Item("lift ESC front", 0.008, xf - 0.08, s * b.y, b.z, "propulsion"),
+            Item("lift ESC rear", 0.008, xr + 0.08, s * b.y, b.z, "propulsion"),
+        ]
+    xp = AC.fuselage.x_tail
+    items += [
+        Item("pusher motor", pusher_motor_mass, xp - 0.02, 0, AC.pusher.z_thrust, "propulsion"),
+        Item("pusher prop + spinner", 0.022, xp - 0.05, 0, AC.pusher.z_thrust, "propulsion"),
+        Item("pusher ESC", 0.008, xp + 0.06, 0, AC.pusher.z_thrust, "propulsion"),
+    ]
+
+    # --- energy ---
+    items.append(Item("battery 6S2P Li-ion", battery_mass, battery_x, 0, -0.065, "battery"))
+
+    # --- avionics ---
+    items += [
+        Item("flight controller H7A3-WING", 0.030, -0.03, 0, -0.04, "avionics"),
+        Item("GPS + compass", 0.012, -0.20, 0, 0.03, "avionics"),
+        Item("ELRS receiver DBR4", 0.006, -0.15, 0, -0.03, "avionics"),
+        Item("Remote ID module", 0.025, -0.25, 0, -0.03, "avionics"),
+        Item("airspeed sensor + pitot", 0.010, 0.15, 0, -0.02, "avionics"),
+        Item("camera Insta360 GO 3S", 0.039, 0.21, 0, -0.06, "payload"),
+        Item("camera TPU mount", 0.012, 0.20, 0, -0.06, "payload"),
+    ]
+    # servos: 2 aileron (in wing), 1 elevator (in boom end at tail)
+    ya = np.mean(w.aileron_span_frac) * w.semi_span
+    items += [
+        Item("aileron servo", 0.013, -0.15, ya, 0.0, "avionics"),
+        Item("aileron servo", 0.013, -0.15, -ya, 0.0, "avionics"),
+        Item("elevator servo", 0.013, AC.x_tail_le + 0.02, b.y, b.z, "avionics"),
+        Item("wiring, connectors", 0.130, -0.12, 0, -0.03, "misc"),
+        Item("hardware: inserts, screws, glue", 0.050, -0.12, 0, 0, "misc"),
+    ]
+
+    # --- carbon (COTS) ---
+    spar_len = w.span - 0.04
+    items.append(Item("wing spar tube", tube_mass(0.016, 0.014, spar_len), -0.25 * w.root_chord,
+                      0, 0, "carbon"))
+    boom_len = b.x_front - b.x_rear
+    for s in (+1, -1):
+        items.append(Item("boom tube", tube_mass(b.tube_od, b.tube_id, boom_len),
+                          (b.x_front + b.x_rear) / 2, s * b.y, b.z, "carbon"))
+    items.append(Item("tail spar tube 8x6", tube_mass(0.008, 0.006, t.h_span),
+                      AC.x_tail_le - 0.3 * t.h_chord, 0, b.z, "carbon"))
+
+    # --- printed structure (estimates until CAD) ---
+    p = printed or printed_estimates()
+    xw = -0.40 * w.mac
+    items += [
+        Item("printed wing (LW-PLA)", p["wing"], xw, 0, 0.01, "printed"),
+        Item("printed tail (LW-PLA)", p["tail"], AC.x_tail_le - 0.45 * t.h_chord, 0, b.z - 0.05,
+             "printed"),
+        Item("printed fuselage pod", p["fuselage"], -0.07, 0, -0.05, "printed"),
+        Item("motor mounts + boom clamps (PA-CF)", p["mounts"], (xf + xr) / 2, 0, b.z, "printed"),
+        Item("landing feet (TPU)", p["feet"], (xf + xr) / 2, 0, -0.2, "printed"),
+    ]
+    return items
+
+
+def printed_estimates() -> dict:
+    """Areal-density estimates (pre-CAD). Wing: single-wall LW-PLA skin 0.45 mm + internal
+    ribs/spar sleeve ~ +35%. Validated later against CAD volumes."""
+    w, t = AC.wing, AC.tail
+    skin_t = 0.45e-3  # m
+    wet_wing = 2.04 * w.area
+    wing = wet_wing * skin_t * LWPLA_FOAMED * 1000 * 1.35
+    wet_tail = 2.04 * (t.h_span * t.h_chord + 2 * t.v_height * (t.v_root_chord + t.v_tip_chord) / 2)
+    tail = wet_tail * skin_t * LWPLA_FOAMED * 1000 * 1.35
+    return {"wing": wing, "tail": tail, "fuselage": 0.170, "mounts": 0.070, "feet": 0.016}
+
+
+def summarize(items: list[Item]):
+    m = np.array([i.mass for i in items])
+    pos = np.array([[i.x, i.y, i.z] for i in items])
+    total = m.sum()
+    cg = (m[:, None] * pos).sum(0) / total
+    groups: dict[str, float] = {}
+    for i in items:
+        groups[i.group] = groups.get(i.group, 0) + i.mass
+    return total, cg, groups
+
+
+def battery_x_for_cg(target_x: float, **kw) -> float:
+    """Battery x that puts the CG at target_x (linear in battery x)."""
+    items0 = components(battery_x=0.0, **kw)
+    tot, cg0, _ = summarize(items0)
+    mb = kw.get("battery_mass", 0.860)
+    return (target_x * tot - cg0[0] * tot) / mb
