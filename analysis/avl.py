@@ -113,7 +113,7 @@ def stability(items, cl_trim: float, velocity: float, xyz_cg, wing=None, tail=No
         eig = (td / "eig.txt").read_text() if (td / "eig.txt").exists() else ""
     res = {k: parse_float(st, k) for k in (
         "Alpha", "CLtot", "CDind", "Cmtot", "CLa", "Cma", "Cnb", "Clb", "CYb", "Clp", "Cmq",
-        "Cnr", "Xnp", "e", "Cmd2", "CLd2", "Cld1", "Cnd1")}
+        "Cnr", "Xnp", "e", "Cmd02", "CLd02", "Cld01", "Cnd01")}
     m = re.search(r"elevator\s*=\s*([-+0-9.Ee]+)", st)
     res["elevator_deg"] = float(m.group(1)) if m else float("nan")
     res["eig_raw"] = eig

@@ -67,7 +67,6 @@ def components(battery_mass: float = 0.860, battery_x: float = -0.06,
         Item("Remote ID module", 0.025, 0.08, 0, -0.03, "avionics"),
         Item("airspeed sensor + pitot", 0.010, 0.15, 0, -0.02, "avionics"),
         Item("camera Insta360 GO 3S", 0.039, 0.21, 0, -0.06, "payload"),
-        Item("camera TPU mount", 0.012, 0.20, 0, -0.06, "payload"),
     ]
     # servos: 2 aileron (in wing), 1 elevator (in boom end at tail)
     ya = np.mean(w.aileron_span_frac) * w.semi_span
@@ -83,7 +82,7 @@ def components(battery_mass: float = 0.860, battery_x: float = -0.06,
     items.append(Item("wing spar tube 16x14", tube_mass(w.spar_od, w.spar_id, 2 * w.spar_half_length),
                       -w.spar_x_frac * w.root_chord, 0, 0, "carbon"))
     tip_len = 2 * (w.semi_span - 0.02 - (w.spar_half_length - 0.05))
-    items.append(Item("wing tip spar 6x4", tube_mass(w.tip_spar_od, w.tip_spar_id, tip_len),
+    items.append(Item("wing tip spar 8x6", tube_mass(w.tip_spar_od, w.tip_spar_id, tip_len),
                       -w.spar_x_frac * w.tip_chord, 0, 0, "carbon"))
     boom_len = b.x_front - b.x_rear
     for s in (+1, -1):
@@ -131,7 +130,8 @@ def printed_estimates() -> dict:
     wing = wet_wing * skin_t * LWPLA_FOAMED * 1000 * 1.35
     wet_tail = 2.04 * (t.h_span * t.h_chord + 2 * t.v_height * (t.v_root_chord + t.v_tip_chord) / 2)
     tail = wet_tail * skin_t * LWPLA_FOAMED * 1000 * 1.35
-    return {"wing": wing, "tail": tail, "fuselage": 0.170, "mounts": 0.070, "feet": 0.016}
+    return {"wing": wing, "tail": tail, "fuselage": 0.170, "mounts": 0.070, "feet": 0.016,
+            "camera_mount": 0.012}
 
 
 def summarize(items: list[Item]):

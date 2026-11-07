@@ -46,8 +46,7 @@ def prop_trade(mass: float, front_share: float):
         tw = MAX_THRUST_G[d] * 4 / (mass * 1000)
         tw_front = MAX_THRUST_G[d] / t_front
         R = d * 0.0254 / 2
-        length = (R + AC.lift.tip_gap) + R + (AC.wing.root_chord + R + AC.lift.tip_gap) + R \
-            + AC.lift.tip_gap + AC.tail.v_root_chord
+        length = AC.overall_length + 4 * (R - AC.lift.radius)  # each radius step moves front tip and tail
         rows.append({"prop_in": d, "hover_w": p, "fm_eta": 1 / k_factor(d), "tw_total": tw,
                      "tw_front_motor": tw_front, "overall_length": length,
                      "disk_loading_n_m2": mass * G / (4 * np.pi * R ** 2)})

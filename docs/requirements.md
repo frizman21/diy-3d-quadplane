@@ -1,6 +1,6 @@
 # Requirements: Quadplane v1 (proof of concept)
 
-Status: **Draft**, 2026-11-07
+Status: **Draft rev B**, 2026-11-07 (sizing superseded by the [Aerodynamics report](AerodynamicsReport.md))
 Owner: Mike
 
 Each requirement has an ID so the design and tests can refer to it. **Source** says
@@ -67,7 +67,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | ID | Requirement | Source |
 |---|---|---|
 | SYS-1 | **Layout:** quadplane with 4 fixed lift motors (quad X) on two booms running fore and aft, plus 1 pusher motor for cruise. Tail mounted on the booms. | Decided (D-007) |
-| SYS-2 | **Flight software:** ArduPilot QuadPlane (owner has used ArduPilot before). **Flight controller:** a Matek H743 class board, e.g. H743-WING, which has enough outputs for 5 motors plus 4 or more servos. | Stated |
+| SYS-2 | **Flight software:** ArduPilot QuadPlane (owner has used ArduPilot before). **Flight controller:** Matek H7A3-WING (replaces the discontinued H743-WING; D-016). | Stated |
 | SYS-3 | GPS with compass, needed for position hold in hover tuning and for return-to-launch. | Derived |
 | SYS-4 | Telemetry to a ground station for tuning and log review. Onboard logging enabled. | Derived (tuning goal) |
 | SYS-5 | **Battery:** preliminary choice is a **6S Li-ion pack** (e.g. 6S2P 21700, about 190 Wh, about 900 g) to meet PERF-1 with margin; 6S LiPo is the fallback. Final choice after the weight and power estimate. | Derived (see §9) |
@@ -111,7 +111,11 @@ pneumatic gimbal (up/down). Choose it for that future aircraft, not for v1.
 | BUILD-2 | `make test` (bed-fit check on every part). |
 | PAY-2 | Camera footage from the first hover and the first cruise. |
 
-## 9. Preliminary sizing (to be refined)
+## 9. Preliminary sizing (superseded)
+
+> **Superseded** by [AerodynamicsReport.md](AerodynamicsReport.md). The analysed design is
+> 3.34 kg, hovers 24.9 min (PERF-1 ✅), has a 1.80 m span and 1.196 m length (SIZE-1/2 ✅), and
+> a front-motor T/W of 1.82 (PERF-5 ✅). The original estimate is kept below for traceability.
 
 This first estimate checks that PERF-1 is achievable. These numbers become `quadplane/params.py`
 once the layout is reviewed.
