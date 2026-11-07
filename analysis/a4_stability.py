@@ -26,7 +26,7 @@ def distributed(items, n=12):
     out = []
     w = AC.wing
     for it in items:
-        if it.name.startswith(("printed wing", "wing spar")):
+        if it.name.startswith(("printed wing", "wing spar", "wing tip spar")):
             ys = np.linspace(-w.semi_span, w.semi_span, 2 * n + 1)
             ys = 0.5 * (ys[1:] + ys[:-1])
             # wing mass ~ proportional to local chord

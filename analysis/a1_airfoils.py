@@ -100,6 +100,7 @@ def main():
     def norm(vals, higher_better):
         v = np.asarray(vals, float)
         lo, hi = np.nanmin(v), np.nanmax(v)
+        v = np.where(np.isfinite(v), v, lo if higher_better else hi)
         s = (v - lo) / (hi - lo) if hi > lo else np.ones_like(v)
         return s if higher_better else 1 - s
 
@@ -117,6 +118,14 @@ def main():
     for i, x in enumerate(rows):
         x["score"] = float(sum(w[k] * cols[k][i] for k in w))
         x["eligible"] = x["tc"] >= MIN_TC - 1e-3
+        x["note"] = "" if x["eligible"] else f"t/c {x['tc']:.3f} < {MIN_TC}"
+        if not np.isfinite(x["score"]):
+            x["score"] = -1.0
+            x["eligible"] = False
+            x["note"] = "design CL band not on the attached-flow branch (camber too high)"
+        if abs(x["cm0"]) > 0.15:
+            x["eligible"] = False
+            x["note"] = f"|Cm0| {abs(x['cm0']):.2f} > 0.15 (trim drag, tail size)"
     rows.sort(key=lambda x: (not x["eligible"], -x["score"]))
     winner = rows[0]["name"]
     print("\nRanking:")

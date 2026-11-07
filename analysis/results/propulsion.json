@@ -1,0 +1,112 @@
+{
+  "mass": 2.972235618892787,
+  "front_share": 0.5303627197884878,
+  "props": [
+    {
+      "prop_in": 13,
+      "hover_w": 328.3206496496183,
+      "fm_eta": 0.5963649834454051,
+      "tw_total": 1.8571878907959196,
+      "tw_front_motor": 1.7508657957110734,
+      "overall_length": 1.1154000000000002,
+      "disk_loading_n_m2": 85.12325678869345
+    },
+    {
+      "prop_in": 14,
+      "hover_w": 314.6329195406858,
+      "fm_eta": 0.5786492993841978,
+      "tw_total": 2.328213805128218,
+      "tw_front_motor": 2.194925961289969,
+      "overall_length": 1.1662,
+      "disk_loading_n_m2": 73.39709386372039
+    },
+    {
+      "prop_in": 15,
+      "hover_w": 314.51205431460136,
+      "fm_eta": 0.5402870420607393,
+      "tw_total": 2.5300820541277744,
+      "tw_front_motor": 2.385237460823781,
+      "overall_length": 1.217,
+      "disk_loading_n_m2": 63.93702398795196
+    }
+  ],
+  "batteries": [
+    {
+      "battery": "6S1P Molicel P50B",
+      "wh": 108.0,
+      "pack_kg": 0.455,
+      "auw": 2.5672356188927874,
+      "hover_w": 254.54037600995343,
+      "hover_min": 20.366120618118703,
+      "hover_amps": 12.120970286188259,
+      "max_cont_a": 60,
+      "meets_15min": true
+    },
+    {
+      "battery": "6S LiPo 5000 mAh (CNHL G+)",
+      "wh": 111.0,
+      "pack_kg": 0.811,
+      "auw": 2.9232356188927873,
+      "hover_w": 307.1308284213823,
+      "hover_min": 17.347656135287092,
+      "hover_amps": 14.625277543875349,
+      "max_cont_a": 500,
+      "meets_15min": true
+    },
+    {
+      "battery": "6S2P Molicel P45B",
+      "wh": 194.4,
+      "pack_kg": 0.86,
+      "auw": 2.972235618892787,
+      "hover_w": 314.6329195406858,
+      "hover_min": 29.657417963835677,
+      "hover_amps": 14.982519978127895,
+      "max_cont_a": 90,
+      "meets_15min": true
+    },
+    {
+      "battery": "6S2P Molicel P50B",
+      "wh": 216.0,
+      "pack_kg": 0.88,
+      "auw": 2.992235618892787,
+      "hover_w": 317.7128719704984,
+      "hover_min": 32.63323873438384,
+      "hover_amps": 15.129184379547542,
+      "max_cont_a": 120,
+      "meets_15min": true
+    }
+  ],
+  "pusher": {
+    "f_transition_n": 7.624339238508445,
+    "t_static_req_n": 13.766168069529138,
+    "t_static_req_g": 1403.279110043745,
+    "climb_thrust_n": 7.137929577642659,
+    "static_rpm": 9621.164873301524,
+    "static_shaft_w": 347.0941134587723,
+    "static_elec_w": 423.28550421801503,
+    "kv_needed": 572.688385315567,
+    "pitch_speed_static_ms": 28.510718574550182,
+    "cruise_thrust_n": 2.278324340752951
+  },
+  "hover_point": {
+    "front_g": 819.7087426778628,
+    "rear_g": 725.8537791463864,
+    "front_w": 79.88913060364418,
+    "rear_w": 66.56900379091627,
+    "front_throttle_frac_thrust": 0.4738200824727531
+  },
+  "bench": {
+    "13": [
+      810,
+      82.0
+    ],
+    "14": [
+      710,
+      64.4
+    ],
+    "15": [
+      820,
+      79.9
+    ]
+  }
+}

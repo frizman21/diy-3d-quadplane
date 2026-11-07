@@ -20,11 +20,13 @@ from quadplane.params import AIRCRAFT as AC
 
 SPANS = np.arange(1.40, 1.91, 0.10)
 ROOT_CHORDS = np.arange(0.22, 0.345, 0.02)
-TAPER_OUTER = AC.wing.tip_chord / AC.wing.root_chord
+TAPER_OUTER = 0.18 / 0.28  # fixed outer-panel taper used in the trade
 V_GRID = np.linspace(10, 26, 33)
 ETA_PUSHER = 0.62  # cruise propulsive x motor x ESC (refined in a3_propulsion)
 CLMAX_3D_FACTOR = 0.88  # wing CLmax / section CLmax (taper + washout; Raymer 12.4 range)
 BATTERY_WH_USABLE = 194 * (1 - AC.mission.reserve_frac)
+SPAN_MAX = 1.80  # 1.9 m doorway limit less 0.1 m handling margin (decision D-013)
+TIP_MIN = 0.150  # tip Re >= 1e5 at 10 m/s, spar/print depth (decision D-013)
 
 
 def section_clmax(airfoil: str, re: float = 1.6e5) -> float:
@@ -45,7 +47,7 @@ def mass_for(w) -> float:
     base_p = M.printed_estimates()
     skin = 0.45e-3 * M.LWPLA_FOAMED * 1000 * 1.35
     d_wing = 2.04 * (w.area - AC.wing.area) * skin
-    d_spar = M.tube_mass(0.016, 0.014, w.span - AC.wing.span)
+    d_spar = M.tube_mass(0.006, 0.004, w.span - AC.wing.span)  # span change lands in the tip tube
     _ = base_p
     return base_total + d_wing + d_spar
 
@@ -104,8 +106,9 @@ def main():
     for b in SPANS:
         for c in ROOT_CHORDS:
             r = evaluate(b, c, clmax2d)
-            r["feasible"] = bool(r["span"] <= 1.9 + 1e-9 and r["vs"] <= 11.0
-                                 and r["length"] <= 1.20 + 1e-9)
+            r["tip_chord"] = float(c * TAPER_OUTER)
+            r["feasible"] = bool(r["span"] <= SPAN_MAX + 1e-9 and r["vs"] <= 11.0
+                                 and r["length"] <= 1.20 + 1e-9 and r["tip_chord"] >= TIP_MIN - 1e-9)
             rows.append(r)
             print(f"b={b:.2f} c={c:.2f} S={r['area']:.3f} AR={r['AR']:.1f} m={r['mass']:.3f} "
                   f"Vs={r['vs']:.1f} Pmin={r['p_min']:.0f}W@{r['v_pmin']:.0f} P18={r['p18']:.0f} "
@@ -132,6 +135,8 @@ def main():
         fig.colorbar(cs, ax=ax)
         ax.contour(B, C * 1000, grid("vs"), [11.0], colors="w", linewidths=2, linestyles="--")
         ax.contour(B, C * 1000, grid("length"), [1.20], colors="r", linewidths=2)
+        ax.contour(B, C * 1000, C * TAPER_OUTER, [TIP_MIN], colors="orange", linewidths=2)
+        ax.axvline(SPAN_MAX, color="m", lw=2)
         ax.plot(best["span"], best["root_chord"] * 1000, "r*", ms=16)
         ax.set(xlabel="span (m)", ylabel="root chord (mm)", title=title)
     savefig(fig, "sizing_carpet")

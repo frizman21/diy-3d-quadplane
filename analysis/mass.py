@@ -32,7 +32,7 @@ def tube_mass(od: float, id_: float, length: float) -> float:
 
 
 def components(battery_mass: float = 0.860, battery_x: float = -0.06,
-               lift_motor_mass: float = 0.103, pusher_motor_mass: float = 0.120,
+               lift_motor_mass: float = 0.103, pusher_motor_mass: float = 0.143,
                printed: dict | None = None) -> list[Item]:
     w, b, t = AC.wing, AC.booms, AC.tail
     xf, xr = AC.x_lift_front, AC.x_lift_rear
@@ -80,9 +80,11 @@ def components(battery_mass: float = 0.860, battery_x: float = -0.06,
     ]
 
     # --- carbon (COTS) ---
-    spar_len = w.span - 0.04
-    items.append(Item("wing spar tube", tube_mass(0.016, 0.014, spar_len), -0.25 * w.root_chord,
-                      0, 0, "carbon"))
+    items.append(Item("wing spar tube 16x14", tube_mass(w.spar_od, w.spar_id, 2 * w.spar_half_length),
+                      -w.spar_x_frac * w.root_chord, 0, 0, "carbon"))
+    tip_len = 2 * (w.semi_span - w.spar_half_length + 0.05)
+    items.append(Item("wing tip spar 6x4", tube_mass(w.tip_spar_od, w.tip_spar_id, tip_len),
+                      -w.spar_x_frac * w.tip_chord, 0, 0, "carbon"))
     boom_len = b.x_front - b.x_rear
     for s in (+1, -1):
         items.append(Item("boom tube", tube_mass(b.tube_od, b.tube_id, boom_len),

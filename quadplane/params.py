@@ -17,16 +17,22 @@ def mm(x_m: float) -> float:
 
 @dataclass(frozen=True)
 class Wing:
-    airfoil: str = "sd7062"  # Report §3 (airfoil trade)
-    span: float = 1.80  # §4: doorway limit 1.9 m, transport margin
+    airfoil: str = "sd7032"  # Report §3 (airfoil trade)
+    span: float = 1.80  # §4: doorway limit 1.9 m less 0.1 m handling margin
     center_span: float = 0.60  # constant-chord centre section between the booms
-    root_chord: float = 0.280  # §4
-    tip_chord: float = 0.180  # §4: taper 0.64 on the outer panels
+    root_chord: float = 0.240  # §4: length limit (1.2 m) binds the chord
+    tip_chord: float = 0.155  # §4: taper 0.65 on the outer panels; tip Re >= 1e5
     root_incidence_deg: float = 1.0  # §6: fuselage ~level at 18 m/s cruise
     tip_twist_deg: float = -2.0  # washout at the tip (§4: benign tip stall)
     dihedral_deg: float = 3.0  # outer panels only (§6: spiral/Dutch-roll balance)
     aileron_span_frac: tuple = (0.55, 0.95)  # fraction of semi-span
     aileron_chord_frac: float = 0.25
+    spar_od: float = 0.016  # §8: 16x14 roll-wrapped CF tube, centre + inner outer panels
+    spar_id: float = 0.014
+    spar_half_length: float = 0.765  # §8: where t/c depth runs out
+    spar_x_frac: float = 0.28  # spar centre at 28% local chord (near max thickness)
+    tip_spar_od: float = 0.006  # §8: 6x4 CF tube in the outer 135 mm
+    tip_spar_id: float = 0.004
 
     @property
     def semi_span(self) -> float:
@@ -59,10 +65,14 @@ class Wing:
 @dataclass(frozen=True)
 class Booms:
     y: float = 0.30  # lateral position of each boom (§5: prop clearance)
-    tube_od: float = 0.016  # §8 structures
-    tube_id: float = 0.014
-    x_front: float = 0.26  # boom front end (ahead of wing LE), m
-    x_rear: float = -0.76  # boom rear end (tail), m
+    tube_od: float = 0.020  # §8: 20x18 keeps the boom mode clear of the hover 1P band
+    tube_id: float = 0.018
+    length: float = 1.000  # catalogue tube length (no cutting)
+    x_rear: float = -0.7856  # = tail LE - fin root chord (checked in tests)
+
+    @property
+    def x_front(self) -> float:
+        return self.x_rear + self.length
     z: float = -0.030  # boom centreline below wing root chord line
 
 
@@ -87,8 +97,8 @@ class Tail:
     h_airfoil: str = "naca0009"
     elevator_chord_frac: float = 0.35
     v_height: float = 0.170  # each fin, below the boom
-    v_root_chord: float = 0.160
-    v_tip_chord: float = 0.110
+    v_root_chord: float = 0.140
+    v_tip_chord: float = 0.100
     v_airfoil: str = "naca0009"
     h_incidence_deg: float = 1.0  # §6: near-zero elevator at cruise trim
 
