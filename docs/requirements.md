@@ -34,7 +34,8 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 
 | ID | Requirement | Source |
 |---|---|---|
-| PAY-1 | Carries one GoPro-class camera (about 125–160 g including mount) that records the flight. | Stated |
+| PAY-1 | Carries one lightweight, rugged action camera that records the flight. **Selected: Insta360 GO 3S** (about 39 g, 4K, waterproof to 10 m (IP68), sealed body with no protruding parts; **VERIFY** the weight when it arrives). Allow about 60 g including the mount. | Stated (rugged and lightweight); the model is Derived |
+| PAY-1a | The camera mount is a printed **TPU** cradle that absorbs crash shock and frame vibration, and releases the camera rather than breaking it in a crash. | Derived (crash survival) |
 | PAY-2 | The camera faces forward with an unobstructed view: no props or landing gear in the frame during cruise. | Derived |
 | PAY-3 | The camera can be removed, and its record button and SD card reached without tools. | Derived (recording every flight) |
 | PAY-4 | The camera mount is protected from ground contact during landing, including a tip-over. | Derived |
@@ -56,7 +57,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 |---|---|---|
 | BUILD-1 | **Buy off-the-shelf (COTS) parts** whenever they make the aircraft noticeably lighter or stronger than a printed part would. Expected COTS parts: carbon tubes for the wing spar and motor booms, motors, ESCs, props, flight controller, GPS, radio receiver, battery, and possibly carbon landing-gear legs. | Stated |
 | BUILD-2 | Printed parts must fit on a QIDI Max 4 bed (390 × 390 × 340 mm, minus a 5 mm margin; **VERIFY**). Anything larger is split into keyed segments. | Stated (printer) |
-| BUILD-3 | Available materials: PLA Basic, PETG Basic, plus any others needed (LW-PLA, ASA and PA-CF are planned). | Stated |
+| BUILD-3 | Available materials: PLA Basic, PETG Basic, plus any others needed (LW-PLA, ASA, PA-CF and TPU are planned). | Stated |
 | BUILD-4 | Assign materials by job: **LW-PLA** for thin aerodynamic skins; **PETG/ASA** for general structure; **ASA or PA-CF** for motor mounts and parts near heat sources (motors, ESCs, battery). PLA is not used for load-bearing parts near heat. | Derived |
 | BUILD-5 | Hardware uses M2/M3 screws into **heat-set inserts** for every part that gets removed or serviced. Sizes come from the fit-coupon print. | Derived |
 | BUILD-6 | All CAD is parametric build123d code in this repo, following CLAUDE.md. | Stated (project setup) |
@@ -122,12 +123,12 @@ once the layout is reviewed.
 | 5 ESCs | 100 |
 | Props | 60 |
 | Flight controller, GPS, receiver, telemetry, Remote ID | 120 |
-| GoPro + mount | 150 |
+| Insta360 GO 3S + TPU mount | 60 |
 | Battery, 6S2P 21700 Li-ion | 900 |
 | Carbon spar, booms, landing gear | 200 |
 | Printed airframe (mostly LW-PLA) | 700 |
 | Wiring, connectors, hardware | 200 |
-| **Total takeoff weight** | **≈ 2.75 kg** |
+| **Total takeoff weight** | **≈ 2.65 kg** (2.75 kg is used below as margin) |
 
 **Hover power.** Four 13 in props give 0.34 m² of disk area. Ideal hover power is
 about 150 W. After prop losses (figure of merit 0.6) and motor/ESC losses (efficiency 0.8),
@@ -145,5 +146,5 @@ A 6S1P pack (≈ 97 Wh) has no margin.
 
 1. Suburban cargo measurements (SIZE-2). Using estimates for now; measure before the airframe is final.
 2. Which radio system meets RC-1 to RC-8 (see the candidates in the chat discussion).
-3. Which GoPro model (it sets the mount and the weight)?
+3. ~~Camera model~~: Insta360 GO 3S selected (PAY-1).
 4. Confirm the layout (SYS-1) before the CAD starts.
