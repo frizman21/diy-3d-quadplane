@@ -26,8 +26,12 @@ analysis:         ## full engineering analysis chain (airfoils -> sizing -> stab
 analysis-fast:    ## same, skipping the (slow) airfoil XFOIL sweep
 	$(RUN) bash -c "$(ANALYSIS_REST)"
 
-viewer:           ## 3D viewer at http://localhost:3939
-	docker compose run --rm --service-ports cad python -m ocp_vscode --host 0.0.0.0 --port 3939
+viewer:           ## 3D viewer at http://localhost:3939 with the assembly loaded (Ctrl-C to stop)
+	docker compose run --rm --service-ports cad bash -c '\
+	  python -m ocp_viewer --host 0.0.0.0 --port 3939 & \
+	  until python -c "import socket; socket.create_connection((\"127.0.0.1\", 3939), 1)" 2>/dev/null; do sleep 1; done; \
+	  python scripts/show.py; \
+	  echo "Viewer running at http://localhost:3939 (Ctrl-C to stop)"; wait'
 
 clean:
 	rm -rf build/*
