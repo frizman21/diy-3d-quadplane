@@ -55,23 +55,22 @@ def spar(mass_design):
     od, id_ = TUBES["16x14"]
     I = I_tube(od, id_)
     sigma = Mb * (od / 2) / I
-    # spar extent: ends where the section depth (t/c 10%) minus skins can no longer hold the tube
-    depth = 0.10 * c - 2 * 0.45e-3
-    y_end = float(y[np.argmax(depth < od + 0.0005)]) if np.any(depth < od + 0.0005) else w.semi_span
-    i_end = np.searchsorted(y, y_end)
+    # spar extent from the CAD geometry check (straight spar inside the tapering section)
+    y_end = w.spar_half_length
+    i_end = int(np.searchsorted(y, y_end))
     # limit-load deflection (integrate curvature), spar only, lower-bound E
     M_lim = Mb / ms.safety_factor
     kappa = M_lim / (E_LOW * I)
     slope = np.concatenate([[0], np.cumsum(0.5 * (kappa[1:] + kappa[:-1]) * np.diff(y))])
     defl = np.concatenate([[0], np.cumsum(0.5 * (slope[1:] + slope[:-1]) * np.diff(y))])
-    # outer panel: bending at y_end carried by a 6x4 tube
-    od2, id2 = 0.006, 0.004
+    # outer panel: bending at y_end carried by the tip tube
+    od2, id2 = w.tip_spar_od, w.tip_spar_id
     sigma_outer = Mb[i_end] * (od2 / 2) / I_tube(od2, id2)
     res = {
         "n_ultimate": n_ult, "root_moment_ult_nm": float(Mb[0]), "root_shear_ult_n": float(V[0]),
         "root_stress_mpa": float(sigma[0] / 1e6), "ms_root": float(SIGMA_ALLOW / sigma[0] - 1),
         "spar_end_y": y_end, "moment_at_spar_end_nm": float(Mb[i_end]),
-        "outer_tube": "6x4", "outer_stress_mpa": float(sigma_outer / 1e6),
+        "outer_tube": f"{od2*1000:.0f}x{id2*1000:.0f}", "outer_stress_mpa": float(sigma_outer / 1e6),
         "ms_outer": float(SIGMA_ALLOW / sigma_outer - 1),
         "spar_end_deflection_limit_mm": float(defl[i_end] * 1000),
         "spar_length_m": 2 * y_end,

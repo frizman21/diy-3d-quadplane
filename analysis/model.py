@@ -31,12 +31,13 @@ def airplane(wing=None, tail=None, include_bodies=True, name="QP1") -> asb.Airpl
 
     x_tail_le = -AC.x_tail_le  # ASB x (aft positive)
     zb = AC.booms.z
+    zh = t.h_z
     h_af = asb.Airfoil(t.h_airfoil)
     htail = asb.Wing(
         name="htail", symmetric=True,
-        xsecs=[asb.WingXSec(xyz_le=[x_tail_le, 0, zb], chord=t.h_chord, twist=t.h_incidence_deg,
+        xsecs=[asb.WingXSec(xyz_le=[x_tail_le, 0, zh], chord=t.h_chord, twist=t.h_incidence_deg,
                             airfoil=h_af),
-               asb.WingXSec(xyz_le=[x_tail_le, t.h_span / 2, zb], chord=t.h_chord,
+               asb.WingXSec(xyz_le=[x_tail_le, t.h_span / 2, zh], chord=t.h_chord,
                             twist=t.h_incidence_deg, airfoil=h_af)])
     v_af = asb.Airfoil(t.v_airfoil)
     fins = []

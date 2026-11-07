@@ -17,7 +17,7 @@ from analysis.common import RHO, G, plt, save_json, savefig
 from analysis.model import airplane
 from quadplane.params import AIRCRAFT as AC
 
-SM_TARGET = 0.12
+SM_TARGET = 0.10  # QuadPlane practice 10-15% MAC; 10% keeps the battery inside the nose
 V_CRUISE = 18.0
 
 
@@ -72,8 +72,12 @@ def main():
     x_np = x_np_avl + d_body
     x_cg = x_np + SM_TARGET * w.mac
 
-    # place the battery to hit x_cg
+    # place the battery to hit x_cg (limited by the nose: pack front >= 60 mm behind the tip)
     xb = M.battery_x_for_cg(x_cg)
+    xb_max = AC.fuselage.x_nose - 0.060 - 0.070
+    if xb > xb_max:
+        print(f"WARNING: battery x {xb:+.3f} beyond forward limit {xb_max:+.3f}; CG will be aft of target")
+        xb = xb_max
     items = M.components(battery_x=xb)
     total, cg, groups = M.summarize(items)
 
@@ -96,7 +100,8 @@ def main():
     mode_list = [describe(m) for m in modes if not (m[1] < -1e-9)]  # keep one of each pair
 
     res = {
-        "mass": total, "cg": cg.tolist(), "groups": groups, "battery_x": xb,
+        "mass": total, "cg": cg.tolist(), "groups": groups, "battery_x": xb, "battery_x_max": xb_max,
+        "sm_target_pct": SM_TARGET * 100,
         "cl_trim": cl_trim, "v_trim": V_CRUISE,
         "x_np_avl": x_np_avl, "x_np_aerobuildup": x_np_ab, "x_np_design": x_np,
         "x_np_aerobuildup_no_bodies": x_np_ab_nobody, "np_body_shift": d_body,

@@ -62,9 +62,9 @@ def components(battery_mass: float = 0.860, battery_x: float = -0.06,
     # --- avionics ---
     items += [
         Item("flight controller H7A3-WING", 0.030, -0.03, 0, -0.04, "avionics"),
-        Item("GPS + compass", 0.012, -0.20, 0, 0.03, "avionics"),
+        Item("GPS + compass (on a 60 mm mast, nose top)", 0.015, 0.12, 0, 0.06, "avionics"),
         Item("ELRS receiver DBR4", 0.006, -0.15, 0, -0.03, "avionics"),
-        Item("Remote ID module", 0.025, -0.25, 0, -0.03, "avionics"),
+        Item("Remote ID module", 0.025, 0.08, 0, -0.03, "avionics"),
         Item("airspeed sensor + pitot", 0.010, 0.15, 0, -0.02, "avionics"),
         Item("camera Insta360 GO 3S", 0.039, 0.21, 0, -0.06, "payload"),
         Item("camera TPU mount", 0.012, 0.20, 0, -0.06, "payload"),
@@ -82,17 +82,23 @@ def components(battery_mass: float = 0.860, battery_x: float = -0.06,
     # --- carbon (COTS) ---
     items.append(Item("wing spar tube 16x14", tube_mass(w.spar_od, w.spar_id, 2 * w.spar_half_length),
                       -w.spar_x_frac * w.root_chord, 0, 0, "carbon"))
-    tip_len = 2 * (w.semi_span - w.spar_half_length + 0.05)
+    tip_len = 2 * (w.semi_span - 0.02 - (w.spar_half_length - 0.05))
     items.append(Item("wing tip spar 6x4", tube_mass(w.tip_spar_od, w.tip_spar_id, tip_len),
                       -w.spar_x_frac * w.tip_chord, 0, 0, "carbon"))
     boom_len = b.x_front - b.x_rear
     for s in (+1, -1):
         items.append(Item("boom tube", tube_mass(b.tube_od, b.tube_id, boom_len),
                           (b.x_front + b.x_rear) / 2, s * b.y, b.z, "carbon"))
-    items.append(Item("tail spar tube 8x6", tube_mass(0.008, 0.006, t.h_span),
-                      AC.x_tail_le - 0.3 * t.h_chord, 0, b.z, "carbon"))
+    items.append(Item("tail spar tube 8x6", tube_mass(0.008, 0.006, t.h_span + 0.02),
+                      AC.x_tail_le - 0.25 * t.h_chord, 0, t.h_z, "carbon"))
 
-    # --- printed structure (estimates until CAD) ---
+    # --- printed structure: CAD masses (scripts/assemble.py) when available, else estimates ---
+    cad = printed_from_cad() if printed is None else None
+    if cad:
+        items += cad
+        items.append(Item("TPU feet / skid shoes", 0.016, (xf + xr) / 2, 0, -0.2, "printed"))
+        items.append(Item("glue, paint, hinge tape (printed-part allowance)", 0.040, -0.12, 0, 0, "printed"))
+        return items
     p = printed or printed_estimates()
     xw = -0.40 * w.mac
     items += [
@@ -104,6 +110,16 @@ def components(battery_mass: float = 0.860, battery_x: float = -0.06,
         Item("landing feet (TPU)", p["feet"], (xf + xr) / 2, 0, -0.2, "printed"),
     ]
     return items
+
+
+def printed_from_cad() -> list[Item] | None:
+    import json
+    from pathlib import Path
+    f = Path(__file__).resolve().parent / "results" / "cad_mass.json"
+    if not f.exists():
+        return None
+    data = json.loads(f.read_text())
+    return [Item(f"printed: {k}", v["g"] / 1000, v["x"], v["y"], v["z"], "printed") for k, v in data.items()]
 
 
 def printed_estimates() -> dict:

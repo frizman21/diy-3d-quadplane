@@ -65,7 +65,7 @@ def write_geometry(td: Path, mach: float = 0.0, xyz_ref=None, wing=None, tail=No
     lines += ["SURFACE", "Htail", "8 1.0 12 -1.1", "YDUPLICATE", "0.0", "ANGLE",
               f"{t.h_incidence_deg:.3f}"]
     for y in (0.0, t.h_span / 2):
-        lines += ["SECTION", f"{xt:.5f} {y:.5f} {b.z:.5f} {t.h_chord:.5f} 0", "AFILE", afh,
+        lines += ["SECTION", f"{xt:.5f} {y:.5f} {t.h_z:.5f} {t.h_chord:.5f} 0", "AFILE", afh,
                   "CONTROL", f"elevator 1.0 {he:.3f} 0 0 0 1"]
     lines += ["SURFACE", "Fin", "8 1.0 8 1.0", "YDUPLICATE", "0.0"]
     lines += ["SECTION", f"{xt:.5f} {b.y:.5f} {b.z:.5f} {t.v_root_chord:.5f} 0", "AFILE", afv,

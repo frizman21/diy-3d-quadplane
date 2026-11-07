@@ -29,3 +29,9 @@ PLA = Material("PLA Basic", 1.24, clearance_sliding=0.30, clearance_press=0.10, 
 PETG = Material("PETG Basic", 1.27, clearance_sliding=0.35, clearance_press=0.15, min_wall=0.8)
 
 DEFAULT = PETG
+
+# Lightweight foaming PLA for skins (density after foaming; VERIFY with a weighed test print)
+LWPLA = Material("LW-PLA (foamed)", 0.75, clearance_sliding=0.35, clearance_press=0.15, min_wall=0.45)
+ASA = Material("ASA", 1.07, clearance_sliding=0.30, clearance_press=0.12, min_wall=0.8)
+PACF = Material("PA-CF (nylon carbon)", 1.20, clearance_sliding=0.30, clearance_press=0.12, min_wall=0.8)
+TPU = Material("TPU 95A", 1.21, clearance_sliding=0.40, clearance_press=0.00, min_wall=1.2)
