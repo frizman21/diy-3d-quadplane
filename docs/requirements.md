@@ -66,7 +66,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 
 | ID | Requirement | Source |
 |---|---|---|
-| SYS-1 | **Layout:** quadplane with 4 lift motors on two booms running fore and aft, plus 1 pusher motor for cruise. Conventional tail on the booms. | Derived (simplest common layout, well supported by ArduPilot); **open for review** |
+| SYS-1 | **Layout:** quadplane with 4 fixed lift motors (quad X) on two booms running fore and aft, plus 1 pusher motor for cruise. Tail mounted on the booms. | Decided (D-007) |
 | SYS-2 | **Flight software:** ArduPilot QuadPlane (owner has used ArduPilot before). **Flight controller:** a Matek H743 class board, e.g. H743-WING, which has enough outputs for 5 motors plus 4 or more servos. | Stated |
 | SYS-3 | GPS with compass, needed for position hold in hover tuning and for return-to-launch. | Derived |
 | SYS-4 | Telemetry to a ground station for tuning and log review. Onboard logging enabled. | Derived (tuning goal) |
@@ -90,6 +90,7 @@ pneumatic gimbal (up/down). Choose it for that future aircraft, not for v1.
 | RC-6 | Supported by ArduPilot without custom firmware. | Derived |
 | RC-7 | The air unit (on the aircraft) weighs **150 g or less** so it can fly on v1. | Derived (fits the v1 weight budget) |
 | RC-8 | Has a path to a **redundant link** (for example a second receiver or a second band) for the 150 kg aircraft. | Derived (safety at that mass) |
+| RC-9 | **Selected:** RadioMaster TX16S MK3 with built-in dual-band ExpressLRS (2.4 GHz + 900 MHz). v1 uses one ELRS receiver connected over CRSF with MAVLink telemetry. A video link is added later. | Decided (D-010) |
 
 ## 7. Regulatory (USA, FAA)
 
@@ -145,6 +146,8 @@ A 6S1P pack (≈ 97 Wh) has no margin.
 ## 10. Open questions
 
 1. Suburban cargo measurements (SIZE-2). Using estimates for now; measure before the airframe is final.
-2. Which radio system meets RC-1 to RC-8 (see the candidates in the chat discussion).
-3. ~~Camera model~~: Insta360 GO 3S selected (PAY-1).
-4. Confirm the layout (SYS-1) before the CAD starts.
+2. ~~Radio~~: decided (D-010).
+3. ~~Camera model~~: decided (D-009).
+4. ~~Layout~~: decided (D-007).
+
+All decisions are recorded in `docs/decisions.md`.

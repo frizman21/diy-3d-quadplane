@@ -8,6 +8,11 @@ Parametric CAD-as-code for a 3D-printed VTOL quadplane, using build123d (Python,
 - Changing dependencies: edit pyproject.toml → `make lock` → `make image`. Commit uv.lock.
 - compose uses `network_mode: bridge` because the host Docker has no free network address pools.
 
+## Project docs
+- `docs/requirements.md` holds the requirements, with IDs to cite in code and commits.
+- `docs/decisions.md` is the decision log. Record every new decision there. Never edit old entries; add a new entry that replaces them.
+- Rule D-000: design v1 for v1 alone. The future 150 kg aircraft matters only for expensive purchases.
+
 ## Layout
 - `quadplane/params.py` holds aircraft-level parameters (single source of truth).
 - `quadplane/printer.py` has the printer (QIDI Max 4) and material profiles, including fit clearances.
