@@ -2,7 +2,8 @@
 
 Parametric CAD and engineering analysis for a 3D-printed twin-boom quadplane:
 
-- 1.80 m span, 1.36 m long, about 10 lb (4.65 kg) with battery and electronics.
+- 1.80 m span, 1.33 m long, about 10 lb (4.59 kg) with battery and electronics.
+- Carbon tubes are all stock sizes from one supplier, none longer than 1000 mm.
 - Four lift motors and a pusher.
 - ArduPilot QuadPlane.
 

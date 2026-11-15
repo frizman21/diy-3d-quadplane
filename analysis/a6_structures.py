@@ -18,19 +18,27 @@ from quadplane.params import AIRCRAFT as AC
 
 E_LOW, E_NOM = 70e9, 90e9
 SIGMA_ALLOW = 400e6
-TUBES = {  # od, id (m), source
-    "16x14": (0.016, 0.014), "18x16": (0.018, 0.016), "20x18": (0.020, 0.018),
-    "22x20": (0.022, 0.020), "25x23": (0.025, 0.023), "28x26": (0.028, 0.026),
-    "30x28": (0.030, 0.028), "25x22": (0.025, 0.022),
+TUBES = {  # od, id (m): the round tubes the supplier stocks in 1000 mm (docs/cots-selection.md §9)
+    "20x18": (0.020, 0.018), "25x23": (0.025, 0.023),  # roll-wrapped
+    "16x12 pultruded": (0.016, 0.012), "20x16 pultruded": (0.020, 0.016), "25x22 pultruded": (0.025, 0.022),
 }
-SPAR_CANDIDATES = ("16x14", "18x16", "20x18", "22x20")
+TIP_TUBES = {"8x6": (0.008, 0.006), "10x8": (0.010, 0.008), "14x12": (0.014, 0.012)}  # roll-wrapped, 500 mm
+SPAR_CANDIDATES = ("20x18", "20x16 pultruded", "25x23")
 RPM_BAND_MARGIN = 0.12  # hover 1P band: rear-motor rpm -12% to front-motor rpm +12% (gusts, light/heavy)
 MODE_SEPARATION = 1.25  # first boom mode at least 25% above the top of the 1P band
-MOUNT_MASS = 0.040  # printed motor mount on the boom tip (CAD)
+MOUNT_MASS_FALLBACK = 0.050  # printed front motor mount with its landing leg, if there is no CAD mass yet
 
 
 def tube_name(od, id_):
     return f"{od * 1000:.0f}x{id_ * 1000:.0f}"
+
+
+def front_mount_mass() -> float:
+    """Front motor mount + landing leg (kg) from the CAD mass file."""
+    try:
+        return load_json("cad_mass")["motor_mount_front_L"]["g"] / 1000
+    except (FileNotFoundError, KeyError):
+        return MOUNT_MASS_FALLBACK
 
 RHO_CF = 1550.0
 
@@ -77,6 +85,13 @@ def spar(mass_design):
     # outer panel: bending at y_end carried by the tip tube
     od2, id2 = w.tip_spar_od, w.tip_spar_id
     sigma_outer = Mb[i_end] * (od2 / 2) / I_tube(od2, id2)
+
+    def tip_deflection(i_outer):
+        ei = np.where(y <= y_end, E_LOW * I, E_LOW * i_outer)
+        k = M_lim / ei
+        s_ = np.concatenate([[0], np.cumsum(0.5 * (k[1:] + k[:-1]) * np.diff(y))])
+        return float(np.concatenate([[0], np.cumsum(0.5 * (s_[1:] + s_[:-1]) * np.diff(y))])[-1] * 1000)
+
     res = {
         "n_ultimate": n_ult, "root_moment_ult_nm": float(Mb[0]), "root_shear_ult_n": float(V[0]),
         "root_stress_mpa": float(sigma[0] / 1e6), "ms_root": float(SIGMA_ALLOW / sigma[0] - 1),
@@ -84,6 +99,12 @@ def spar(mass_design):
         "outer_tube": f"{od2*1000:.0f}x{id2*1000:.0f}", "outer_stress_mpa": float(sigma_outer / 1e6),
         "ms_outer": float(SIGMA_ALLOW / sigma_outer - 1),
         "spar_end_deflection_limit_mm": float(defl[i_end] * 1000),
+        "tip_deflection_limit_mm": tip_deflection(I_tube(od2, id2)),
+        "tip_candidates": [{"tube": n, "stress_mpa": float(Mb[i_end] * (TIP_TUBES[n][0] / 2) / I_tube(*TIP_TUBES[n]) / 1e6),
+                            "ms": float(SIGMA_ALLOW / (Mb[i_end] * (TIP_TUBES[n][0] / 2) / I_tube(*TIP_TUBES[n])) - 1),
+                            "tip_deflection_limit_mm": tip_deflection(I_tube(*TIP_TUBES[n])),
+                            "kg": float(mass_per_m(*TIP_TUBES[n]) * 2 * (w.semi_span - 0.02 - w.tip_spar_start))}
+                           for n in TIP_TUBES],
         "spar_length_m": 2 * y_end, "spar_tube": tube_name(od, id_),
         "spar_i_mm4": float(I * 1e12), "spar_kg": float(mass_per_m(od, id_) * 2 * y_end),
         "candidates": [{"tube": n, "root_stress_mpa": float(Mb[0] * (TUBES[n][0] / 2) / I_tube(*TUBES[n]) / 1e6),
@@ -99,7 +120,7 @@ def boom_vibration(hover_pt):
     L = AC.x_lift_front  # overhang from wing LE (boom is clamped across the wing chord)
     from analysis import mass as M
     from analysis.hover import OPTIONS, SELECTED
-    m_tip = M.LIFT_MOTOR_MASS + M.LIFT_PROP_MASS + MOUNT_MASS  # motor + prop + printed mount
+    m_tip = M.LIFT_MOTOR_MASS + M.LIFT_PROP_MASS + front_mount_mass()  # motor + prop + mount with leg
     rpm_hover = (hover_pt["rear_rpm"] * (1 - RPM_BAND_MARGIN), hover_pt["front_rpm"] * (1 + RPM_BAND_MARGIN))
     f1p = np.array(rpm_hover) / 60
     t_max = OPTIONS[SELECTED].max_g / 1000 * G

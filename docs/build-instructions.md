@@ -1,6 +1,6 @@
 # QP-1 manufacturing and build instructions
 
-Status: **Draft for review**, 2026-11-15, for the 10 lb design (report revision B)
+Status: **Draft for review**, 2026-11-15, for the 10 lb design with supplier-catalogue carbon (report revision C)
 Related: [requirements](requirements.md) · [Aerodynamics report](AerodynamicsReport.md) · [COTS selection](cots-selection.md) · [decision log](decisions.md)
 
 This document takes you from an empty printer to an aircraft that is weighed, balanced
@@ -20,7 +20,7 @@ built yet, so treat it as a plan and correct it as you go.
 
 Do these in order. Each one can change the CAD.
 
-1. **Measure the Suburban.** The aircraft is 1.357 m long and 1.80 m in span. It needs
+1. **Measure the Suburban.** The aircraft is 1.327 m long and 1.80 m in span. It needs
    about 1.4 m of cargo width above the wheel wells (SIZE-2, open item C-8). If the space
    isn't there, stop and revisit the design.
 2. **Print the fit coupon** (`build/fit_coupon.stl`, PETG). It has six tube holes and six
@@ -64,12 +64,16 @@ The parts that affect the build:
 | 6S3P 21700 Li-ion pack, XT90 | 1 | about 1.29 kg |
 | Matek H7A3-WING, M10 GPS + compass, ASPD-DLVR + pitot, DBR4 receiver, db120 Remote ID | 1 each | avionics |
 | EMAX ES08MD II servo | 3 | two ailerons, one elevator |
-| Carbon tube 20x18, 1.30 m | 1 | main spar |
-| Carbon tube 28x26, 1.14 m | 2 | booms |
-| Carbon tube 8x6, 0.28 m | 2 | tip spars |
-| Carbon tube 8x6, 0.62 m | 1 | tail spar |
-| Carbon rod 3 mm, about 0.6 m | 1 | elevator joiner |
+| Carbon tube 20x18 roll-wrapped, 1000 mm | 1 | main spar, used uncut |
+| Carbon tube 25x23 roll-wrapped, 1000 mm | 2 | booms, used uncut |
+| Carbon tube 14x12 roll-wrapped, 500 mm | 2 | tip spars, used uncut |
+| Carbon tube 8x6 pultruded, 1000 mm | 1 | tail spar, cut to 620 mm |
+| Carbon rod 4 mm pultruded, 1000 mm | 1 | elevator joiner, cut to about 570 mm |
 | Insta360 GO 3S | 1 | camera |
+
+All the carbon comes from carbonkevlarsupply.com; the exact listings and prices are in
+[cots-selection.md](cots-selection.md) §9.1. Buy the plain carbon tubes, not the
+"Carbon Fiber Kevlar" hybrids.
 
 ### 2.2 Hardware and consumables
 
@@ -128,14 +132,14 @@ Sizes are in print orientation (X × Y × Z, mm). Masses are CAD estimates.
 | `fuselage_collar` | 1 | 20 × 112 × 117 | 16 g | flat |
 | `battery_hatch` | 1 | 245 × 78 × 20 | 20 g | flat |
 | `camera_cradle` | 1 | 60 × 32 × 28 | 19 g | flat |
-| `boom_saddle_L/R` | 2 | 320 × 35 × 50 | 63 g | as exported |
-| `motor_mount_front_L/R` | 2 | 47 × 47 × 250 | 54 g | as exported (includes the landing leg) |
-| `motor_mount_rear_L/R` | 2 | 47 × 47 × 56 | 28 g | as exported |
-| `fin_L/R` | 2 | 140 × 248 × 33 | 48 g | on its side |
-| `hstab_L/R` | 2 | 116 × 281 × 16 | 39 g | flat |
-| `elevator_L/R` | 2 | 63 × 277 × 11 | 18 g | flat |
+| `boom_saddle_L/R` | 2 | 320 × 32 × 48 | 58 g | as exported |
+| `motor_mount_front_L/R` | 2 | 47 × 47 × 250 | 53 g | as exported (includes the landing leg) |
+| `motor_mount_rear_L/R` | 2 | 47 × 47 × 54 | 27 g | as exported |
+| `fin_L/R` | 2 | 140 × 248 × 30 | 49 g | on its side; print the sleeve and root solid (see section 7) |
+| `hstab_L/R` | 2 | 116 × 283 × 16 | 39 g | flat |
+| `elevator_L/R` | 2 | 63 × 279 × 11 | 18 g | flat |
 
-Total printed mass is about 1.38 kg.
+Total printed mass is about 1.37 kg.
 
 **Close to the bed limits:** the pod halves are 335 mm tall (limit 340 mm), the ailerons
 358 mm long and the wing segments 340 mm in chord (limit 380 mm). Check the slicer's
@@ -155,17 +159,28 @@ real printable volume before starting these.
 
 | Tube | Cut length | Note |
 |---|---|---|
-| 20x18 spar | 1.300 m | one piece, centred on the aircraft centreline |
-| 28x26 boom × 2 | 1.140 m | cut both to the same length within 1 mm |
-| 8x6 tip spar × 2 | 0.280 m | |
-| 8x6 tail spar | 0.620 m | |
-| 3 mm rod | to suit | elevator joiner, about 0.57 m |
+| 20x18 spar | none: 1000 mm as delivered | one piece, centred on the aircraft centreline |
+| 25x23 boom × 2 | none: 1000 mm as delivered | check both are the same length within 1 mm; trim the longer one if not |
+| 14x12 tip spar × 2 | none: 500 mm as delivered | |
+| 8x6 pultruded tail spar | 620 mm | |
+| 4 mm rod | about 570 mm | elevator joiner |
 
-Wrap the cut line in masking tape, cut wet, and seal the cut ends with thin CA.
+Only two cuts are needed. Wrap the cut line in masking tape, cut wet, and seal the cut
+ends with thin CA.
 
-**Tip-spar sleeves.** Each 8 mm tip spar runs 50 mm inside the 18 mm bore of the main
-spar. Make two sleeves, 8 mm bore and 18 mm outside, about 50 mm long, to centre it.
-This part is not in the CAD: print it in PETG or turn it from a carbon tube offcut.
+**Check the tubes before using them.** The supplier publishes no material data, so:
+- Weigh each tube: the 20x18 should be about 93 g and each 25x23 about 117 g. A tube
+  more than 10% light has a thinner wall or more resin than assumed.
+- Measure the outside diameter and the wall with calipers. Put the real diameters into
+  the fit-coupon check and `printer.py` clearances.
+- Bend-test the spar: support it 0.90 m apart and hang 10 kg from the middle. It should
+  deflect 6–8 mm and spring back fully. More than 8 mm means it is softer than the
+  analysis assumes; don't use it.
+
+**Tip-spar sleeves.** Each 14 mm tip spar runs 120 mm inside the 18 mm bore of the main
+spar. Make sleeves with a 14 mm bore and 18 mm outside (one 120 mm piece, or two 20 mm
+rings at the ends of the overlap) to centre it.
+This part is not in the CAD: print it in PETG.
 
 ---
 
@@ -180,16 +195,19 @@ long.
    Getting the lead from there to the pod is **builder's choice**: the simplest route is
    along the lower surface under tape to the root.
 2. **Dry-fit everything on the spar** before any glue: root, mid and tip segments for
-   both sides. The spar runs from 650 mm left to 650 mm right, so it ends 50 mm inside
-   each tip segment. Check that the segment faces close up and the trailing edges line up.
+   both sides. The spar runs from 500 mm left to 500 mm right, so it ends inside
+   each mid segment, 100 mm short of the tip segment. Check that the segment faces close up and the trailing edges line up.
 3. **Glue the two root segments** to each other at the centreline and to the spar, with
    epoxy in the bore. Keep the lower surfaces flat on the table while it cures, so the
    wing has no twist.
-4. **Add the mid segments**, then the **tip segments**, one joint at a time. CA on the
-   mating faces, epoxy in the spar bore.
-5. **Fit the tip spars.** Glue the sleeve onto each 8 mm tube, slide the tube through
-   the tip segment bore into the main spar, and epoxy it. It runs from 600 mm to 880 mm
-   from the centreline.
+4. **Add the mid segments**, one joint at a time. CA on the mating faces, epoxy in the
+   spar bore. Leave the tip segments off until step 5.
+5. **Fit the tip spars before gluing the tip segments on.** Glue the sleeve onto the
+   inboard 120 mm of each 14 mm tube. Slide the tube into the mid segment until it seats
+   120 mm inside the main spar, and epoxy it there and along the mid segment bore. The
+   tube runs from 380 mm to 880 mm from the centreline. Then slide the tip segment over
+   the tube with epoxy along the whole bore: **this tube is the only structure across the
+   mid-to-tip joint**, so bond its full length.
 6. **Check the washout.** The tips should be twisted 2° nose-down relative to the root.
    This is printed into the segments; confirm no joint has rotated.
 7. **Hinge the ailerons** with hinge tape along the top surface. The CAD leaves a 1 mm
@@ -205,10 +223,10 @@ Reference dimensions, measured from the wing-root leading edge (LE):
 | Item | Position |
 |---|---|
 | Boom centrelines | 300 mm left and right of the aircraft centreline |
-| Boom front end | 229 mm ahead of the LE |
-| Boom rear end | 911 mm behind the LE |
-| Front motor axis | 215.5 mm ahead of the LE |
-| Rear motor axis | 555.5 mm behind the LE (215.5 mm behind the trailing edge) |
+| Boom front end | 219 mm ahead of the LE |
+| Boom rear end | 781 mm behind the LE |
+| Front motor axis | 205.5 mm ahead of the LE |
+| Rear motor axis | 545.5 mm behind the LE (205.5 mm behind the trailing edge) |
 | Boom centreline height | 34 mm below the wing chord line |
 
 1. **Slide the saddle onto the boom.** Each `boom_saddle` has three lands with a bore
@@ -221,7 +239,7 @@ Reference dimensions, measured from the wing-root leading edge (LE):
 3. **Lock the boom in the saddle.** Epoxy the boom into the lands and add a strap
    through the slot above the boom at each land. Set the fore-aft position from the
    table above before it cures.
-4. **Fit the rear motor mounts**: slide each onto its boom from the rear, to 555.5 mm
+4. **Fit the rear motor mounts**: slide each onto its boom from the rear, to 545.5 mm
    behind the LE, motor pad up and level. Tighten the two M3 pinch bolts.
 5. **Fit the front motor mounts**: these carry the front landing legs and cap the boom
    end. Slide each on until the boom seats against the end cap, leg pointing straight
@@ -240,20 +258,29 @@ Don't fit the props yet.
 
 ## 7. Tail
 
-1. **Slide a fin onto each boom's rear end.** Each fin has two bands that grip the boom.
-   The fin's leading edge sits 771 mm behind the wing LE, the fin hangs straight down,
-   and its rear band is flush with the boom end. Don't glue yet.
-2. **Assemble the stabiliser.** Slide both `hstab` halves onto the 0.62 m tail spar, and
+1. **Tap-test the booms now**, before the tail goes on (section 11, step 5). It is much
+   easier to change a boom at this stage.
+2. **Slide a fin onto each boom's rear end.** Each fin has one sleeve, 85 mm deep, that
+   pushes over the boom until the boom seats against the end of the bore. The fin's
+   leading edge then sits 696 mm behind the wing LE and the fin hangs straight down.
+   About 55 mm of the fin root, including the stab-spar socket, sits **behind** the boom
+   end. Don't glue yet.
+   - **The fin root is structure**: it carries the stabiliser and the rear landing
+     loads. Print the sleeve and the root solid (a slicer modifier over the top 40 mm of
+     the fin), and use PETG if a test fin in LW-PLA flexes at the sleeve.
+3. **Assemble the stabiliser.** Slide both `hstab` halves onto the 0.62 m tail spar, and
    push the spar ends into the sockets on the inboard side of each fin.
-3. **Square it up.** The stabiliser should be level with the wing and the fins vertical.
+4. **Square it up.** The stabiliser should be level with the wing and the fins vertical.
    Then epoxy the fins to the booms and the spar into the fin sockets, and CA the two
    stab halves together at the centreline.
-4. **Elevators.** Glue the 3 mm carbon rod into the bore of both elevator halves so they
+5. **Elevators.** Glue the 4 mm carbon rod into the bore of both elevator halves so they
    move as one. Hinge them to the stabiliser with tape along the top surface.
-5. **Elevator servo.** The mass model places it on the left boom just ahead of the tail,
+6. **Elevator servo.** The mass model places it on the left boom just ahead of the tail,
    but there is no printed mount. **Builder's choice**: strap it to the boom on a small
    printed cradle, with a short pushrod to a horn on the elevator.
-6. **Skid shoes.** Glue a TPU shoe under each fin tip pad and under each front leg foot.
+7. **Skid shoes.** Before this, load-test one fin: with the tail assembled, press down on
+   the boom above the fin until a scale under the skid reads about 3 kg (three times its
+   static load). Nothing should crack or shift. Then glue a TPU shoe under each fin tip pad and under each front leg foot.
 
 ---
 
@@ -296,7 +323,7 @@ forward). Keep to them where you can; if you move something heavy, update
 | Remote ID module | in the nose, 130 mm ahead of the LE |
 | Airspeed sensor and pitot | at the nose, pitot clear of the front prop wash |
 | Receiver | in the pod, 150 mm behind the LE, antennas clear of carbon |
-| Battery | centre about 151 mm ahead of the LE (final position from the CG check) |
+| Battery | centre about 129 mm ahead of the LE (final position from the CG check) |
 
 ### 9.2 Wiring outline
 The electrical design is not part of the analysis. This is the outline it assumes:
@@ -317,15 +344,15 @@ leads and the main joint for that.
 ## 10. Weigh and balance
 
 1. **Weigh the finished aircraft**, ready to fly, with the battery and camera fitted.
-   - Expected: **4.65 kg (10.25 lb)**.
+   - Expected: **4.59 kg (10.12 lb)**.
    - The structure and the hover margin are designed for **4.8 kg**. If it weighs more,
      rerun the analysis with the measured masses before flying.
 2. **Check the balance point.** Support the aircraft under the wing at the balance
    point, measured back from the wing-root LE:
-   - **Target: 101–109 mm behind the LE** (29.7–32.0% of the root chord).
-   - **Never fly with it further aft than 109 mm.**
+   - **Target: 93–107 mm behind the LE** (27.2–31.4% of the root chord).
+   - **Never fly with it further aft than 107 mm.**
    - Slide the battery to set it. For the first flights, put the battery fully forward
-     (balance point near 101 mm).
+     (balance point between 93 and 100 mm).
 3. **Mark the battery position** inside the pod once it balances.
 4. **Check lateral balance**: it should not drop a wing when supported on the centreline.
 
@@ -343,7 +370,7 @@ Props off for steps 1–5.
 4. **Failsafes**: radio-loss and low-battery failsafes set and tested (SYS-7).
 5. **Boom tap test** (open item C-5): tap each boom tip with the motor fitted and record
    it with a phone accelerometer. The first bending mode should be **above 111 Hz**
-   (predicted 130–147 Hz). If it is lower, don't hover until the notch filter is set up
+   (predicted 114–130 Hz). If it is lower, don't hover until the notch filter is set up
    and the cause is understood.
 6. **Fit the props**, tether or restrain the aircraft, and run each lift motor to about
    50% to check for vibration.
@@ -351,7 +378,7 @@ Props off for steps 1–5.
    broadcasting (REG-1, REG-2).
 8. **First hover**: calm air, battery fully forward, a short flight. Then review the log
    for hover throttle (about 50% expected), the front/rear motor split (about 58/42) and
-   the vibration spectrum, and set the harmonic notch (near 74 Hz).
+   the vibration spectrum, and set the harmonic notch (near 73 Hz).
 
 ---
 

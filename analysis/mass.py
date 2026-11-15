@@ -88,8 +88,8 @@ def components(battery_mass: float = BATTERY_MASS, battery_x: float = -0.06,
     # --- carbon (COTS) ---
     items.append(Item("wing spar tube", tube_mass(w.spar_od, w.spar_id, 2 * w.spar_half_length),
                       -w.spar_x_frac * w.root_chord, 0, 0, "carbon"))
-    tip_len = 2 * (w.semi_span - 0.02 - (w.spar_half_length - 0.05))
-    items.append(Item("wing tip spar 8x6", tube_mass(w.tip_spar_od, w.tip_spar_id, tip_len),
+    tip_len = 2 * (w.semi_span - 0.02 - w.tip_spar_start)
+    items.append(Item("wing tip spar", tube_mass(w.tip_spar_od, w.tip_spar_id, tip_len),
                       -w.spar_x_frac * w.tip_chord, 0, 0, "carbon"))
     boom_len = b.x_front - b.x_rear
     for s in (+1, -1):

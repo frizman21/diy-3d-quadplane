@@ -1,6 +1,6 @@
 # COTS subsystem selection: QP-1 (v1 proof of concept)
 
-Status: **Draft for review**, rev B 2026-11-15 (10 lb class, D-025; rev A 2026-11-07)
+Status: **Draft for review**, rev C 2026-11-15 (10 lb class, D-025; carbon from one supplier, D-033; rev A 2026-11-07)
 Related: [requirements](requirements.md) · [decision log](decisions.md) · [Aerodynamics report](AerodynamicsReport.md)
 
 This document records which bought (COTS) parts were selected for each subsystem, the
@@ -32,21 +32,21 @@ carry over.
 | 11 | Handset | RadioMaster **TX16S MK3**, dual-band ELRS (D-010) | 1 | — | ~$200 | RC-1…RC-8 |
 | 12 | Remote ID | **BlueMark db120** (FAA-declared broadcast module, own GPS and battery) | 1 | 25 g | $119–149 | REG-2 |
 | 13 | Servos | **EMAX ES08MD II** (metal gear, digital) | 3 (+1) | 13 g | $12 | — |
-| 14 | Wing spar | **20x18 mm roll-wrapped CF tube**, cut to 1.30 m | 1 | 120 g | ~£20–30 | §9 report |
-| 15 | Tip spars | **8x6 mm CF tube**, 2 × 0.28 m | 2 | 10 g | £8 | §9 report |
-| 16 | Booms | **28x26 mm roll-wrapped CF tube**, cut to 1.14 m (30x28 acceptable) | 2 | 150 g | ~£30–40 | §9 report (vibration) |
-| 17 | Tail spar | **8x6 mm CF tube**, 0.62 m | 1 | 21 g | £8 | §9 report |
+| 14 | Wing spar | **20x18 mm roll-wrapped CF tube, 1000 mm**, uncut | 1 | 93 g | $22–29 | §9 report |
+| 15 | Tip spars | **14x12 mm roll-wrapped CF tube, 500 mm**, uncut | 2 | 32 g | $21 (pack of 2) | §9 report |
+| 16 | Booms | **25x23 mm roll-wrapped CF tube, 1000 mm**, uncut | 2 | 117 g | $39–47 (pack of 2) | §9 report (vibration) |
+| 17 | Tail spar | **8x6 mm pultruded CF tube, 1000 mm**, cut to 0.62 m | 1 | 21 g | $9 | §9 report |
 | 18 | Camera | **Insta360 GO 3S** (D-009) | 1 | 39 g | ~$400 | PAY-1 |
-| 19 | Hardware | M3 heat-set inserts, M3/M4 screws, 3 mm CF rod (elevator joiner), pushrods, XT60/XT90 | — | ~50 g | — | BUILD-5 |
+| 19 | Hardware | M3 heat-set inserts, M3/M4 screws, 4 mm pultruded CF rod (elevator joiner, same supplier, $18), pushrods, XT60/XT90 | — | ~50 g | — | BUILD-5 |
 
-Analysed take-off mass with these parts: **4.65 kg (10.25 lb)** (Report §2).
+Analysed take-off mass with these parts: **4.59 kg (10.12 lb)** (Report §2). Items 14–17 and the elevator rod all come from carbonkevlarsupply.com (§9).
 
 ---
 
 ## 2. Lift propulsion: motor and prop
 
-**Requirement.** Hover at about 4.65 kg with the front pair carrying 57.9% of the weight
-(Report §6.4). That means about 1400 g per front motor and 1020 g per rear motor, download
+**Requirement.** Hover at about 4.59 kg with the front pair carrying 58.4% of the weight
+(Report §6.4). That means about 1390 g per front motor and 990 g per rear motor, download
 included. Thrust-to-weight must be at least 1.8 on the most loaded motor (PERF-5), and the
 1.4 m overall length limits the prop diameter (SIZE-2).
 
@@ -62,12 +62,13 @@ included. Thrust-to-weight must be at least 1.8 on the most loaded motor (PERF-5
 
 **Decision: MN4014 KV400 with 15x5 carbon props (D-027).**
 
-- The front-motor thrust-to-weight is **1.87**, meeting PERF-5. The rev A MN3508 would give 1.32.
+- The front-motor thrust-to-weight is **1.88**, meeting PERF-5. The rev A MN3508 would give 1.33.
 - The 50% bench point (1250 g) sits between the rear and front hover thrusts, so the
   hover-power model is calibrated where it is used.
-- With 15 in props the aircraft is **1.357 m long**, within the 1.4 m limit. With 16 in it
-  would be 1.408 m. The 16x5.4 prop is otherwise better (T/W 2.15, 29 W less hover power)
-  and is the first upgrade if the vehicle turns out to have the room.
+- With 15 in props the aircraft is **1.327 m long**, within the 1.4 m limit, and the booms
+  are uncut 1000 mm tubes. The 16x5.4 prop is otherwise better (T/W 2.16, 28 W less hover
+  power) and fits the length limit at 1.378 m, but each boom would need to be 38 mm longer
+  than the supplier stocks.
 - The MN5008 KV340 is 43 g lighter per motor and is rated for larger props, but the
   retailers' tables disagree on which rows belong to which KV, so it stays an option for
   later.
@@ -83,19 +84,19 @@ included. Thrust-to-weight must be at least 1.8 on the most loaded motor (PERF-5
 
 ## 3. Pusher motor and prop
 
-**Requirement.** Static thrust of at least **1.68 kg** for the transition (14 m/s in 6 s
-while overcoming drag), plus a **30% margin**, giving 2.19 kg (Report §5.4). At 18 m/s the
-cruise thrust is about 3.4 N. The thrust line is set by pod geometry at z = −55 mm, with
+**Requirement.** Static thrust of at least **1.66 kg** for the transition (14 m/s in 6 s
+while overcoming drag), plus a **30% margin**, giving 2.16 kg (Report §5.4). At 18 m/s the
+cruise thrust is about 3.3 N. The thrust line is set by pod geometry at z = −55 mm, with
 199 mm from the thrust line to the ground.
 
-**Sizing.** For a 12x8 prop (static C_T ≈ 0.105, C_P ≈ 0.060), 2.19 kg needs about
-8,340 rpm. That works out to a motor of about **500 KV** on loaded 6S, drawing about 630 W
+**Sizing.** For a 12x8 prop (static C_T ≈ 0.105, C_P ≈ 0.060), 2.16 kg needs about
+8,280 rpm. That works out to a motor of about **490 KV** on loaded 6S, drawing about 620 W
 at full static thrust.
 
 **Decision (provisional): SunnySky X3520 520KV with a 12x8 folding prop (D-031).**
 
 - At 520 KV the estimated static thrust is about **2.4 kg**, which covers the 30% margin.
-- The X3520 class is rated above 1.7 kW, so 630 W is a light load for it.
+- The X3520 class is rated above 1.7 kW, so 620 W is a light load for it.
 - The rev A motor (X2820 570KV) with an 11x7 prop was estimated at 1.9–2.0 kg, under the
   margin, so it was not carried over.
 - **Bench-test action (C-1):** measure static thrust with the 12x8, and with a 12x6.5 and
@@ -123,7 +124,7 @@ ArduPilot's harmonic notch filter can track motor speed.
 | Holybro Tekko32 F4 50A 4-in-1 | 4–6S | 13.8 g | rejected: a 4-in-1 needs about 0.5 m motor leads on a twin-boom layout |
 
 Current check: the most a lift motor draws is about 19 A (415 W at full throttle with the
-15x5), and the pusher about 29 A (630 W at 22 V), so a 40 A rating gives at least 1.4×
+15x5), and the pusher about 28 A (620 W at 22 V), so a 40 A rating gives at least 1.4×
 margin. T-Motor pairs the MN4014 with a 40 A ESC.
 
 ---
@@ -131,21 +132,21 @@ margin. T-Motor pairs the MN4014 with a 40 A ESC.
 ## 5. Battery
 
 **Requirement.** At least 15 min hover to a 20% reserve (PERF-1), at the hover power of
-**515 W** (Report §5.2), and a take-off weight of about 10 lb (PERF-7).
+**506 W** (Report §5.2), and a take-off weight of about 10 lb (PERF-7).
 
 | Option | Energy | Pack mass | Take-off mass | Hover time | Meets PERF-1 | Pack current at full throttle (103 A) |
 |---|---|---|---|---|---|---|
-| 6S2P Molicel P45B | 194 Wh | 860 g | 4.22 kg (9.3 lb) | 20.9 min | yes, 39% margin | 52 A per cell (limit 45) ✗ |
-| 6S LiPo 10000 mAh | 222 Wh | ~1300 g | 4.66 kg | 20.6 min | yes, 37% margin | fine |
-| **6S3P Molicel P45B** | **292 Wh** | **~1290 g** | **4.65 kg (10.25 lb)** | **27.2 min** | **yes, 81% margin** | **34 A per cell (limit 45)** |
-| 6S3P Molicel P50B | 324 Wh | ~1320 g | 4.68 kg | 29.9 min | yes | 34 A per cell (limit 60) |
-| 6S4P Molicel P45B | 389 Wh | ~1720 g | 5.08 kg (11.2 lb) | 31.8 min | yes, but PERF-5 fails (T/W 1.71) | 26 A per cell |
+| 6S2P Molicel P45B | 194 Wh | 860 g | 4.16 kg (9.2 lb) | 21.3 min | yes, 42% margin | 52 A per cell (limit 45) ✗ |
+| 6S LiPo 10000 mAh | 222 Wh | ~1300 g | 4.60 kg | 21.0 min | yes, 40% margin | fine |
+| **6S3P Molicel P45B** | **292 Wh** | **~1290 g** | **4.59 kg (10.12 lb)** | **27.6 min** | **yes, 84% margin** | **34 A per cell (limit 45)** |
+| 6S3P Molicel P50B | 324 Wh | ~1320 g | 4.62 kg | 30.4 min | yes | 34 A per cell (limit 60) |
+| 6S4P Molicel P45B | 389 Wh | ~1720 g | 5.02 kg (11.1 lb) | 32.3 min | yes, but PERF-5 fails (T/W 1.72) | 26 A per cell |
 
 **Decision: 6S3P 21700 Li-ion (Molicel P45B, or P50B if available) (D-028).**
 
 - It is the pack that puts the aircraft at 10 lb, with the same kind of hover margin rev A had.
 - 2P is short of current at full throttle on all five motors. That case is brief (a
-  transition), so **6S2P remains a valid light configuration** at 9.3 lb if the pusher
+  transition), so **6S2P remains a valid light configuration** at 9.2 lb if the pusher
   throttle is limited. Both packs fit the bay and the CG range.
 - No prebuilt 6S3P P45B pack was found, so this is a pack-builder or DIY spot-welded pack
   (no BMS, balance lead). The mass is scaled from the 6S2P Flywoo pack (860.7 g for 12
@@ -154,7 +155,7 @@ margin. T-Motor pairs the MN4014 with a 40 A ESC.
   sensor is rated 100 A continuous, which the hover current of 25 A is far below).
 - **Envelope:** 140 × 68 × 75 mm assumed (2 cells long × 3 wide × 3 high; **VERIFY**). The
   pod is 115 mm wide and the hatch opening 74 mm. CG is set by sliding the pack, which ends
-  about 151 mm ahead of the wing leading edge, 29 mm short of its forward limit.
+  about 129 mm ahead of the wing leading edge, 51 mm short of its forward limit.
 
 ---
 
@@ -202,26 +203,61 @@ a hinge-moment coefficient C_h ≈ 0.2, the hinge moment is about 0.09 N·m. The
 If flight loads prove higher, a 17–20 g metal-gear servo (3 kg·cm class) drops into a
 slightly larger pocket.
 
-## 9. Carbon tubes
+## 9. Carbon tubes and rods
 
-Sizes come from the structural analysis (Report §9):
+**All of these come from one supplier, carbonkevlarsupply.com (BUILD-1a, D-033).** Its
+catalogue was checked on 2026-11-15. What it stocks in round tube:
+
+| Type | Sizes (OD x ID) | Longest |
+|---|---|---|
+| Roll-wrapped 3K (twill or plain weave) | 8x6, 10x8, 14x12, 16x14 | 500 mm |
+| Roll-wrapped 3K | 20x18, 25x23 | 1000 mm |
+| Pultruded | 6x4, 8x6, 12x8, 16x12, 20x16, 25x22 | 1000 mm |
+| Solid pultruded rod | 2, 4, 8, 10 mm (6, 14, 18 mm out of stock) | 1000 mm |
+
+There is nothing longer than 1000 mm, no 28 mm tube and no 3 mm rod, so the design was
+changed to fit (Report §9, D-033, D-034). `quadplane/hardware.py` holds this stock list and
+`make test` fails if a tube in `params.py` is not on it or is longer than stocked.
+
+### 9.1 Order list
+
+| Member | Buy | Qty | Cut | Listing (in stock 2026-11-15) | Price |
+|---|---|---|---|---|---|
+| Wing spar | 20x18 x 1000 mm, 3K roll-wrapped | 1 | none | "Blue-Black Carbon Fiber Tubing - 20mm x 18mm x 1000mm - 3K Roll Wrapped - Glossy", qty 1 | $22.37 |
+| Booms | 25x23 x 1000 mm, 3K roll-wrapped | 2 | none | "(2) Carbon Fiber Tubes - 25mm x 23mm x 1000mm - 3K Roll Wrapped 100% Carbon Fiber Tube" | $38.99 |
+| Tip spars | 14x12 x 500 mm, 3K roll-wrapped | 2 | none | "Carbon Fiber Tubing - 14mm x 12mm x 500mm - 3K Roll Wrapped 100% Carbon Fiber Tube", qty 2 | $17.99 |
+| Tail spar | 8x6 x 1000 mm, pultruded | 1 | to 620 mm | "(1) Piece - 8mm x 6mm x 1000mm Carbon Fiber Tube - Pultruded Round Tube" | $8.99 |
+| Elevator joiner | 4 mm x 1000 mm solid rod, pultruded | 1 | to about 570 mm | "(1) Piece - 4mm x 1000mm Carbon Fiber RODS - Solid Pultruded Round Rods" | $17.99 |
+| | | | | **Total** | **about $106** |
+
+- **Buy the plain carbon tubes, not the "Carbon Fiber Kevlar" ones.** The supplier sells
+  red and blue hybrid tubes in the same sizes. The analysis assumes all-carbon tube.
+- A second 20x18 x 1000 mm tube ($39.21 for two) is a cheap spare and gives material for
+  the R-16 bend test.
+- Prices and stock are a snapshot; the supplier has several listings per size, in
+  different colours and pack sizes.
+
+### 9.2 Why each size
 
 | Member | Tube | Length | Why this size |
 |---|---|---|---|
-| Wing spar | 20x18 roll-wrapped | 1.30 m, one piece | +92% ultimate-strength margin at the root (n = 6, 4.8 kg); keeps ≥ 3.3 mm wall inside the wing. 16x14 would be +18% |
-| Tip spars | 8x6 | 2 × 0.28 m, running 50 mm inside the main spar on a sleeve (8 mm bore, 18 mm outside) | +350% margin; continues the spar beyond where the 20 mm tube fits |
-| Booms | **28x26** roll-wrapped | 2 × 1.14 m (cut from a longer tube) | **Vibration:** the boom's first bending mode is 130–147 Hz, clear of the 60–89 Hz hover 1P band. The rev A 20x18 boom would sit at 77–87 Hz with the heavier motors, inside the band (resonance). |
-| Tail spar | 8x6 | 0.62 m | joins the two stab halves and both fins (boom torsion tie) |
+| Wing spar | 20x18 roll-wrapped | 1.00 m, one piece | +92% ultimate-strength margin at the root (n = 6, 4.8 kg); keeps ≥ 4.8 mm wall inside the wing. The longest tube stocked, so the spar ends 500 mm from the centreline |
+| Tip spars | 14x12 roll-wrapped | 2 × 0.50 m, from 380 mm to 880 mm; 120 mm inside the main spar on a sleeve (14 mm bore, 18 mm outside) | +455% margin; tip deflection 40 mm at limit load. It is the only structure across the wing joint at 600 mm, which is why it is not the lighter 10x8 |
+| Booms | **25x23** roll-wrapped | 2 × 1.00 m | **Vibration:** first bending mode 114–130 Hz, 29–46% above the 59–89 Hz hover 1P band. The largest roll-wrapped tube stocked. The boom ends 30 mm behind the stab leading edge and the fin root carries on from there |
+| Tail spar | 8x6 pultruded | 0.62 m | joins the two stab halves and both fins. Roll-wrapped 8x6 is only stocked in 500 mm. Pultruded is acceptable here: the loads are low and nothing clamps onto it |
+| Elevator joiner | 4 mm pultruded rod | about 0.57 m | 3 mm rod is not stocked; the elevator bore was enlarged |
 
-**Sources.**
-- Easy Composites roll-wrapped metric tubes, 1 m and 2 m lengths. **VERIFY** that 28x26 (or
-  30x28) and 20x18 are stocked in a length of 1.2 m or more; the booms no longer fit a 1 m
-  tube.
-- RMRC and other hobby suppliers for the 8x6 tubes.
+**Material data.** The supplier publishes no modulus, strength or tolerance figures. The
+analysis assumes E = 70–90 GPa and a 400 MPa allowable. **Check the tubes on delivery**
+(Report R-16): weigh them (20x18 ≈ 93 g/m, 25x23 ≈ 117 g/m), measure the wall, and
+bend-test the spar.
 
-If 28x26 is unavailable, **30x28** is acceptable. It adds 11 g per boom and raises the first
-mode to 144–164 Hz; `Booms.tube_od` then needs changing so the clamps and saddles follow.
-25x23 is 23% above the band, just under the 25% rule.
+**If a tube is out of stock or fails the check:**
+- Booms: 25x22 pultruded (stiffer, +55 g per boom). Use wider clamp bands; pultruded tube
+  splits under point clamping.
+- Tip spars: 10x8 roll-wrapped x 500 mm (+160% margin, tip deflection 48 mm).
+- Spar: 25x23 roll-wrapped (+209% margin, +24 g); `Wing.spar_od` and `spar_id` then need
+  changing so the bore follows.
 
 ## 10. Camera (D-009)
 
@@ -245,7 +281,7 @@ Action Pod or a 5 V tap.
 | C-3 | Confirm the BlueMark db120 is on the FAA declared-module list | owner |
 | C-4 | Confirm the TX16S MK3 variant has the dual-band (LR1121) internal module | owner |
 | C-5 | Tap-test boom natural frequency after assembly (phone accelerometer or ArduPilot FFT log) | build |
-| C-6 | Confirm a supplier and a ≥ 1.2 m length for the 28x26 boom tubes and the 20x18 spar | owner |
+| C-6 | Order the carbon from carbonkevlarsupply.com (§9.1); on delivery, weigh, measure and bend-test (Report R-16) | owner |
 | C-7 | Find a builder for the 6S3P P45B pack, or build it; weigh and measure it | owner |
 | C-8 | Measure the Suburban cargo width above the wheel wells (SIZE-2a): the aircraft needs 1.4 m | owner |
 
@@ -274,5 +310,9 @@ Action Pod or a 5 V tap.
 - BlueMark db120: https://www.dslrpros.com/products/dronebeacon-db120-remoteid-broadcast-module-with-battery
 - Holybro Remote ID: https://docs.holybro.com/radio/remote-id/overview-and-spec
 - EMAX ES08MD II: https://alofthobbies.com/products/emax-es08mdii-servo-2kg-27-77-oz-in-10-sec-13-grams
-- Easy Composites tubes: https://www.easycomposites.co.uk/roll-wrapped-carbon-fibre-tube-metric
-- RMRC tubes: https://www.readymaderc.com/collections/hardware/build-hardware/carbon-fiber-strips-tubes-spars/carbon-fiber-tubes
+- Carbon Kevlar Supply (all carbon tubes and rods): https://carbonkevlarsupply.com/
+  - 20x18 x 1000 mm: https://carbonkevlarsupply.com/products/copy-of-blue-black-carbon-fiber-tubing-20mm-x-18mm-x-500mm-3k-roll-wrapped-glossy
+  - 25x23 x 1000 mm, pack of 2: https://carbonkevlarsupply.com/products/2-carbon-fiber-tubes-25mm-x-23mm-x-1000mm-3k-roll-wrapped-100-carbon-fiber-tube-glossy-surface-2-tubes
+  - 14x12 x 500 mm: https://carbonkevlarsupply.com/products/carbon-fiber-tubing-10mm-x-8mm-x-500mm-3k-roll-wrapped-100-carbon-fiber-tube-glos
+  - 8x6 x 1000 mm pultruded: https://carbonkevlarsupply.com/products/1-piece-8mm-x-6mm-x-1000mm-carbon-fiber-tube-pultruded-round-tube-super-high-strength-for-rc-hobbies-drones-special-projects
+  - 4 mm x 1000 mm rod: https://carbonkevlarsupply.com/products/1-piece-4mm-x-1000mm-carbon-fiber-rods-solid-pultruded-round-rods-super-high-strength-for-rc-hobbies-drones-special-projects

@@ -1,7 +1,7 @@
 """Wing: 3 segments per side (root, mid, tip; <= 300 mm span each, printed span-up),
 plus one aileron per side.
 
-Features: main-spar bore (y 0 -> 0.65 m), coaxial 8 mm tip-tube bore (0.60 -> 0.88 m),
+Features: main-spar bore (y 0 -> 0.50 m), coaxial 14 mm tip-tube bore (0.38 -> 0.88 m),
 aileron cut-out with 1 mm hinge gap, aileron servo pocket (EMAX ES08MD II class),
 2 x M4 wing-bolt holes in the root segment.
 Print: LW-PLA, 1-2 walls, 0-3% gyroid infill (slicer turns the solid into a light shell).
@@ -17,7 +17,7 @@ from quadplane import printer
 MATERIAL = printer.LWPLA
 W = AC.wing
 Y_ROOT, Y_KINK, Y_MID, Y_TIP = G.WING_STATIONS
-TIP_TUBE_START, TIP_TUBE_END = 0.60, W.semi_span - 0.02
+TIP_TUBE_START, TIP_TUBE_END = W.tip_spar_start, W.semi_span - 0.02
 HINGE_GAP = 1.0  # mm
 SERVO = (24.0, 12.5, 22.0)  # pocket L x W x depth (mm), ES08MD II + clearance
 SERVO_Y = W.aileron_span_frac[0] * W.semi_span + 0.035  # 35 mm outboard of the aileron root

@@ -10,8 +10,11 @@ M3_HEAD_H = 3.0
 M3_INSERT_HOLE = 4.2
 M3_INSERT_DEPTH = 6.0
 
-# Carbon tubes (outer diameter); candidate spar/boom sizes
-CARBON_TUBES_OD = (8.0, 10.0, 12.0, 16.0)
+# Carbon tubes stocked by the supplier (docs/cots-selection.md §9): (OD, ID, max length), mm
+CARBON_ROLL_WRAPPED = ((8, 6, 500), (10, 8, 500), (14, 12, 500), (20, 18, 1000), (25, 23, 1000))
+CARBON_PULTRUDED = ((6, 4, 1000), (8, 6, 1000), (12, 8, 1000), (16, 12, 1000), (20, 16, 1000), (25, 22, 1000))
+TAIL_SPAR_OD = 8.0  # 8x6 pultruded
+ELEVATOR_ROD_D = 4.0  # solid pultruded rod joining the elevator halves (3 mm is not stocked)
 
 # Motors (VERIFY against the delivered motors before printing mounts)
 # Lift motor: T-Motor MN4014 KV400 (D-027)

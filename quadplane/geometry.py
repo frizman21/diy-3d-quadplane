@@ -78,6 +78,14 @@ def spar_min_wall(od: float | None = None, y_end: float | None = None) -> float:
     return float(min(min(t - (z + od_mm / 2), (z - od_mm / 2) - b) for t, b in (_depth_at(y) for y in ys)))
 
 
+def tube_min_wall(od: float, y0: float, y1: float) -> float:
+    """Minimum wall (mm) around a tube of diameter od (m) on the main spar axis from y0 to y1 (m)."""
+    od_mm = mm(od) + 0.3
+    z = spar_z()
+    return float(min(min(t - (z + od_mm / 2), (z - od_mm / 2) - b)
+                     for t, b in (_depth_at(y) for y in np.linspace(y0, y1, 12))))
+
+
 _SPAR_Z = None
 
 

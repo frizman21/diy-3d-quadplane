@@ -5,132 +5,120 @@
     "root_shear_ult_n": 141.26399999999995,
     "root_stress_mpa": 208.75888305620123,
     "ms_root": 0.91608612837957,
-    "spar_end_y": 0.65,
-    "moment_at_spar_end_nm": 3.080545236562815,
-    "outer_tube": "8x6",
-    "outer_stress_mpa": 89.65193176085285,
-    "ms_outer": 3.461699732996304,
-    "spar_end_deflection_limit_mm": 24.203895343161097,
-    "spar_length_m": 1.3,
+    "spar_end_y": 0.5,
+    "moment_at_spar_end_nm": 8.93437304810273,
+    "outer_tube": "14x12",
+    "outer_stress_mpa": 72.0626058876226,
+    "ms_outer": 4.550729051122249,
+    "spar_end_deflection_limit_mm": 16.2384349523321,
+    "tip_deflection_limit_mm": 40.286688606677316,
+    "tip_candidates": [
+      {
+        "tube": "8x6",
+        "stress_mpa": 260.0136473659526,
+        "ms": 0.5383807890553745,
+        "tip_deflection_limit_mm": 60.11688264930626,
+        "kg": 0.03408628029144925
+      },
+      {
+        "tube": "10x8",
+        "stress_mpa": 154.1408817379462,
+        "ms": 1.595028622452265,
+        "tip_deflection_limit_mm": 47.72943999138636,
+        "kg": 0.043825217517577626
+      },
+      {
+        "tube": "14x12",
+        "stress_mpa": 72.0626058876226,
+        "ms": 4.550729051122249,
+        "tip_deflection_limit_mm": 40.286688606677316,
+        "kg": 0.06330309196983436
+      }
+    ],
+    "spar_length_m": 1.0,
     "spar_tube": "20x18",
     "spar_i_mm4": 2700.984283923826,
-    "spar_kg": 0.12027587474268532,
+    "spar_kg": 0.09251990364821948,
     "candidates": [
-      {
-        "tube": "16x14",
-        "root_stress_mpa": 338.84214694054333,
-        "ms_root": 0.18049069046356858,
-        "kg": 0.09495463795475145
-      },
-      {
-        "tube": "18x16",
-        "root_stress_mpa": 262.12154926866094,
-        "ms_root": 0.5260095978984956,
-        "kg": 0.10761525634871832
-      },
       {
         "tube": "20x18",
         "root_stress_mpa": 208.75888305620123,
         "ms_root": 0.91608612837957,
-        "kg": 0.12027587474268532
+        "kg": 0.09251990364821948
       },
       {
-        "tube": "22x20",
-        "root_stress_mpa": 170.16030569129595,
-        "ms_root": 1.3507245028442658,
-        "kg": 0.13293649313665198
+        "tube": "20x16 pultruded",
+        "root_stress_mpa": 121.59922066908476,
+        "ms_root": 2.289494766488216,
+        "kg": 0.1753008700703105
+      },
+      {
+        "tube": "25x23",
+        "root_stress_mpa": 129.60748823481293,
+        "ms_root": 2.086241431323093,
+        "kg": 0.11686724671354051
       }
     ]
   },
   "booms": [
     {
-      "tube": "16x14",
-      "kg_per_m": 0.07304202919596266,
-      "f1_low_hz": 54.21722538147784,
-      "f1_nom_hz": 61.476555057998304,
-      "clear_of_1p": false,
-      "stress_ult_mpa": 49.927432746563866,
-      "separation": 0.6097997464350964,
-      "selected": false
-    },
-    {
-      "tube": "18x16",
-      "kg_per_m": 0.08278096642209101,
-      "f1_low_hz": 65.31524322616347,
-      "f1_nom_hz": 74.06052445633914,
-      "clear_of_1p": false,
-      "stress_ult_mpa": 38.6228695004479,
-      "separation": 0.734622963042073,
-      "selected": false
-    },
-    {
       "tube": "20x18",
       "kg_per_m": 0.09251990364821948,
-      "f1_low_hz": 77.06847043280214,
-      "f1_nom_hz": 87.38743143828383,
+      "f1_low_hz": 80.7434632258446,
+      "f1_nom_hz": 91.55448158128881,
       "clear_of_1p": false,
-      "stress_ult_mpa": 30.760031442797956,
-      "separation": 0.8668155442738457,
-      "selected": false
-    },
-    {
-      "tube": "22x20",
-      "kg_per_m": 0.10225884087434768,
-      "f1_low_hz": 89.43796580538165,
-      "f1_nom_hz": 101.41312083794507,
-      "clear_of_1p": false,
-      "stress_ult_mpa": 25.072640151898412,
-      "separation": 1.0059395051304991,
+      "stress_ult_mpa": 29.332651793480192,
+      "separation": 0.9101814647979943,
       "selected": false
     },
     {
       "tube": "25x23",
       "kg_per_m": 0.11686724671354051,
-      "f1_low_hz": 109.07609347417925,
-      "f1_nom_hz": 123.68066456362008,
-      "clear_of_1p": false,
-      "stress_ult_mpa": 19.097297106402028,
-      "separation": 1.2268162687168545,
-      "selected": false
-    },
-    {
-      "tube": "28x26",
-      "kg_per_m": 0.131475652552733,
-      "f1_low_hz": 129.9320552149883,
-      "f1_nom_hz": 147.3291023290166,
+      "f1_low_hz": 114.30426652735369,
+      "f1_nom_hz": 129.60885558215247,
       "clear_of_1p": true,
-      "stress_ult_mpa": 15.027625305377466,
-      "separation": 1.4613904301889806,
+      "stress_ult_mpa": 18.21111162582653,
+      "separation": 1.288495942383934,
       "selected": true
     },
     {
-      "tube": "30x28",
-      "kg_per_m": 0.14121458977886106,
-      "f1_low_hz": 144.47314533005624,
-      "f1_nom_hz": 163.8171487159806,
-      "clear_of_1p": true,
-      "stress_ult_mpa": 12.996610877031165,
-      "separation": 1.624939062614711,
+      "tube": "16x12 pultruded",
+      "kg_per_m": 0.136345121165797,
+      "f1_low_hz": 72.55383611916257,
+      "f1_nom_hz": 82.26831730073134,
+      "clear_of_1p": false,
+      "stress_ult_mpa": 28.821425576508112,
+      "separation": 0.8178638145721208,
       "selected": false
     },
     {
-      "tube": "25x22",
+      "tube": "20x16 pultruded",
+      "kg_per_m": 0.1753008700703105,
+      "f1_low_hz": 104.9683298579058,
+      "f1_nom_hz": 119.02289843220628,
+      "clear_of_1p": false,
+      "stress_ult_mpa": 17.085872208295804,
+      "separation": 1.1832565066008585,
+      "selected": false
+    },
+    {
+      "tube": "25x22 pultruded",
       "kg_per_m": 0.17164876861051254,
-      "f1_low_hz": 128.85174642462212,
-      "f1_nom_hz": 146.1041473011026,
+      "f1_low_hz": 135.0982122252807,
+      "f1_nom_hz": 153.18697376465087,
       "clear_of_1p": true,
-      "stress_ult_mpa": 13.530015301214705,
-      "separation": 1.4492398263577864,
+      "stress_ult_mpa": 12.902172363803357,
+      "separation": 1.5228958950009177,
       "selected": false
     }
   ],
   "hover_1p_band_hz": [
-    59.54423011359874,
-    88.90988508675677
+    58.82345301235532,
+    88.71139036407953
   ],
   "boom_model": {
-    "overhang_m": 0.2155,
-    "tip_mass_kg": 0.23700000000000002
+    "overhang_m": 0.20550000000000002,
+    "tip_mass_kg": 0.24945313056648136
   },
   "design_mass": 4.8,
   "E_low": 70000000000.0,

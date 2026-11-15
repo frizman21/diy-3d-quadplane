@@ -18,7 +18,7 @@ def make() -> dict[str, Part]:
     out["spar_main"] = G.spar_bore(-W.spar_half_length, W.spar_half_length, W.spar_od, clearance=0) \
         - G.spar_bore(-W.spar_half_length - 0.01, W.spar_half_length + 0.01, W.spar_id, clearance=0)
     for s, n in ((1, "L"), (-1, "R")):
-        y0, y1 = sorted((s * 0.60, s * (W.semi_span - 0.02)))
+        y0, y1 = sorted((s * W.tip_spar_start, s * (W.semi_span - 0.02)))
         out[f"tip_tube_{n}"] = G.spar_bore(y0, y1, W.tip_spar_od, clearance=0)
         out[f"boom_{n}"] = G.tube_along_x(B.x_front, B.x_rear, s * B.y, B.z, B.tube_od, B.tube_id)
         for x, tag in ((AC.x_lift_front, "front"), (AC.x_lift_rear, "rear")):
@@ -28,7 +28,7 @@ def make() -> dict[str, Part]:
             out[f"prop_{tag}_{n}"] = Pos(mm(x), mm(s * B.y), z0 + HW.LIFT_MOTOR_BODY_H + 8) * \
                 Cylinder(mm(AC.lift.radius), 1.0)
     out["tail_spar_8x6"] = Pos(mm(AC.x_tail_le - 0.25 * T.h_chord), 0, mm(T.h_z)) * \
-        (Rot(90, 0, 0) * Cylinder(4.0, mm(T.h_span) + 20))
+        (Rot(90, 0, 0) * Cylinder(HW.TAIL_SPAR_OD / 2, mm(T.h_span) + 20))
     # pusher motor + prop disk
     xf = mm(AC.fuselage.x_tail)
     zt = mm(AC.pusher.z_thrust)

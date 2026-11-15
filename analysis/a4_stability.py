@@ -115,7 +115,7 @@ def main():
         "vh": AC.tail.h_span * AC.tail.h_chord * (-(AC.x_tail_le - 0.25 * AC.tail.h_chord) + cg[0])
         / (w.area * w.mac),
         "vv": 2 * AC.tail.v_height * (AC.tail.v_root_chord + AC.tail.v_tip_chord) / 2
-        * (-(AC.x_tail_le - 0.25 * AC.tail.v_root_chord) + cg[0]) / (w.area * w.span),
+        * (-(AC.x_fin_le - 0.25 * AC.tail.v_root_chord) + cg[0]) / (w.area * w.span),
     }
     save_json("stability", res)
     print(f"mass {total:.3f} kg  CL_trim {cl_trim:.3f}")

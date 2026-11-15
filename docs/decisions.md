@@ -69,3 +69,16 @@ included. The entries below replace the sizing decisions above. The supporting a
 | D-031 | Pusher **SunnySky X3520 520KV + 12x8 folding**, provisional pending a bench test. Replaces D-020 | 2.19 kg static needed with the 30% margin; ≈ 2.4 kg estimated (§5.4) | X2820 + 11x7 (≈ 1.9 kg, under the margin); 13x8 |
 | D-032 | Recommended cruise **16 m/s**; operating limit **18 m/s in strong turbulence**; aft CG limit **32.0% root chord** (10% static margin). Replaces D-024 and the CG figure in D-021 | Maximum-range speed is 16.25 m/s; gust n = 4.2 at 22 m/s with a 7.5 m/s gust, 3.6 at 18 m/s (§7, §8) | — |
 
+## Carbon tubes from one supplier (2026-11-15, at the owner's request; the details are **to be reviewed**)
+
+The owner asked that all composite parts come from carbonkevlarsupply.com. Its catalogue
+(checked 2026-11-15) has no tube longer than 1000 mm and no round roll-wrapped tube larger
+than 25x23. The supporting analysis is [AerodynamicsReport.md](AerodynamicsReport.md)
+revision C; the part list is in [cots-selection.md](cots-selection.md) §9.
+
+| ID | Decision | Why | Alternatives considered |
+|---|---|---|---|
+| D-033 | **All carbon from the supplier's stock sizes, used at catalogue length where possible.** Spar: **20x18 roll-wrapped, 1000 mm uncut** (ends 500 mm from the centreline). Tip spars: **14x12 roll-wrapped, 500 mm uncut**, from 380 mm to 880 mm. Booms: **25x23 roll-wrapped, 1000 mm uncut**. Tail spar: 8x6 pultruded, cut to 620 mm. Elevator joiner: 4 mm pultruded rod. Replaces the tube sizes in D-029 | Stated by the owner (one supplier). The 1.30 m spar, the 1.14 m 28x26 booms and the 3 mm rod are not stocked. Margins: spar root +0.92, tip tube +4.6, boom mode 29% above the 1P band (§9). `make test` now checks every tube against the stock list | 10x8 tip tubes (−19 g, tip deflection 48 mm vs 40 mm); 25x22 pultruded booms (stiffer, +55 g each, but pultruded tube splits under clamps); 20x16 pultruded spar (+82 g) |
+| D-034 | **Layout changes that make 1000 mm booms work.** Prop-tip to wing gap **15 mm** (was 25 mm). Each **fin sleeves over the last 85 mm of the boom** and the rest of its root overhangs the boom end, so the fin leading edge is 55 mm ahead of the stab leading edge. Overall length **1.327 m**. Adds to D-030 | The gap sets the front boom overhang, and the shorter overhang lifts the 25x23 boom mode from 23% to 29% above the 1P band. The boom now ends 30 mm behind the stab leading edge, so the fin root has to carry the stab spar (§6.3, R-15). V_V falls from 0.039 to 0.035 | Splicing a boom extension with an internal 20x18 joiner (two more tubes, +50 g); a detachable tail; keeping the 25 mm gap with pultruded booms |
+| D-035 | Aft CG limit **31.4% root chord** (10% static margin); balance point 93–107 mm behind the leading edge. Replaces the CG figure in D-032 | Neutral point moved 2 mm with the tail changes (§6.2) | — |
+

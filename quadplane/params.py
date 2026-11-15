@@ -29,10 +29,11 @@ class Wing:
     aileron_chord_frac: float = 0.25
     spar_od: float = 0.020  # §9: 20x18 roll-wrapped CF tube, centre + inner outer panels (D-029)
     spar_id: float = 0.018
-    spar_half_length: float = 0.650  # §8/§9: straight spar keeps >= 0.9 mm wall to here
+    spar_half_length: float = 0.500  # §9: one uncut 1000 mm catalogue tube (D-033)
     spar_x_frac: float = 0.28  # spar centre at 28% local chord (near max thickness)
-    tip_spar_od: float = 0.008  # §8: 8x6 CF tube in the outer panels beyond the main spar
-    tip_spar_id: float = 0.006
+    tip_spar_od: float = 0.014  # §9: 14x12 CF tube in the outer panels, 500 mm uncut (D-033)
+    tip_spar_id: float = 0.012
+    tip_spar_start: float = 0.380  # tip tube runs from here to 20 mm inside the tip (120 mm inside the spar)
 
     @property
     def semi_span(self) -> float:
@@ -65,10 +66,11 @@ class Wing:
 @dataclass(frozen=True)
 class Booms:
     y: float = 0.30  # lateral position of each boom (§5: prop clearance)
-    tube_od: float = 0.028  # §9: 28x26 keeps the boom mode clear of the hover 1P band (D-029)
-    tube_id: float = 0.026
-    length: float = 1.140  # cut from a longer catalogue tube; ends inside the front motor clamp
-    x_rear: float = -0.9110  # = tail LE - fin root chord (checked in tests)
+    tube_od: float = 0.025  # §9: 25x23, the largest roll-wrapped tube the supplier stocks (D-033)
+    tube_id: float = 0.023
+    length: float = 1.000  # uncut catalogue tube; front end inside the front motor clamp
+    x_rear: float = -0.7810  # = front motor + clamp overhang - length (checked in tests)
+    front_overhang: float = 0.0135  # boom end ahead of the front motor axis (inside the clamp ring)
 
     @property
     def x_front(self) -> float:
@@ -80,7 +82,7 @@ class Booms:
 class Lift:
     prop_diameter: float = 15 * 0.0254  # §5 propulsion (D-027)
     prop_pitch: float = 5.0 * 0.0254
-    tip_gap: float = 0.025  # prop-tip to wing LE/TE clearance
+    tip_gap: float = 0.015  # prop-tip to wing LE/TE clearance (plan view); shortens the boom overhang (D-034)
     motor_height: float = 0.030  # motor mount top above boom centreline
 
     @property
@@ -99,6 +101,7 @@ class Tail:
     v_height: float = 0.220  # each fin, below the boom; tips are the rear landing skids
     v_root_chord: float = 0.140  # §6: V_V ~0.03 with the larger wing
     v_tip_chord: float = 0.105
+    v_boom_overlap: float = 0.085  # fin root sleeve on the boom; the rest of the root overhangs the boom end (D-034)
     v_airfoil: str = "naca0009"
     h_incidence_deg: float = -0.3  # §6: near-zero elevator at cruise trim
     h_z: float = -0.013  # stab chord plane: on top of the boom sleeves (boom z + 21 mm)
@@ -162,9 +165,15 @@ class Aircraft:
         return self.x_lift_rear - self.lift.radius - self.lift.tip_gap
 
     @property
+    def x_fin_le(self) -> float:
+        """Fin root LE: the fin sleeves over the last `v_boom_overlap` of the boom."""
+        return self.booms.x_rear + self.tail.v_boom_overlap
+
+    @property
     def overall_length(self) -> float:
         front = max(self.x_lift_front + self.lift.radius, self.fuselage.x_nose)
-        rear = min(self.x_tail_le - max(self.tail.v_root_chord, self.tail.h_chord), self.booms.x_rear)
+        rear = min(self.x_tail_le - self.tail.h_chord, self.x_fin_le - self.tail.v_root_chord,
+                   self.booms.x_rear)
         return front - rear
 
 
