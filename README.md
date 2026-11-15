@@ -17,6 +17,7 @@ Everything (CAD, XFOIL, AVL, AeroSandbox) runs in Docker, driven by one paramete
 | [docs/requirements.md](docs/requirements.md) | requirements, with IDs |
 | [docs/AerodynamicsReport.md](docs/AerodynamicsReport.md) | airfoil, sizing, propulsion, stability, performance and structures analysis |
 | [docs/cots-selection.md](docs/cots-selection.md) | bought-part (COTS) selections and the reasons for them |
+| [docs/build-instructions.md](docs/build-instructions.md) | printing, assembly, weigh-and-balance and pre-flight checks |
 | [docs/decisions.md](docs/decisions.md) | decision log |
 
 ## Quick start (needs only Docker Desktop)
