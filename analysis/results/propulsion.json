@@ -58,6 +58,34 @@
       "hover_min": 27.70937673915245,
       "bench_ratio_front": 0.9191504993078959,
       "disk_loading_n_m2": 77.55104190771297
+    },
+    {
+      "option": "SunnySky V4014 KV400 + 15x5.5",
+      "selected": false,
+      "prop_in": 15,
+      "auw": 4.57056279776621,
+      "hover_w": 625.7218349135471,
+      "fm_eta": 0.5142312733984176,
+      "tw_total": 2.406705801170936,
+      "tw_front_motor": 2.0604025219891904,
+      "overall_length": 1.327,
+      "hover_min": 22.369045187521497,
+      "bench_ratio_front": 1.1104626283368546,
+      "disk_loading_n_m2": 98.31931943137113
+    },
+    {
+      "option": "SunnySky X4110S KV400 + 15x5.5",
+      "selected": false,
+      "prop_in": 15,
+      "auw": 4.566562797766211,
+      "hover_w": 605.4544287405981,
+      "fm_eta": 0.5310362169735292,
+      "tw_total": 2.1285155664025153,
+      "tw_front_motor": 1.8222413553726695,
+      "overall_length": 1.327,
+      "hover_min": 23.11784229428242,
+      "bench_ratio_front": 1.109490789482454,
+      "disk_loading_n_m2": 98.23327373084653
     }
   ],
   "batteries": [
@@ -177,6 +205,14 @@
     "MN4014-17": [
       1530,
       168.72
+    ],
+    "V4014-15": [
+      1250,
+      158
+    ],
+    "X4110S-15": [
+      1250,
+      153
     ]
   }
 }

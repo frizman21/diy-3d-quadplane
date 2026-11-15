@@ -405,6 +405,8 @@ point**, not assumed.
 | **MN4014 KV400 + 15x5** | 1250 g at 126.5 W | **0.642** |
 | MN4014 KV400 + 16x5.4 | 1410 g at 142.1 W | 0.642 |
 | MN4014 KV400 + 17x5.8 | 1530 g at 168.7 W | 0.575 |
+| SunnySky V4014 KV400 + 15x5.5 (cheaper alternative, COTS §12) | 1250 g at 158 W | 0.514 |
+| SunnySky X4110S KV400 + 15x5.5 (cheaper alternative, COTS §12) | 1250 g at 153 W | 0.531 |
 
 Corrections applied explicitly:
 - **Download (+4%):** thrust lost to the booms and motor pods sitting under the disk.

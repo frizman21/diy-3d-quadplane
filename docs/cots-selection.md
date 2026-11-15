@@ -313,8 +313,77 @@ Action Pod or a 5 V tap.
 | C-5 | Tap-test boom natural frequency after assembly (phone accelerometer or ArduPilot FFT log) | build |
 | C-6 | Order the carbon from carbonkevlarsupply.com (§9.1); on delivery, weigh, measure and bend-test (Report R-16) | owner |
 | C-7 | Weigh and measure the first 6S3P pack (Upgrade Energy RED V3 P50B) against 1290 g and 140 × 68 × 75 mm; rerun the analysis with the weighed mass | owner |
+| C-10 | If a cheaper lift motor is wanted (§12.1): bench-test one SunnySky V4014 KV400 for thrust, power and rpm with the chosen prop, then rerun the boom vibration check | owner |
 | C-9 | Kakute H743-Wing: confirm output numbering and DShot timer groups for the four lift motors; measure the X3520 shaft for the folding-prop collet | build |
 | C-8 | Measure the Suburban cargo width above the wheel wells (SIZE-2a): the aircraft needs 1.4 m | owner |
+
+## 12. Alternative parts
+
+These are substitutes for the parts selected in §1: cheaper, or stocked in the US when the
+selected part is not. None of them is in the design. Each row says what changes if it is
+used. Prices and stock were read on 2026-11-15.
+
+### 12.1 Lift motors under $100
+
+The selected MN4014 costs $96.90, or $388 for four. Buddy RC (US) stocks SunnySky motors
+of the same size with published 6S bench tables. They were run through the same hover
+model as the MN4014 (`analysis/hover.py`, results in `analysis/results/propulsion.json`).
+Front-motor thrust-to-weight includes the 4% download, as in §2; PERF-5 needs 1.8.
+
+| Motor | Price each | Set of 4 | Mass | Bench: 1250 g / max (15x5.5, 22.2 V) | Hover power | Hover time | Front T/W | Verdict |
+|---|---|---|---|---|---|---|---|---|
+| **T-Motor MN4014 KV400** (selected, 15x5) | $96.90 | $388 | 171 g | 126.5 W / 2620 g | 506 W | 27.6 min | 1.88 | baseline |
+| **SunnySky V4014 KV400** | [$79.99](https://www.buddyrc.com/products/sunnysky-v4014-motors) | $320 | 166 g | 158 W / 2750 g | 626 W | 22.4 min | 1.98 | **meets every requirement; saves $68** |
+| **SunnySky X4110S KV400** | [$46.99](https://www.buddyrc.com/products/sunnysky-x4110s-motors) | $188 | 165 g | 153 W / 2430 g | 605 W | 23.1 min | 1.75 | **saves $200, but 3% short of PERF-5** |
+| SunnySky X4112S KV400 | [$52.99](https://www.buddyrc.com/products/x4212s) | $212 | 188 g | not published for KV400 | — | — | — | not assessed; 17 g heavier per motor |
+| SunnySky V4008 KV380 | [$54.99](https://www.buddyrc.com/products/sunnysky-v4008-motors) | $220 | 105 g | rated 500 W, 20 A | — | — | — | too small: the front motors need about 415 W at full throttle |
+
+What the numbers mean:
+- **Both SunnySky motors draw about 20% more hover power**, by their own bench tables.
+  Hover time falls from 27.6 to 22–23 min. PERF-1 needs 15 min, so both still pass.
+- **The V4014 is the safe cheaper choice.** It has the same 44.7 mm rotor diameter as the
+  MN4014 and 5% more maximum thrust.
+- **The X4110S is the cheapest that nearly works.** At 1.75 it misses the 1.8 rule
+  narrowly. That rule is the margin for gusts and control in hover, so accepting it is a
+  decision for the owner, not a rounding matter. It also has a 47.5 mm rotor and a 4 mm
+  shaft with a prop adapter, so the printed mount and the prop height both change.
+- **Boom vibration needs rechecking with the SunnySky test prop.** The V4014 table shows
+  4980 rpm at 1250 g with the EOLO 15x5.5, against 4500 rpm for the P15x5. That puts the
+  top of the hover 1P band near 98 Hz, and the boom's first mode (114 Hz) only about 17%
+  above it; the rule is 25% (Report §9). This figure is a hand estimate with the report's
+  method, not an analysis result. Running the SunnySky motor with the T-Motor P15x5 keeps
+  the rpm, and the margin, of the baseline.
+- **The bench data is the manufacturer's, and less detailed than T-Motor's.** Bench-test
+  one motor and prop before buying four.
+- **The mount pattern is unverified** for both. `quadplane/hardware.py` holds the MN4014
+  pattern; measure the delivered motor and update it before printing the mounts.
+
+### 12.2 Lift props
+
+| Prop | Price per pair | 4 pairs | Notes |
+|---|---|---|---|
+| T-Motor P15x5 carbon (selected) | $55.90 | $224 | out of stock at the US dealer; 23–27 g |
+| EOLO CN15x5.5, carbon-reinforced nylon | [$17.99](https://www.buddyrc.com/products/eolo-cn15-5-5-prop) | $72 | Buddy RC (US), in stock. The prop SunnySky used for its bench tables. Saves $152. Mass, hub fit on the MN4014 and the higher rpm (§12.1) are **unverified** |
+
+The cheapest lift set that meets every requirement on paper is the V4014 with EOLO props:
+$392 against $612, saving $220, if the boom vibration margin is confirmed by test.
+
+### 12.3 Other subsystems
+
+| Subsystem | Selected (§1) | Alternative | Price | What changes |
+|---|---|---|---|---|
+| Lift motors | T-Motor store, $96.90 | Same motor from RobotShop (US stock) | [$118.48](https://www.robotshop.com/products/ligpower-mn4014-kv400-high-performance-uav-motor-for-aerial-photography) | nothing; $86 more for four |
+| ESCs | Lumenier Razor Pro 45A, $31.49 | Skystars Talon32 Slim 40A | [$23.99](https://www.racedayquads.com/products/skystarsrc-talon32-slim-40a-32-bit-3-6s-esc) | out of stock; BLHeli_32 firmware (end of life); saves $37 for five |
+| Battery | Upgrade Energy 6S3P P50B, $340 | Upgrade Energy RED V3 6S2P P50B (10 Ah, 216 Wh) | [$219](https://upgradeenergytech.com/products/red-6s2p-10000mah-molicel-p50b) | the light configuration (§5): about 9.3 lb and shorter hover; pusher throttle must be limited to hold the cell current. Not analysed with P50B cells |
+| Battery | as above | DIY 6S3P from 18 P45B cells | [$25.99 per 2](https://www.racedayquads.com/products/molicel-p45b-21700-4500mah-45a-3-7v-li-ion-battery-2pcs) | about $234 in cells plus nickel strip, balance lead and a spot welder; matches the analysed 1290 g pack |
+| Flight controller | Holybro Kakute H743-Wing, $105 | Same board with pin headers, from RaceDayQuads | [$72.99](https://www.racedayquads.com/products/holybro-kakute-3-8s-fixed-wing-flight-controller) | out of stock; saves $32 and ships from the US |
+| Flight controller | as above | Holybro Pixhawk 6C Mini | [$179](https://holybro.com/products/pixhawk-6c-mini) | needs a separate power module and a servo supply; more wiring and mass |
+| GPS + compass | Holybro Micro M10, $27.99 | Foxeer M10Q-180 V2 | [$23.99](https://www.racedayquads.com/products/foxeer-gps-m10q-180-gps-compass) | US stock; the cable has to be re-pinned for the board's GPS socket |
+| Airspeed | Holybro DroneCAN DLVR, $111 with pitot | Matek ASPD-DLVR | [$131.99](https://www.racedayquads.com/products/matek-digital-airspeed-sensor-aspd-dlvr) | out of stock; same sensor, CAN or I²C |
+| Receiver | RaceDayQuads, $38.99 | RadioMaster direct | [$29.99](https://radiomasterrc.com/products/dbr4-dual-band-xross-gemini-expresslrs-receiver) | same part; shipping origin not checked |
+| Handset | RaceDayQuads, $229.99 | RadioMaster direct, FCC version | [$199.99](https://radiomasterrc.com/products/tx16s-mk3-radio-controller) | same part; saves $30; shipping origin not checked |
+| Servos | Aloft Hobbies, $12.50 | Same servo from RaceDayQuads | [$13.49](https://www.racedayquads.com/products/emax-es08md-ii-12g-digital-metal-gear-servo) | nothing; useful to combine with the ESC order |
+| Carbon tubes | — | see §9.2, "If a tube is out of stock" | — | — |
 
 ## Sources
 
@@ -340,4 +409,5 @@ sources (bench tables, datasheets, masses) and the listings that were checked an
 - Matek M10Q-5883 (RaceDayQuads, out of stock): https://www.racedayquads.com/products/matek-m10q-5883-gnss-compass
 - Foxeer M10Q-180 V2 GPS + compass (RaceDayQuads, in stock): https://www.racedayquads.com/products/foxeer-gps-m10q-180-gps-compass
 - Holybro Remote ID: https://docs.holybro.com/radio/remote-id/overview-and-spec
+- SunnySky V4014, X4110S, X4112S, V4008 bench tables (Buddy RC listings, linked in §12.1)
 - Carbon Kevlar Supply (all carbon tubes and rods): https://carbonkevlarsupply.com/

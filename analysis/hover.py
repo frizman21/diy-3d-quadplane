@@ -35,6 +35,10 @@ OPTIONS = {
     "MN4014-15": LiftOption("MN4014 KV400 + 15x5", "MN4014 KV400", 15, 1250, 126.54, 4500, 2620, 415, 0.171, 0.026),
     "MN4014-16": LiftOption("MN4014 KV400 + 16x5.4", "MN4014 KV400", 16, 1410, 142.08, 4200, 3020, 500, 0.171, 0.031),
     "MN4014-17": LiftOption("MN4014 KV400 + 17x5.8", "MN4014 KV400", 17, 1530, 168.72, 4000, 3360, 571, 0.171, 0.036),
+    # Cheaper alternatives (docs/cots-selection.md §12): SunnySky bench tables at 22.2 V with
+    # the EOLO CN15x5.5 prop. Prop mass is assumed equal to the P15x5.  # VERIFY
+    "V4014-15": LiftOption("SunnySky V4014 KV400 + 15x5.5", "SunnySky V4014 KV400", 15, 1250, 158, 4980, 2750, 473, 0.166, 0.026),
+    "X4110S-15": LiftOption("SunnySky X4110S KV400 + 15x5.5", "SunnySky X4110S KV400", 15, 1250, 153, 0, 2430, 417, 0.165, 0.026),
 }
 SELECTED = "MN4014-15"  # D-027; its diameter must match params.Lift.prop_diameter
 assert abs(OPTIONS[SELECTED].d_in * 0.0254 - AC.lift.prop_diameter) < 1e-6
