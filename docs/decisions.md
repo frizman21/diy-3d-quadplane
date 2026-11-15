@@ -51,3 +51,21 @@ and [cots-selection.md](cots-selection.md).
 | D-022 | Materials: **LW-PLA** for wing, tail, fins and pod; **PA-CF** for motor mounts and boom saddles; **TPU** for the camera cradle and skid shoes | Mass (the CAD showed 1.5 kg printed in the first pass, 1.07 kg after lightening; §2.2) | PETG pod and fins (+110 g, tail-heavy) |
 | D-023 | Design mass **3.4 kg** for structures and propulsion (was 3.0) | CAD-based take-off mass 3.34 kg (§2) | — |
 | D-024 | Operating limit: **15 m/s in turbulence**; recommended cruise 15 m/s | Gust n = 4.9 at 22 m/s with a 7.5 m/s gust exceeds the limit load (§8) | Heavier spar (adds mass to a hover-limited design) |
+
+## Scale-up to the 10 lb class (2026-11-15, at the owner's request; the details are **to be reviewed**)
+
+The owner asked for the aircraft to be scaled to about 10 lb, batteries and electronics
+included. The entries below replace the sizing decisions above. The supporting analysis is
+[AerodynamicsReport.md](AerodynamicsReport.md) revision B.
+
+| ID | Decision | Why | Alternatives considered |
+|---|---|---|---|
+| D-025 | Take-off mass target **≈ 10 lb (4.54 kg)**. Analysed mass **4.65 kg (10.25 lb)**; design mass for structure and propulsion **4.8 kg**. Replaces D-023 | Stated by the owner. The CAD build-up lands 2.5% over the target (§2) | Trimming to exactly 10.0 lb (−115 g; candidates in §2.2) |
+| D-026 | **Overall length limit raised from 1.2 m to 1.4 m**; the aircraft is 1.357 m long. Planform: **1.80 m span, 0.34 m root / 0.219 m tip**, same taper and centre section; stall ≤ 10.5 m/s and span ≤ 1.80 m kept. Replaces the length in D-004 and the planform in D-013 | 10 lb needs 15 in props and a 0.34 m chord, and both add to length (§4.1). 1.2 m was the floor width between the Suburban's wheel wells; 1.4 m uses the estimated 1.6 m above them, on a cradle. **Not measured: verify before printing** | Keeping 1.2 m (stall ≈ 14 m/s); 0.36 m chord (fallback if heavy); 1.9 m span (no doorway margin) |
+| D-027 | Lift props **15x5**, motors **T-Motor MN4014 KV400**. Replaces D-014 | Front-motor T/W 1.87 with the shortest aircraft; the MN3508 would hover at 76% of full thrust (§5.2) | MN4014 + 16x5.4 (T/W 2.15, 29 W less hover power, but 1.408 m long: first upgrade if the vehicle has room); 17x5.8 (no gain) |
+| D-028 | Battery **6S3P Li-ion 21700** (Molicel P45B, or P50B), ≈ 292 Wh, ≈ 1.29 kg, XT90. Replaces D-008 and D-019 | 27 min hover (81% margin) and 34 A per cell at full throttle; brings the aircraft to 10 lb (§5.3) | 6S2P (9.3 lb, 21 min, but 103 A peak vs 90 A continuous: valid light configuration with the pusher limited); 6S4P (T/W fails); 6S LiPo 10 Ah |
+| D-029 | **Spar 20x18 CF, 1.30 m** one piece; **booms 28x26 CF, 1.14 m**. Replaces the tube sizes in D-015 and D-018 | Spar margin +0.92 at n = 6 (16x14 would be +0.18). Boom mode 130–147 Hz against a 60–89 Hz hover 1P band; a 20x18 boom would sit inside the band with the heavier motors (§9) | Spar 18x16; booms 25x23 (23% above the band, −34 g), 30x28 |
+| D-030 | Tail: **stab 0.60 × 0.18 m (V_H 0.46), fins 0.22 m tall, stab incidence −0.3°**; still a U-tail with no rudder. Replaces the dimensions in D-017 | Tail chord adds to length, so V_H was allowed to fall into the middle of the typical range; taller fins keep V_V and give the 12 in pusher prop ground clearance (§6.3) | 0.20 m stab chord (V_H 0.51, +20 mm length) |
+| D-031 | Pusher **SunnySky X3520 520KV + 12x8 folding**, provisional pending a bench test. Replaces D-020 | 2.19 kg static needed with the 30% margin; ≈ 2.4 kg estimated (§5.4) | X2820 + 11x7 (≈ 1.9 kg, under the margin); 13x8 |
+| D-032 | Recommended cruise **16 m/s**; operating limit **18 m/s in strong turbulence**; aft CG limit **32.0% root chord** (10% static margin). Replaces D-024 and the CG figure in D-021 | Maximum-range speed is 16.25 m/s; gust n = 4.2 at 22 m/s with a 7.5 m/s gust, 3.6 at 18 m/s (§7, §8) | — |
+

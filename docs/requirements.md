@@ -1,6 +1,6 @@
 # Requirements: Quadplane v1 (proof of concept)
 
-Status: **Draft rev B**, 2026-11-07 (sizing superseded by the [Aerodynamics report](AerodynamicsReport.md))
+Status: **Draft rev C**, 2026-11-15 (10 lb class, D-025; sizing is in the [Aerodynamics report](AerodynamicsReport.md))
 Owner: Mike
 
 Each requirement has an ID so the design and tests can refer to it. **Source** says
@@ -29,6 +29,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | PERF-4 | Wingborne endurance is whatever the design gives, not a design target. Report it after test flights. Expected to be several times the hover endurance. | Stated |
 | PERF-5 | Hover thrust-to-weight ratio of **at least 1.8** (all four lift motors at full throttle vs. takeoff weight), for control margin in gusts and during tuning. | Derived |
 | PERF-6 | Hover must stay controllable with no more than ~70% throttle at full takeoff weight. | Derived (from PERF-5) |
+| PERF-7 | Takeoff weight of **approximately 10 lb (4.5 kg)**, battery and electronics included. | Stated (rev C, D-025) |
 
 ## 3. Payload
 
@@ -46,8 +47,8 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | ID | Requirement | Source |
 |---|---|---|
 | SIZE-1 | The assembled aircraft fits through a standard **80 in × 36 in (2032 × 914 mm)** doorway, carried sideways. This limits the overall wingspan to **1.9 m or less** (about 130 mm of margin for hands and handling). | Stated (doorway); the span limit is Derived |
-| SIZE-2 | The assembled aircraft fits in the back of a Chevrolet Suburban with the 2nd and 3rd rows folded down and the tailgate closed. Load it with the wings running lengthwise. Working limits, **estimated** (see note below): overall length (nose to tail) **≤ 1.2 m**, overall height including props and landing gear **≤ 0.9 m**. The span limit is set by SIZE-1. | Stated; the limits are Derived and estimated |
-| SIZE-2a | **How the Suburban limits were estimated:** stated cargo volume of 144.7 ft³ (4.1 m³) behind the 1st row, opening at least 39 in (990 mm) tall, exterior width 81 in. That implies a floor about 2.3–2.5 m long and about 1.25 m wide between the wheel wells (≈ 1.6 m above them). A 1.8–1.9 m span fits along the length. The 1.2 m length limit is the conservative width between the wheel wells. **VERIFY** with a tape measure before the airframe is final. | Derived (estimate) |
+| SIZE-2 | The assembled aircraft fits in the back of a Chevrolet Suburban with the 2nd and 3rd rows folded down and the tailgate closed. Load it with the wings running lengthwise. Working limits, **estimated** (see note below): overall length (nose to tail) **≤ 1.4 m** (rev C; was 1.2 m), overall height including props and landing gear **≤ 0.9 m**. The span limit is set by SIZE-1. | Stated; the limits are Derived and estimated |
+| SIZE-2a | **How the Suburban limits were estimated:** stated cargo volume of 144.7 ft³ (4.1 m³) behind the 1st row, opening at least 39 in (990 mm) tall, exterior width 81 in. That implies a floor about 2.3–2.5 m long and about 1.25 m wide between the wheel wells (≈ 1.6 m above them). A 1.8–1.9 m span fits along the length. Rev B used the conservative 1.2 m width between the wheel wells as the length limit. **Rev C (D-026) raises it to 1.4 m**, because a 10 lb aircraft can't be made shorter than about 1.36 m (Report §4.1). That uses the estimated ≈ 1.6 m above the wheel wells, so the aircraft rides on a cradle that carries the nose or tail over a wheel well (SIZE-4). **This number is not measured. VERIFY with a tape measure before anything is printed.** | Derived (estimate) |
 | SIZE-3 | One-piece airframe: no field assembly. Printed sections can be glued together permanently. | Stated (coming apart not required) |
 | SIZE-4 | The aircraft can rest on its landing gear or on a simple cradle in the vehicle without loading the props or the camera. | Derived |
 
@@ -70,7 +71,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | SYS-2 | **Flight software:** ArduPilot QuadPlane (owner has used ArduPilot before). **Flight controller:** Matek H7A3-WING (replaces the discontinued H743-WING; D-016). | Stated |
 | SYS-3 | GPS with compass, needed for position hold in hover tuning and for return-to-launch. | Derived |
 | SYS-4 | Telemetry to a ground station for tuning and log review. Onboard logging enabled. | Derived (tuning goal) |
-| SYS-5 | **Battery:** preliminary choice is a **6S Li-ion pack** (e.g. 6S2P 21700, about 190 Wh, about 900 g) to meet PERF-1 with margin; 6S LiPo is the fallback. Final choice after the weight and power estimate. | Derived (see §9) |
+| SYS-5 | **Battery:** a **6S3P 21700 Li-ion pack** (about 292 Wh, about 1.3 kg; D-028) meets PERF-1 with margin at 10 lb. The 6S2P pack (about 194 Wh, 860 g) is the light configuration. | Derived (Report §5.3) |
 | SYS-6 | The battery is reachable through a hatch without tools and can slide fore and aft to set the balance point. | Derived |
 | SYS-7 | Arming safety: a safety switch or an equivalent arming procedure, and failsafes configured for loss of radio control link and low battery. | Derived |
 
@@ -107,15 +108,18 @@ pneumatic gimbal (up/down). Choose it for that future aircraft, not for v1.
 |---|---|
 | PERF-1 | Hover test with a full battery at takeoff weight; flight log shows ≥ 15 min and ≥ 20% left. |
 | PERF-5 | Bench thrust test of one motor/prop pair, or the manufacturer's thrust data, × 4 compared with the measured takeoff weight. |
+| PERF-7 | Weigh the finished aircraft, ready to fly. |
 | SIZE-1/2 | The CAD bounding box checked against the limits; then a physical test fit through a doorway and in the Suburban. |
 | BUILD-2 | `make test` (bed-fit check on every part). |
 | PAY-2 | Camera footage from the first hover and the first cruise. |
 
 ## 9. Preliminary sizing (superseded)
 
-> **Superseded** by [AerodynamicsReport.md](AerodynamicsReport.md). The analysed design is
-> 3.34 kg, hovers 24.9 min (PERF-1 ✅), has a 1.80 m span and 1.196 m length (SIZE-1/2 ✅), and
-> a front-motor T/W of 1.82 (PERF-5 ✅). The original estimate is kept below for traceability.
+> **Superseded** by [AerodynamicsReport.md](AerodynamicsReport.md). The analysed design
+> (rev C, 10 lb class) is 4.65 kg / 10.25 lb (PERF-7 ✅), hovers 27.2 min (PERF-1 ✅), has a
+> 1.80 m span and 1.357 m length (SIZE-1 ✅; SIZE-2 against the unmeasured 1.4 m limit), and
+> a front-motor T/W of 1.87 (PERF-5 ✅). The original 2.75 kg estimate is kept below for
+> traceability.
 
 This first estimate checks that PERF-1 is achievable. These numbers become `quadplane/params.py`
 once the layout is reviewed.
@@ -149,7 +153,7 @@ A 6S1P pack (≈ 97 Wh) has no margin.
 
 ## 10. Open questions
 
-1. Suburban cargo measurements (SIZE-2). Using estimates for now; measure before the airframe is final.
+1. **Suburban cargo measurements (SIZE-2).** Using estimates for now. The rev C aircraft (1.357 m long) depends on about 1.4 m of usable width above the wheel wells; measure before printing.
 2. ~~Radio~~: decided (D-010).
 3. ~~Camera model~~: decided (D-009).
 4. ~~Layout~~: decided (D-007).
