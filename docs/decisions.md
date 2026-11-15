@@ -82,3 +82,12 @@ revision C; the part list is in [cots-selection.md](cots-selection.md) §9.
 | D-034 | **Layout changes that make 1000 mm booms work.** Prop-tip to wing gap **15 mm** (was 25 mm). Each **fin sleeves over the last 85 mm of the boom** and the rest of its root overhangs the boom end, so the fin leading edge is 55 mm ahead of the stab leading edge. Overall length **1.327 m**. Adds to D-030 | The gap sets the front boom overhang, and the shorter overhang lifts the 25x23 boom mode from 23% to 29% above the 1P band. The boom now ends 30 mm behind the stab leading edge, so the fin root has to carry the stab spar (§6.3, R-15). V_V falls from 0.039 to 0.035 | Splicing a boom extension with an internal 20x18 joiner (two more tubes, +50 g); a detachable tail; keeping the 25 mm gap with pultruded booms |
 | D-035 | Aft CG limit **31.4% root chord** (10% static margin); balance point 93–107 mm behind the leading edge. Replaces the CG figure in D-032 | Neutral point moved 2 mm with the tail changes (§6.2) | — |
 
+## US and dollar sourcing (2026-11-15, at the owner's request; the details are **to be reviewed**)
+
+The owner asked for every price to link to its source, and for parts to be bought in
+dollars or from US sellers instead of the UK listings cited before. The price list is
+[cots-selection.md](cots-selection.md) §1, checked 2026-11-15.
+
+| ID | Decision | Why | Alternatives considered |
+|---|---|---|---|
+| D-036 | **Parts are bought in US dollars, from a US seller where one has stock (BUILD-1b).** Flight controller **Holybro Kakute H743-Wing**, replacing the Matek H7A3-WING of D-016. GPS **Holybro Micro M10**, airspeed **Holybro DroneCAN DLVR-L10D** with the PT40 pitot, ESCs **Lumenier Razor Pro F4 45A**. Ready-made battery: **Upgrade Energy RED V3 6S3P P50B** (within D-028) | Matek marks the H7A3-WING end of life and no US shop has it; Matek GPS and airspeed sensors are also out of stock in the US. The Kakute is the same class of board (H743, 14 outputs, CAN, 90 A current sensor, ArduPilot `KakuteH7-Wing`) at about the same mass, so the mass model and CAD do not change. The Holybro store is in dollars but ships from overseas | Importing an H7A3-WING from the UK or Canada (a discontinued board); Pixhawk 6C Mini ($179, needs a separate power module and servo supply); SpeedyBee F405 Wing (out of stock in the US, 1 MB flash); waiting for US stock of the Kakute at $72.99 |

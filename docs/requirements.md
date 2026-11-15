@@ -58,6 +58,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 |---|---|---|
 | BUILD-1 | **Buy off-the-shelf (COTS) parts** whenever they make the aircraft noticeably lighter or stronger than a printed part would. Expected COTS parts: carbon tubes for the wing spar and motor booms, motors, ESCs, props, flight controller, GPS, radio receiver, battery, and possibly carbon landing-gear legs. | Stated |
 | BUILD-1a | **All carbon tubes and rods come from one supplier, carbonkevlarsupply.com**, in sizes and lengths it stocks (nothing longer than 1000 mm). `make test` checks this. | Stated (rev C, D-033) |
+| BUILD-1b | **Bought parts are ordered in US dollars, from a US seller where one has the part in stock.** The price list in [cots-selection.md](cots-selection.md) §1 links each price to its listing. | Stated (D-036) |
 | BUILD-2 | Printed parts must fit on a QIDI Max 4 bed (390 × 390 × 340 mm, minus a 5 mm margin; **VERIFY**). Anything larger is split into keyed segments. | Stated (printer) |
 | BUILD-3 | Available materials: PLA Basic, PETG Basic, plus any others needed (LW-PLA, ASA, PA-CF and TPU are planned). | Stated |
 | BUILD-4 | Assign materials by job: **LW-PLA** for thin aerodynamic skins; **PETG/ASA** for general structure; **ASA or PA-CF** for motor mounts and parts near heat sources (motors, ESCs, battery). PLA is not used for load-bearing parts near heat. | Derived |
@@ -69,7 +70,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | ID | Requirement | Source |
 |---|---|---|
 | SYS-1 | **Layout:** quadplane with 4 fixed lift motors (quad X) on two booms running fore and aft, plus 1 pusher motor for cruise. Tail mounted on the booms. | Decided (D-007) |
-| SYS-2 | **Flight software:** ArduPilot QuadPlane (owner has used ArduPilot before). **Flight controller:** Matek H7A3-WING (replaces the discontinued H743-WING; D-016). | Stated |
+| SYS-2 | **Flight software:** ArduPilot QuadPlane (owner has used ArduPilot before). **Flight controller:** Holybro Kakute H743-Wing (D-036; the Matek H7A3-WING of D-016 is end of life). | Stated |
 | SYS-3 | GPS with compass, needed for position hold in hover tuning and for return-to-launch. | Derived |
 | SYS-4 | Telemetry to a ground station for tuning and log review. Onboard logging enabled. | Derived (tuning goal) |
 | SYS-5 | **Battery:** a **6S3P 21700 Li-ion pack** (about 292 Wh, about 1.3 kg; D-028) meets PERF-1 with margin at 10 lb. The 6S2P pack (about 194 Wh, 860 g) is the light configuration. | Derived (Report §5.3) |

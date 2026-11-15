@@ -1,11 +1,12 @@
 # COTS subsystem selection: QP-1 (v1 proof of concept)
 
-Status: **Draft for review**, rev C 2026-11-15 (10 lb class, D-025; carbon from one supplier, D-033; rev A 2026-11-07)
+Status: **Draft for review**, rev D 2026-11-15 (US/dollar sourcing with linked prices, D-036; rev C: 10 lb class, D-025; carbon from one supplier, D-033; rev A 2026-11-07)
 Related: [requirements](requirements.md) · [decision log](decisions.md) · [Aerodynamics report](AerodynamicsReport.md)
 
 This document records which bought (COTS) parts were selected for each subsystem, the
-numbers that drove each choice, and the alternatives that were rejected. Prices and stock
-are retailer snapshots from November 2026 (rev B parts were not re-priced; prices marked ~ are estimates). Items marked **VERIFY** must be checked against
+numbers that drove each choice, and the alternatives that were rejected. Every price in §1 links
+to the listing it was read from, and every listing is priced in US dollars (BUILD-1b, D-036).
+Prices and stock were read on 2026-11-15 and will drift. Items marked **VERIFY** must be checked against
 the delivered part before the dependent CAD is printed. Mount bolt patterns and envelopes
 live in `quadplane/hardware.py`.
 
@@ -17,27 +18,41 @@ carry over.
 
 ## 1. Summary bill of materials
 
-| # | Subsystem | Selected part | Qty | Mass each | Approx. price | Driving requirement |
-|---|---|---|---|---|---|---|
-| 1 | Lift motors | T-Motor **MN4014 KV400** (D-027) | 4 | 171 g | $97 | PERF-1, PERF-5 |
-| 2 | Lift props | T-Motor **P15x5** carbon (CW/CCW pairs) | 2 pr (+2 spare pr) | 23–27 g | ~$60–80/pr | PERF-5, SIZE-2 |
-| 3 | Pusher motor | SunnySky **X3520 520KV** (provisional, D-031) | 1 | ~222 g (**VERIFY**) | ~$60 | PERF-3 (transition) |
-| 4 | Pusher prop | Folding **12x8** (Aeronaut CAM Carbon or equivalent); 12x6.5 and 13x8 to bench-test | 1 (+1) | ~30 g with hub | $20–35 | PERF-3 |
-| 5 | ESCs | **AM32** single 40–45 A, 6S, DShot (Skystars Talon 40A or Lumenier Razor Pro 45A) | 5 | 3–7 g | $16–31 | — |
-| 6 | Battery | **6S3P Molicel P45B 21700 Li-ion** (≈292 Wh, D-028); 6S3P P50B acceptable; 6S2P is the light configuration | 1 (+1) | ~1290 g (**VERIFY**) | ~$100–180 | PERF-1, PERF-7 |
-| 7 | Flight controller | **Matek H7A3-WING** (replaces the discontinued H743-WING V3) | 1 | 30 g | ~$90 | SYS-2 |
-| 8 | GPS + compass | Matek M10Q-5883 **or its successor** (M10 GNSS + compass) | 1 | 8–15 g | ~$50 | SYS-3 |
-| 9 | Airspeed | Matek **ASPD-DLVR** (I²C/DroneCAN) + pitot | 1 | 4 g + tube | $100–130 | QuadPlane transition |
-| 10 | RC receiver | RadioMaster **DBR4** (dual-band ExpressLRS Gemini) | 1 | 5.3 g | $30–39 | RC-1…RC-9 |
-| 11 | Handset | RadioMaster **TX16S MK3**, dual-band ELRS (D-010) | 1 | — | ~$200 | RC-1…RC-8 |
-| 12 | Remote ID | **BlueMark db120** (FAA-declared broadcast module, own GPS and battery) | 1 | 25 g | $119–149 | REG-2 |
-| 13 | Servos | **EMAX ES08MD II** (metal gear, digital) | 3 (+1) | 13 g | $12 | — |
-| 14 | Wing spar | **20x18 mm roll-wrapped CF tube, 1000 mm**, uncut | 1 | 93 g | $22–29 | §9 report |
-| 15 | Tip spars | **14x12 mm roll-wrapped CF tube, 500 mm**, uncut | 2 | 32 g | $21 (pack of 2) | §9 report |
-| 16 | Booms | **25x23 mm roll-wrapped CF tube, 1000 mm**, uncut | 2 | 117 g | $39–47 (pack of 2) | §9 report (vibration) |
-| 17 | Tail spar | **8x6 mm pultruded CF tube, 1000 mm**, cut to 0.62 m | 1 | 21 g | $9 | §9 report |
-| 18 | Camera | **Insta360 GO 3S** (D-009) | 1 | 39 g | ~$400 | PAY-1 |
-| 19 | Hardware | M3 heat-set inserts, M3/M4 screws, 4 mm pultruded CF rod (elevator joiner, same supplier, $18), pushrods, XT60/XT90 | — | ~50 g | — | BUILD-5 |
+| # | Subsystem | Selected part | Qty | Mass each | Price each (link = listing) | Buy from | Driving requirement |
+|---|---|---|---|---|---|---|---|
+| 1 | Lift motors | T-Motor **MN4014 KV400** (D-027) | 4 | 171 g | [$96.90](https://store.tmotor.com/product/mn4014-kv400-motor-navigator-type.html) | T-Motor store (ships from overseas). In stock in the US: RobotShop, [$118.48](https://www.robotshop.com/products/ligpower-mn4014-kv400-high-performance-uav-motor-for-aerial-photography) | PERF-1, PERF-5 |
+| 2 | Lift props | T-Motor **P15x5** carbon (CW/CCW pairs) | 2 pr (+2 spare pr) | 23–27 g | [$55.90/pr](https://irlock.com/products/t-motor-p15x5-prop-2pcs-pair) | IR-LOCK (US; **out of stock** on 15 Nov). Otherwise the T-Motor/LigPower store with the motors | PERF-5, SIZE-2 |
+| 3 | Pusher motor | SunnySky **X3520 520KV** (provisional, D-031) | 1 | ~222 g (**VERIFY**) | [$46.99](https://www.buddyrc.com/products/sunnysky-x3520-brushless-motor) | Buddy RC (US), "520" option | PERF-3 (transition) |
+| 4 | Pusher prop | Folding **12x8** Aeronaut CAM blades; 12x6.5 and 13x8 to bench-test | 1 pr (+1) | ~30 g with hub | blades [$12.45/pr](https://alofthobbies.com/products/aeronaut-cam-12x8-30-5x20-cm), spinner [$11.00](https://alofthobbies.com/products/40mm-diameter-folding-prop-spinner-1), collet $5.25 | Aloft Hobbies (US). **VERIFY** the motor shaft diameter before choosing the collet | PERF-3 |
+| 5 | ESCs | **Lumenier Razor Pro F4 45A** (AM32, 2–6S, DShot) | 5 | 3–7 g | [$31.49](https://www.racedayquads.com/products/lumenier-razor-pro-f4-45a-2-6s-am32-esc) | RaceDayQuads (US) | — |
+| 6 | Battery | **6S3P 21700 Li-ion** (D-028). Ready-made: Upgrade Energy RED V3 6S3P 15 Ah, Molicel P50B, XT90S (≈324 Wh). 6S2P is the light configuration | 1 (+1) | ~1290 g assumed; this pack ships at 1.40 kg (**VERIFY**) | [$340](https://upgradeenergytech.com/products/red-v3-6s3p-15ah-molicel-p50b) | Upgrade Energy (assembled in the US) | PERF-1, PERF-7 |
+| 7 | Flight controller | **Holybro Kakute H743-Wing** (D-036; the Matek H7A3-WING is end of life) | 1 | 28 g | [$105](https://holybro.com/products/kakute-h743-wing) | Holybro store (ships from overseas). RaceDayQuads lists it at [$72.99](https://www.racedayquads.com/products/holybro-kakute-3-8s-fixed-wing-flight-controller), out of stock | SYS-2 |
+| 8 | GPS + compass | **Holybro Micro M10** (u-blox M10 + IST8308 compass) | 1 | 8–15 g | [$27.99](https://holybro.com/products/micro-m10-gps) | Holybro store, same order as the flight controller | SYS-3 |
+| 9 | Airspeed | **Holybro DroneCAN airspeed sensor, DLVR-L10D** + PT40 pitot | 1 | ~5 g + tube (**VERIFY**) | board [$103](https://holybro.com/products/high-precision-dronecan-airspeed-sensor-dlvr) + pitot $7.99 (same listing) | Holybro store, same order | QuadPlane transition |
+| 10 | RC receiver | RadioMaster **DBR4** (dual-band ExpressLRS Gemini) | 1 | 5.3 g | [$38.99](https://www.racedayquads.com/products/radiomaster-dbr4-dual-band-xross-gemini-expresslrs-receiver) | RaceDayQuads (US). RadioMaster direct: [$29.99](https://radiomasterrc.com/products/dbr4-dual-band-xross-gemini-expresslrs-receiver) | RC-1…RC-9 |
+| 11 | Handset | RadioMaster **TX16S MK3**, dual-band ELRS, FCC version (D-010) | 1 | — | [$229.99](https://www.racedayquads.com/products/radiomaster-tx16s-mk3-radio-controller-elrs-dual-band) | RaceDayQuads (US). RadioMaster direct: [$199.99](https://radiomasterrc.com/products/tx16s-mk3-radio-controller) | RC-1…RC-8 |
+| 12 | Remote ID | **BlueMark db120** (FAA-declared broadcast module, own GPS and battery) | 1 | 25 g | [$58.99](https://www.dslrpros.com/products/dronebeacon-db120-remoteid-broadcast-module-with-battery) | DSLRPros (US) | REG-2 |
+| 13 | Servos | **EMAX ES08MD II** (metal gear, digital) | 3 (+1) | 13 g | [$12.50](https://alofthobbies.com/products/emax-es08mdii-servo-2kg-27-77-oz-in-10-sec-13-grams) | Aloft Hobbies (US) | — |
+| 14 | Wing spar | **20x18 mm roll-wrapped CF tube, 1000 mm**, uncut | 1 | 93 g | [$22.37](https://carbonkevlarsupply.com/products/copy-of-blue-black-carbon-fiber-tubing-20mm-x-18mm-x-500mm-3k-roll-wrapped-glossy) | Carbon Kevlar Supply (§9) | §9 report |
+| 15 | Tip spars | **14x12 mm roll-wrapped CF tube, 500 mm**, uncut | 2 | 32 g | [$17.99 for 2](https://carbonkevlarsupply.com/products/carbon-fiber-tubing-10mm-x-8mm-x-500mm-3k-roll-wrapped-100-carbon-fiber-tube-glos) | Carbon Kevlar Supply | §9 report |
+| 16 | Booms | **25x23 mm roll-wrapped CF tube, 1000 mm**, uncut | 2 | 117 g | [$38.99 for 2](https://carbonkevlarsupply.com/products/2-carbon-fiber-tubes-25mm-x-23mm-x-1000mm-3k-roll-wrapped-100-carbon-fiber-tube-glossy-surface-2-tubes) | Carbon Kevlar Supply | §9 report (vibration) |
+| 17 | Tail spar | **8x6 mm pultruded CF tube, 1000 mm**, cut to 0.62 m | 1 | 21 g | [$8.99](https://carbonkevlarsupply.com/products/1-piece-8mm-x-6mm-x-1000mm-carbon-fiber-tube-pultruded-round-tube-super-high-strength-for-rc-hobbies-drones-special-projects) | Carbon Kevlar Supply | §9 report |
+| 18 | Camera | **Insta360 GO 3S**, 128 GB (D-009) | 1 | 39 g | [$379.99](https://store.insta360.com/product/go-3s) | Insta360 store | PAY-1 |
+| 19 | Hardware | 4 mm pultruded CF rod (elevator joiner); M3 heat-set inserts, M3/M4 screws, pushrods, XT60/XT90 (not priced) | — | ~50 g | rod [$17.99](https://carbonkevlarsupply.com/products/1-piece-4mm-x-1000mm-carbon-fiber-rods-solid-pultruded-round-rods-super-high-strength-for-rc-hobbies-drones-special-projects) | Carbon Kevlar Supply | BUILD-5 |
+
+**Total at these prices: about $2,300** for one aircraft set with the handset and camera,
+the spare props, prop blades and servo, and one battery. Shipping, tax, small hardware and
+filament are not included. Nothing on the list is priced in pounds or euros.
+
+**Where the list is weak** (all checked 2026-11-15):
+- **Fixed-wing flight controllers, Matek GPS and Matek airspeed sensors are out of stock at
+  every US shop checked** (RaceDayQuads, Pyrodrone, NextFPV, Defiance RC, WREKD). The
+  Holybro store has rows 7–9 in stock in dollars, but it is the manufacturer's store and
+  ships from overseas, so allow for transit time and any import charge at checkout.
+- **Lift motors and props:** the US dealer (IR-LOCK) is out of stock. The T-Motor store
+  price is the same; RobotShop has the motor in the US for $21.58 more each.
+- **Battery:** the ready-made pack uses P50B cells and is heavier than the 1290 g the
+  analysis assumes. Weigh and measure it (C-7).
 
 Analysed take-off mass with these parts: **4.59 kg (10.12 lb)** (Report §2). Items 14–17 and the elevator rod all come from carbonkevlarsupply.com (§9).
 
@@ -114,13 +129,13 @@ BLHeli_32 has reached end of life, so **AM32** firmware is the current choice. I
 DShot and bidirectional DShot, which gives the flight controller RPM telemetry so
 ArduPilot's harmonic notch filter can track motor speed.
 
-**Decision: five single AM32 ESCs (40–45 A, 6S)**, one at each lift motor on the boom
+**Decision: five single AM32 ESCs (40–45 A, 6S), Lumenier Razor Pro F4 45A**, one at each lift motor on the boom
 (close to the motor, short leads) and one in the pod for the pusher.
 
 | ESC | Rating | Mass | Notes |
 |---|---|---|---|
-| Skystars Talon 40A AM32 | 3–6S, 40 A, telemetry | 6.8 g | preferred: cheap, has telemetry |
-| Lumenier Razor Pro F4 45A AM32 | 2–6S | 3 g | alternative |
+| **Lumenier Razor Pro F4 45A AM32** | 2–6S, 45 A | 3 g | **selected**: in stock in the US ($31.49, §1 row 5) |
+| Skystars Talon 40A AM32 | 3–6S, 40 A, telemetry | 6.8 g | cheaper, but not stocked by a US shop on 2026-11-15 |
 | Holybro Tekko32 F4 50A 4-in-1 | 4–6S | 13.8 g | rejected: a 4-in-1 needs about 0.5 m motor leads on a twin-boom layout |
 
 Current check: the most a lift motor draws is about 19 A (415 W at full throttle with the
@@ -148,9 +163,15 @@ margin. T-Motor pairs the MN4014 with a 40 A ESC.
 - 2P is short of current at full throttle on all five motors. That case is brief (a
   transition), so **6S2P remains a valid light configuration** at 9.2 lb if the pusher
   throttle is limited. Both packs fit the bay and the CG range.
-- No prebuilt 6S3P P45B pack was found, so this is a pack-builder or DIY spot-welded pack
-  (no BMS, balance lead). The mass is scaled from the 6S2P Flywoo pack (860.7 g for 12
-  cells); bare cells are 67–70 g each. **VERIFY** the built mass.
+- No prebuilt 6S3P **P45B** pack was found. A prebuilt 6S3P **P50B** pack is sold by
+  Upgrade Energy (RED V3, 15 Ah, XT90S, assembled in the US, $340; §1 row 6). Its listed
+  shipping weight is 1.40 kg, against the 1290 g the analysis assumes for P45B and the
+  ~1320 g estimated for P50B. **VERIFY** the pack's mass and its outer dimensions against
+  the 140 × 68 × 75 mm bay before ordering a second one. Each 100 g over adds about 2% to
+  the take-off mass; rerun the analysis with the weighed mass.
+- The DIY route is 18 P45B cells spot-welded with a balance lead (no BMS). US cell prices
+  are $10–13 each, so it saves little. The assumed mass is scaled from the 6S2P Flywoo
+  pack (860.7 g for 12 cells); bare cells are 67–70 g each.
 - **Connector:** **XT90** (peak current is about 103 A; the flight controller's current
   sensor is rated 100 A continuous, which the hover current of 25 A is far below).
 - **Envelope:** 140 × 68 × 75 mm assumed (2 cells long × 3 wide × 3 high; **VERIFY**). The
@@ -161,27 +182,36 @@ margin. T-Motor pairs the MN4014 with a 40 A ESC.
 
 ## 6. Flight controller, GPS, airspeed, power
 
-- **Flight controller: Matek H7A3-WING.** The H743-WING V3 named in D-006 is discontinued
-  (2026), and the H7A3-WING is Matek's replacement. It has:
-  - 11 PWM outputs, all DShot-capable. v1 needs 5 motors + 3 servos = 8, leaving 3 spare.
-  - 6 UARTs.
-  - A built-in current monitor (100 A continuous), so no separate power module.
-  - An 8 A servo power supply and 9 V/12 V supplies.
-  - ArduPilot target `MatekH7A3-Wing` (4.7+).
+- **Flight controller: Holybro Kakute H743-Wing (D-036).** Matek now lists the H7A3-WING
+  chosen in D-016 as end of life, and no US shop has one. The Kakute H743-Wing is the same
+  class of board and is in production:
+  - STM32H743, ICM-42688-P, microSD logging.
+  - 14 PWM outputs. v1 needs 5 motors + 3 servos = 8, leaving 6 spare.
+  - 7 UARTs, 1 CAN port, 2 external I²C ports, with plug-in GPS, CAN and I²C sockets.
+  - A built-in current sensor (90 A continuous, 220 A peak), so no separate power module.
+    Hover draws about 25 A and the 103 A full-throttle peak lasts seconds.
+  - A 6 A servo supply (6 V or 8 V) and 5 V and 9 V/12 V supplies; input 3–8S.
+  - ArduPilot target `KakuteH7-Wing` (4.4+). 45 × 30 × 13.5 mm, 28 g.
 
-  **This updates D-006** (logged as D-016).
-- **GPS: Matek M10Q-5883 or successor.** One reseller lists the M10Q-5883 as end of life.
-  Any M10 GNSS + QMC5883/IST8310 compass module of about 10 g works. It is mounted on a
-  60 mm mast on the nose top, away from power wiring and the motors.
-- **Airspeed: Matek ASPD-DLVR.** ArduPilot QuadPlane transitions depend on airspeed, and a
-  synthetic airspeed estimate isn't acceptable during first flights. The pitot sits on the
-  nose, clear of the front prop wash.
+  **VERIFY** before wiring: the output numbering against the ArduPilot page for this
+  board, and that the four lift motors sit on timer groups that can all run DShot.
+- **GPS: Holybro Micro M10** (u-blox M10 with an IST8308 compass, no case). Holybro sells
+  it bundled with this flight controller, so the cable matches. Any M10 GNSS + compass
+  module of about 10 g works; RaceDayQuads has the Foxeer M10Q-180 V2 in US stock at
+  $23.99. It is mounted on a 60 mm mast on the nose top, away from power wiring and the
+  motors.
+- **Airspeed: Holybro DroneCAN airspeed sensor (DLVR-L10D) with the PT40 pitot.** ArduPilot
+  QuadPlane transitions depend on airspeed, and a synthetic airspeed estimate isn't
+  acceptable during first flights. It uses the same DLVR pressure sensor as the Matek
+  ASPD-DLVR and plugs into the board's CAN port. The L10D range is 2500 Pa; the aircraft
+  sees about 300 Pa at 22 m/s. The Matek ASPD-DLVR ($131.99 at RaceDayQuads, out of stock)
+  is a drop-in alternative. The pitot sits on the nose, clear of the front prop wash.
 
 ## 7. Radio link (D-010) and Remote ID
 
 - **Handset: RadioMaster TX16S MK3** with internal dual-band ExpressLRS (2.4 GHz + 900 MHz).
   **VERIFY:** order the version with the Gemini/LR1121 dual-band module.
-- **Receiver: RadioMaster DBR4** (two LR1121 radios in Gemini mode, 5.3 g, about $30).
+- **Receiver: RadioMaster DBR4** (two LR1121 radios in Gemini mode, 5.3 g).
   It connects over CRSF on one UART, carries MAVLink telemetry, and provides link-quality
   information for the failsafe.
 - **Remote ID: BlueMark db120.** It is a self-contained broadcast module with its own GPS
@@ -221,13 +251,13 @@ changed to fit (Report §9, D-033, D-034). `quadplane/hardware.py` holds this st
 
 ### 9.1 Order list
 
-| Member | Buy | Qty | Cut | Listing (in stock 2026-11-15) | Price |
+| Member | Buy | Qty | Cut | Listing (in stock 2026-11-15) | Price (link = listing) |
 |---|---|---|---|---|---|
-| Wing spar | 20x18 x 1000 mm, 3K roll-wrapped | 1 | none | "Blue-Black Carbon Fiber Tubing - 20mm x 18mm x 1000mm - 3K Roll Wrapped - Glossy", qty 1 | $22.37 |
-| Booms | 25x23 x 1000 mm, 3K roll-wrapped | 2 | none | "(2) Carbon Fiber Tubes - 25mm x 23mm x 1000mm - 3K Roll Wrapped 100% Carbon Fiber Tube" | $38.99 |
-| Tip spars | 14x12 x 500 mm, 3K roll-wrapped | 2 | none | "Carbon Fiber Tubing - 14mm x 12mm x 500mm - 3K Roll Wrapped 100% Carbon Fiber Tube", qty 2 | $17.99 |
-| Tail spar | 8x6 x 1000 mm, pultruded | 1 | to 620 mm | "(1) Piece - 8mm x 6mm x 1000mm Carbon Fiber Tube - Pultruded Round Tube" | $8.99 |
-| Elevator joiner | 4 mm x 1000 mm solid rod, pultruded | 1 | to about 570 mm | "(1) Piece - 4mm x 1000mm Carbon Fiber RODS - Solid Pultruded Round Rods" | $17.99 |
+| Wing spar | 20x18 x 1000 mm, 3K roll-wrapped | 1 | none | "Blue-Black Carbon Fiber Tubing - 20mm x 18mm x 1000mm - 3K Roll Wrapped - Glossy", qty 1 | [$22.37](https://carbonkevlarsupply.com/products/copy-of-blue-black-carbon-fiber-tubing-20mm-x-18mm-x-500mm-3k-roll-wrapped-glossy) |
+| Booms | 25x23 x 1000 mm, 3K roll-wrapped | 2 | none | "(2) Carbon Fiber Tubes - 25mm x 23mm x 1000mm - 3K Roll Wrapped 100% Carbon Fiber Tube" | [$38.99](https://carbonkevlarsupply.com/products/2-carbon-fiber-tubes-25mm-x-23mm-x-1000mm-3k-roll-wrapped-100-carbon-fiber-tube-glossy-surface-2-tubes) |
+| Tip spars | 14x12 x 500 mm, 3K roll-wrapped | 2 | none | "Carbon Fiber Tubing - 14mm x 12mm x 500mm - 3K Roll Wrapped 100% Carbon Fiber Tube", qty 2 | [$17.99](https://carbonkevlarsupply.com/products/carbon-fiber-tubing-10mm-x-8mm-x-500mm-3k-roll-wrapped-100-carbon-fiber-tube-glos) |
+| Tail spar | 8x6 x 1000 mm, pultruded | 1 | to 620 mm | "(1) Piece - 8mm x 6mm x 1000mm Carbon Fiber Tube - Pultruded Round Tube" | [$8.99](https://carbonkevlarsupply.com/products/1-piece-8mm-x-6mm-x-1000mm-carbon-fiber-tube-pultruded-round-tube-super-high-strength-for-rc-hobbies-drones-special-projects) |
+| Elevator joiner | 4 mm x 1000 mm solid rod, pultruded | 1 | to about 570 mm | "(1) Piece - 4mm x 1000mm Carbon Fiber RODS - Solid Pultruded Round Rods" | [$17.99](https://carbonkevlarsupply.com/products/1-piece-4mm-x-1000mm-carbon-fiber-rods-solid-pultruded-round-rods-super-high-strength-for-rc-hobbies-drones-special-projects) |
 | | | | | **Total** | **about $106** |
 
 - **Buy the plain carbon tubes, not the "Carbon Fiber Kevlar" ones.** The supplier sells
@@ -282,37 +312,32 @@ Action Pod or a 5 V tap.
 | C-4 | Confirm the TX16S MK3 variant has the dual-band (LR1121) internal module | owner |
 | C-5 | Tap-test boom natural frequency after assembly (phone accelerometer or ArduPilot FFT log) | build |
 | C-6 | Order the carbon from carbonkevlarsupply.com (§9.1); on delivery, weigh, measure and bend-test (Report R-16) | owner |
-| C-7 | Find a builder for the 6S3P P45B pack, or build it; weigh and measure it | owner |
+| C-7 | Weigh and measure the first 6S3P pack (Upgrade Energy RED V3 P50B) against 1290 g and 140 × 68 × 75 mm; rerun the analysis with the weighed mass | owner |
+| C-9 | Kakute H743-Wing: confirm output numbering and DShot timer groups for the four lift motors; measure the X3520 shaft for the folding-prop collet | build |
 | C-8 | Measure the Suburban cargo width above the wheel wells (SIZE-2a): the aircraft needs 1.4 m | owner |
 
 ## Sources
 
+Purchase listings are linked from the price column in §1. The links below are the data
+sources (bench tables, datasheets, masses) and the listings that were checked and rejected.
+
 - T-Motor MN3508: https://store.tmotor.com/goods-354-MN3508.html
 - T-Motor MN4014 KV400 (bench table, 22.2 V): https://store.tmotor.com/product/mn4014-kv400-motor-navigator-type.html
 - T-Motor MN5008 KV340: https://www.ligpower.com/product/mn5008-kv340-motor-antigravity-type.html
-- T-Motor 15x5 carbon prop (26.5 g): https://uk.robotshop.com/products/t-motor-15-5-carbon-fiber-propeller-pair
+- T-Motor P15x5 (IR-LOCK, US): https://irlock.com/products/t-motor-p15x5-prop-2pcs-pair
+- T-Motor MN4014 KV400 (IR-LOCK, US, $96.90, out of stock): https://irlock.com/products/t-motor-mn4014-kv400
 - MAD 4006: https://mad-motor.com/products/mad-components-4006-ipe
-- T-Motor P15x5: https://irlock.com/products/t-motor-p15x5-prop-2pcs-pair
-- T-Motor P14x4.8: https://www.robotshop.com/products/t-motor-14-48-carbon-fiber-propeller-pair
-- SunnySky X3520 520KV: https://www.readymaderc.com/products/details/85664-sunnysky-x3520-brushless-motor-520kv
+- SunnySky X3520 520KV (RMRC, US): https://www.readymaderc.com/products/details/85664-sunnysky-x3520-brushless-motor-520kv
 - SunnySky X2820 V3 (rev A): https://www.readymaderc.com/products/details/85632-sunnysky-x-series-v3-x2820-brushless-motor-570kv
 - T-Motor AT2814: https://store.tmotor.com/product/at2814-long-shaft-fixed-wing-motor.html
-- Aeronaut CAM folding blades: https://modelflight.com.au/aeronaut-cam-c-folding-blades-10x6in-pair
-- Skystars Talon 40A: https://www.rotorama.com/product/skystars-talon-40a-esc-blheli-32
-- Lumenier Razor Pro 45A: https://www.lumenier.com/products/lumenier-razor-pro-f4-45a-2-6s-am32-esc
 - Molicel P50B datasheet: https://www.fsaeonline.com/content/Molicel-TDS--INR-21700-P50B-80122.pdf
 - Molicel P45B datasheet: https://www.imrbatteries.com/content/molicel_p45b.pdf
-- Flywoo 6S2P P45B: https://www.unmannedtechshop.co.uk/product/flywoo-explorer-molicell-p45b-21700-6s2p-9000mah-lionpack-battery
-- Matek H7A3-WING: https://www.mateksys.com/?p=12747
-- Matek M10Q-5883: https://www.flyingtech.co.uk/product/matek-gnss-gps-compass-module-m10-5883
-- Matek ASPD-DLVR: https://www.racedayquads.com/products/matek-digital-airspeed-sensor-aspd-dlvr
-- RadioMaster DBR4: https://radiomasterrc.com/collections/popular-products/products/dbr4-dual-band-xross-gemini-expresslrs-receiver
-- BlueMark db120: https://www.dslrpros.com/products/dronebeacon-db120-remoteid-broadcast-module-with-battery
+- Molicel P45B cells, 2-pack $25.99 (RaceDayQuads): https://www.racedayquads.com/products/molicel-p45b-21700-4500mah-45a-3-7v-li-ion-battery-2pcs
+- Flywoo 6S2P P45B (source of the 860.7 g pack mass only; a UK listing, not a purchase source): https://www.unmannedtechshop.co.uk/product/flywoo-explorer-molicell-p45b-21700-6s2p-9000mah-lionpack-battery
+- Matek H7A3-WING, marked end of life by Matek: https://www.mateksys.com/?p=12747
+- Matek H7A3-WING (RMRC, US, discontinued): https://www.readymaderc.com/products/details/86418-matek-h7a3-wing-flight-controller
+- Matek ASPD-DLVR (RaceDayQuads, out of stock): https://www.racedayquads.com/products/matek-digital-airspeed-sensor-aspd-dlvr
+- Matek M10Q-5883 (RaceDayQuads, out of stock): https://www.racedayquads.com/products/matek-m10q-5883-gnss-compass
+- Foxeer M10Q-180 V2 GPS + compass (RaceDayQuads, in stock): https://www.racedayquads.com/products/foxeer-gps-m10q-180-gps-compass
 - Holybro Remote ID: https://docs.holybro.com/radio/remote-id/overview-and-spec
-- EMAX ES08MD II: https://alofthobbies.com/products/emax-es08mdii-servo-2kg-27-77-oz-in-10-sec-13-grams
 - Carbon Kevlar Supply (all carbon tubes and rods): https://carbonkevlarsupply.com/
-  - 20x18 x 1000 mm: https://carbonkevlarsupply.com/products/copy-of-blue-black-carbon-fiber-tubing-20mm-x-18mm-x-500mm-3k-roll-wrapped-glossy
-  - 25x23 x 1000 mm, pack of 2: https://carbonkevlarsupply.com/products/2-carbon-fiber-tubes-25mm-x-23mm-x-1000mm-3k-roll-wrapped-100-carbon-fiber-tube-glossy-surface-2-tubes
-  - 14x12 x 500 mm: https://carbonkevlarsupply.com/products/carbon-fiber-tubing-10mm-x-8mm-x-500mm-3k-roll-wrapped-100-carbon-fiber-tube-glos
-  - 8x6 x 1000 mm pultruded: https://carbonkevlarsupply.com/products/1-piece-8mm-x-6mm-x-1000mm-carbon-fiber-tube-pultruded-round-tube-super-high-strength-for-rc-hobbies-drones-special-projects
-  - 4 mm x 1000 mm rod: https://carbonkevlarsupply.com/products/1-piece-4mm-x-1000mm-carbon-fiber-rods-solid-pultruded-round-rods-super-high-strength-for-rc-hobbies-drones-special-projects

@@ -68,7 +68,7 @@ def components(battery_mass: float = BATTERY_MASS, battery_x: float = -0.06,
 
     # --- avionics ---
     items += [
-        Item("flight controller H7A3-WING", 0.030, -0.03, 0, -0.04, "avionics"),
+        Item("flight controller", 0.030, -0.03, 0, -0.04, "avionics"),
         Item("GPS + compass (on a 60 mm mast, nose top)", 0.015, AC.fuselage.x_nose - 0.13, 0, 0.06, "avionics"),
         Item("ELRS receiver DBR4", 0.006, -0.15, 0, -0.03, "avionics"),
         Item("Remote ID module", 0.025, AC.fuselage.x_nose - 0.17, 0, -0.03, "avionics"),

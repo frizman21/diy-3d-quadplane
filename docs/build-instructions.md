@@ -62,7 +62,7 @@ The parts that affect the build:
 | SunnySky X3520 520KV + 12x8 folding prop, hub and spinner | 1 | pusher |
 | AM32 ESC, 40–45 A, 6S | 5 | one per motor |
 | 6S3P 21700 Li-ion pack, XT90 | 1 | about 1.29 kg |
-| Matek H7A3-WING, M10 GPS + compass, ASPD-DLVR + pitot, DBR4 receiver, db120 Remote ID | 1 each | avionics |
+| Holybro Kakute H743-Wing, Micro M10 GPS + compass, DroneCAN DLVR airspeed sensor + pitot, DBR4 receiver, db120 Remote ID | 1 each | avionics |
 | EMAX ES08MD II servo | 3 | two ailerons, one elevator |
 | Carbon tube 20x18 roll-wrapped, 1000 mm | 1 | main spar, used uncut |
 | Carbon tube 25x23 roll-wrapped, 1000 mm | 2 | booms, used uncut |
