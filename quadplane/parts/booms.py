@@ -1,5 +1,5 @@
 """Boom hardware: wing-to-boom saddles, lift-motor mounts (front mounts include the front
-landing legs). Booms themselves are COTS 20x18 carbon tubes (see quadplane/cots.py).
+landing legs). Booms themselves are COTS carbon tubes (see quadplane/cots.py).
 
 Print: PA-CF or ASA (motor heat, vibration). Clamps use M3 bolts + heat-set inserts.
 """
@@ -38,15 +38,16 @@ def boom_saddle() -> Part:
     c = AC.wing.root_chord
     x0, x1 = -8.0, -mm(c) + 12
     length = x0 - x1
-    width = 22.0
+    width = 2 * (R_BORE + CLAMP_T)  # lands wrap the full tube
+    plate_w = mm(B.tube_od)  # the plate between the lands is only as wide as the tube
     top = max(G.lower_surface_z(x, B.y) for x in (x0, (x0 + x1) / 2, x1)) + 3
     wing = G.wing_solid(B.y - 0.03, B.y + 0.03)
     # top plate following the wing's lower surface (3 mm thick, below the skin)
-    plate = Pos((x0 + x1) / 2, YB, top - 4) * Box(length, width, 8)
+    plate = Pos((x0 + x1) / 2, YB, top - 4) * Box(length, plate_w, 8)
     plate -= wing
-    plate -= Pos((x0 + x1) / 2, YB, top - 4 - 3 - 50) * Box(length + 2, width + 2, 100)  # keep 3 mm under skin
+    plate -= Pos((x0 + x1) / 2, YB, top - 4 - 3 - 50) * Box(length + 2, plate_w + 2, 100)  # keep 3 mm under skin
     blk = plate
-    land = 26.0
+    land = 20.0
     for xc in (x0 - land / 2, (x0 + x1) / 2, x1 + land / 2):
         h = top - (ZB - R_BORE - CLAMP_T)
         b = Pos(xc, YB, ZB - R_BORE - CLAMP_T + h / 2) * Box(land, width, h)
@@ -62,14 +63,14 @@ def motor_mount(x_motor: float, front: bool) -> Part:
     length = 34.0
     m = _clamp_ring(xm, length)
     pad_top = mm(B.z + AC.lift.motor_height)
-    pad = Pos(xm, YB, pad_top - 2.5) * Cylinder(HW.MN3508_BODY_D / 2 + 1, 5)
+    pad = Pos(xm, YB, pad_top - 2.5) * Cylinder(HW.LIFT_MOTOR_BODY_D / 2 + 1, 5)
     ped = Pos(xm, YB, (pad_top + ZB) / 2) * Box(24, 24, pad_top - ZB)
     ped -= Pos(xm, YB, ZB) * (Rot(0, 90, 0) * Cylinder(R_BORE, length + 2))
     m += pad + ped
     import math
     for k in range(4):
         a = math.pi / 4 + k * math.pi / 2
-        r = HW.MN3508_BOLT_CIRCLE / 2
+        r = HW.LIFT_MOTOR_BOLT_CIRCLE / 2
         m -= Pos(xm + r * math.cos(a), YB + r * math.sin(a), pad_top - 6) * Cylinder(1.7, 14)
     m -= Pos(xm, YB, pad_top) * Cylinder(5.0, 8)  # shaft / circlip clearance
     if front:

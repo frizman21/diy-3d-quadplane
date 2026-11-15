@@ -3,8 +3,8 @@
 For each candidate planform: total mass (mass model with printed-wing and spar mass
 scaling), drag polar (AeroSandbox AeroBuildup, NeuralFoil section data, vectorised alpha
 sweep), stall speed, minimum cruise power, power at 18 m/s, hover power and hover time.
-Constraints: span <= 1.9 m (doorway), overall length <= 1.2 m (Suburban, estimated),
-stall speed <= 11 m/s (transition-speed margin).
+Constraints: span <= 1.8 m (doorway less margin), overall length <= 1.4 m (Suburban,
+estimated), stall speed <= 10.5 m/s (transition-speed margin), tip chord >= 150 mm.
 """
 
 import dataclasses
@@ -13,24 +13,27 @@ import aerosandbox as asb
 import numpy as np
 
 from analysis import mass as M
-from analysis.common import RHO, G, plt, save_json, savefig
+from analysis.common import NU, RHO, G, plt, save_json, savefig
 from analysis.model import EXCRESCENCE_CD, airplane
 from analysis.hover import hover_power
 from quadplane.params import AIRCRAFT as AC
 
 SPANS = np.arange(1.40, 1.91, 0.10)
-ROOT_CHORDS = np.arange(0.22, 0.345, 0.02)
+ROOT_CHORDS = np.arange(0.26, 0.385, 0.02)
 TAPER_OUTER = 0.18 / 0.28  # fixed outer-panel taper used in the trade
+BATTERY_WH = 6 * 3.6 * 13.5  # 6S3P Molicel P45B (D-028)
 V_GRID = np.linspace(10, 26, 33)
 ETA_PUSHER = 0.62  # cruise propulsive x motor x ESC (refined in a3_propulsion)
 CLMAX_3D_FACTOR = 0.88  # wing CLmax / section CLmax (taper + washout; Raymer 12.4 range)
-BATTERY_WH_USABLE = 194 * (1 - AC.mission.reserve_frac)
+BATTERY_WH_USABLE = BATTERY_WH * (1 - AC.mission.reserve_frac)
 SPAN_MAX = 1.80  # 1.9 m doorway limit less 0.1 m handling margin (decision D-013)
 TIP_MIN = 0.150  # tip Re >= 1e5 at 10 m/s, spar/print depth (decision D-013)
 VS_MAX = 10.5  # stall speed limit incl. 0.5 m/s reserve for further mass growth (D-013)
+LENGTH_MAX = AC.limits.length  # SIZE-2 rev C (D-026)
+RE_STALL = VS_MAX * AC.wing.mac / NU  # MAC Reynolds number at the stall-speed limit
 
 
-def section_clmax(airfoil: str, re: float = 1.6e5) -> float:
+def section_clmax(airfoil: str, re: float = RE_STALL) -> float:
     a = np.linspace(0, 18, 73)
     r = asb.Airfoil(airfoil).get_aero_from_neuralfoil(alpha=a, Re=re, model_size="large")
     return float(np.max(r["CL"]))
@@ -57,7 +60,7 @@ def length_for(w) -> float:
     R, gap = AC.lift.radius, AC.lift.tip_gap
     front = R + gap + R
     tail_le = -(w.root_chord + R + gap) - R - gap
-    return front - (tail_le - AC.tail.v_root_chord)
+    return front - (tail_le - max(AC.tail.v_root_chord, AC.tail.h_chord))
 
 
 def polar(w):
@@ -102,14 +105,14 @@ def evaluate(span, chord, clmax2d):
 
 def main():
     clmax2d = section_clmax(AC.wing.airfoil)
-    print(f"section CLmax ({AC.wing.airfoil}, Re 160k) = {clmax2d:.2f}")
+    print(f"section CLmax ({AC.wing.airfoil}, Re {RE_STALL:.0f}) = {clmax2d:.2f}")
     rows = []
     for b in SPANS:
         for c in ROOT_CHORDS:
             r = evaluate(b, c, clmax2d)
             r["tip_chord"] = float(c * TAPER_OUTER)
             r["feasible"] = bool(r["span"] <= SPAN_MAX + 1e-9 and r["vs"] <= VS_MAX
-                                 and r["length"] <= 1.20 + 1e-9 and r["tip_chord"] >= TIP_MIN - 1e-9)
+                                 and r["length"] <= LENGTH_MAX + 1e-9 and r["tip_chord"] >= TIP_MIN - 1e-9)
             rows.append(r)
             print(f"b={b:.2f} c={c:.2f} S={r['area']:.3f} AR={r['AR']:.1f} m={r['mass']:.3f} "
                   f"Vs={r['vs']:.1f} Pmin={r['p_min']:.0f}W@{r['v_pmin']:.0f} P18={r['p18']:.0f} "
@@ -120,6 +123,8 @@ def main():
     print("best feasible:", best)
     save_json("sizing", {"rows": rows, "best": best, "clmax2d": clmax2d,
                          "clmax3d_factor": CLMAX_3D_FACTOR, "eta_pusher": ETA_PUSHER,
+                         "re_stall": RE_STALL, "length_max": LENGTH_MAX, "vs_max": VS_MAX,
+                         "span_max": SPAN_MAX, "battery_wh": BATTERY_WH,
                          "excrescence_cd": EXCRESCENCE_CD})
 
     # carpet plots
@@ -135,7 +140,7 @@ def main():
         cs = ax.contourf(B, C * 1000, grid(key), 14, cmap="viridis")
         fig.colorbar(cs, ax=ax)
         ax.contour(B, C * 1000, grid("vs"), [VS_MAX], colors="w", linewidths=2, linestyles="--")
-        ax.contour(B, C * 1000, grid("length"), [1.20], colors="r", linewidths=2)
+        ax.contour(B, C * 1000, grid("length"), [LENGTH_MAX], colors="r", linewidths=2)
         ax.contour(B, C * 1000, C * TAPER_OUTER, [TIP_MIN], colors="orange", linewidths=2)
         ax.axvline(SPAN_MAX, color="m", lw=2)
         ax.plot(best["span"], best["root_chord"] * 1000, "r*", ms=16)

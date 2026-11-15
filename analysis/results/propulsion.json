@@ -1,112 +1,182 @@
 {
-  "mass": 3.3435363648674787,
-  "front_share": 0.547167366969623,
+  "mass": 4.649655939658991,
+  "mass_lb": 10.250736668385738,
+  "front_share": 0.5791984320409258,
   "props": [
     {
-      "prop_in": 13,
-      "hover_w": 390.53661231575813,
-      "fm_eta": 0.5963649834454051,
-      "tw_total": 1.650946601927802,
-      "tw_front_motor": 1.5086303584506873,
-      "overall_length": 1.1454,
-      "disk_loading_n_m2": 95.75711385726967
-    },
-    {
+      "option": "MN3508 KV380 + 14x4.8",
+      "selected": false,
       "prop_in": 14,
-      "hover_w": 374.1736071143084,
+      "auw": 4.3536559396589904,
+      "hover_w": 554.3851171812203,
       "fm_eta": 0.5786492993841978,
-      "tw_total": 2.0696649429964475,
-      "tw_front_motor": 1.8912540000867313,
-      "overall_length": 1.1962,
-      "disk_loading_n_m2": 82.56608286672743
+      "tw_total": 1.58946873522165,
+      "tw_front_motor": 1.372127967975351,
+      "overall_length": 1.3062,
+      "hover_min": 25.247431011797268,
+      "bench_ratio_front": 1.8468281138394345,
+      "disk_loading_n_m2": 107.51021608863276
     },
     {
+      "option": "MN4014 KV400 + 15x5",
+      "selected": true,
       "prop_in": 15,
-      "hover_w": 374.029118707001,
-      "fm_eta": 0.5402870420607393,
-      "tw_total": 2.2491156605972957,
-      "tw_front_motor": 2.0552355607878927,
-      "overall_length": 1.2469999999999999,
-      "disk_loading_n_m2": 71.92423218612699
+      "auw": 4.649655939658991,
+      "hover_w": 515.3831748558339,
+      "fm_eta": 0.6420779294843525,
+      "tw_total": 2.2539302124725835,
+      "tw_front_motor": 1.945732315374537,
+      "overall_length": 1.3570000000000002,
+      "hover_min": 27.1580460575091,
+      "bench_ratio_front": 1.12031854678859,
+      "disk_loading_n_m2": 100.02072563158517
+    },
+    {
+      "option": "MN4014 KV400 + 16x5.4",
+      "selected": false,
+      "prop_in": 16,
+      "auw": 4.66965593965899,
+      "hover_w": 486.71448276146157,
+      "fm_eta": 0.6422698707350519,
+      "tw_total": 2.5869143585945142,
+      "tw_front_motor": 2.2331848771404514,
+      "overall_length": 1.4078000000000002,
+      "hover_min": 28.757722434283558,
+      "bench_ratio_front": 0.9974623029638038,
+      "disk_loading_n_m2": 88.28697140701891
+    },
+    {
+      "option": "MN4014 KV400 + 17x5.8",
+      "selected": false,
+      "prop_in": 17,
+      "auw": 4.689655939658991,
+      "hover_w": 514.0430549507859,
+      "fm_eta": 0.5753915367481586,
+      "tw_total": 2.8658818840721376,
+      "tw_front_motor": 2.474006942641064,
+      "overall_length": 1.4586000000000001,
+      "hover_min": 27.22884759398227,
+      "bench_ratio_front": 0.9231670005700582,
+      "disk_loading_n_m2": 78.54071312556063
     }
   ],
   "batteries": [
     {
-      "battery": "6S1P Molicel P50B",
-      "wh": 108.0,
-      "pack_kg": 0.455,
-      "auw": 2.938536364867479,
-      "hover_w": 310.0516336198319,
-      "hover_min": 16.719795794904066,
-      "hover_amps": 14.76436350570628,
-      "max_cont_a": 60,
-      "meets_15min": true
-    },
-    {
-      "battery": "6S LiPo 5000 mAh (CNHL G+)",
-      "wh": 111.0,
-      "pack_kg": 0.811,
-      "auw": 3.294536364867479,
-      "hover_w": 366.19748582033935,
-      "hover_min": 14.549526433979883,
-      "hover_amps": 17.437975515254255,
-      "max_cont_a": 500,
-      "meets_15min": false
-    },
-    {
       "battery": "6S2P Molicel P45B",
       "wh": 194.4,
       "pack_kg": 0.86,
-      "auw": 3.3435363648674787,
-      "hover_w": 374.1736071143084,
-      "hover_min": 24.938156573799603,
-      "hover_amps": 17.81779081496707,
+      "auw": 4.219655939658991,
+      "auw_lb": 9.302748940990764,
+      "hover_w": 446.9232089038267,
+      "hover_min": 20.87875459161482,
+      "hover_amps": 21.28205756684889,
       "max_cont_a": 90,
+      "peak_a": 103.31263322394042,
+      "peak_ok": false,
+      "tw_front_motor": 2.144010304759298,
       "meets_15min": true
     },
     {
-      "battery": "6S2P Molicel P50B",
-      "wh": 216.0,
-      "pack_kg": 0.88,
-      "auw": 3.3635363648674788,
-      "hover_w": 377.44604939448226,
-      "hover_min": 27.468826383619227,
-      "hover_amps": 17.97362139973725,
-      "max_cont_a": 120,
+      "battery": "6S LiPo 10000 mAh",
+      "wh": 222.0,
+      "pack_kg": 1.3,
+      "auw": 4.6596559396589905,
+      "auw_lb": 10.272782894604225,
+      "hover_w": 517.0144401007828,
+      "hover_min": 20.610642901816828,
+      "hover_amps": 24.61973524289442,
+      "max_cont_a": 250,
+      "peak_a": 103.31263322394042,
+      "peak_ok": true,
+      "tw_front_motor": 1.941556615836693,
+      "meets_15min": true
+    },
+    {
+      "battery": "6S3P Molicel P45B",
+      "wh": 291.6,
+      "pack_kg": 1.29,
+      "auw": 4.649655939658991,
+      "auw_lb": 10.250736668385738,
+      "hover_w": 515.3831748558339,
+      "hover_min": 27.1580460575091,
+      "hover_amps": 24.542055945515898,
+      "max_cont_a": 135,
+      "peak_a": 103.31263322394042,
+      "peak_ok": true,
+      "tw_front_motor": 1.945732315374537,
+      "meets_15min": true
+    },
+    {
+      "battery": "6S3P Molicel P50B",
+      "wh": 324.0,
+      "pack_kg": 1.32,
+      "auw": 4.679655939658991,
+      "auw_lb": 10.3168753470412,
+      "hover_w": 520.2822227773622,
+      "hover_min": 29.89146912800626,
+      "hover_amps": 24.775343941779152,
+      "max_cont_a": 180,
+      "peak_a": 103.31263322394042,
+      "peak_ok": true,
+      "tw_front_motor": 1.933258755306467,
+      "meets_15min": true
+    },
+    {
+      "battery": "6S4P Molicel P45B",
+      "wh": 388.8,
+      "pack_kg": 1.72,
+      "auw": 5.07965593965899,
+      "auw_lb": 11.19872439578071,
+      "hover_w": 587.086611535495,
+      "hover_min": 31.788154649259415,
+      "hover_amps": 27.956505311214045,
+      "max_cont_a": 180,
+      "peak_a": 103.31263322394042,
+      "peak_ok": true,
+      "tw_front_motor": 1.781023345800661,
       "meets_15min": true
     }
   ],
   "pusher": {
-    "f_transition_n": 8.546113826567536,
-    "t_static_req_n": 15.430483297969165,
-    "t_static_req_g": 1572.9340772649505,
-    "climb_thrust_n": 7.92818591541616,
-    "static_rpm": 10186.16924225518,
-    "static_shaft_w": 411.9048828780278,
-    "static_elec_w": 502.32302790003394,
-    "kv_needed": 606.3195977532845,
-    "pitch_speed_static_ms": 30.185014854549514,
-    "cruise_thrust_n": 2.4615039588578322
+    "f_transition_n": 11.882972311047318,
+    "t_static_req_n": 21.455366672724328,
+    "t_static_req_g": 2187.0914039474337,
+    "climb_thrust_n": 11.01997458784382,
+    "static_rpm": 8341.162876633725,
+    "static_shaft_w": 519.5031752086115,
+    "static_elec_w": 633.5404575714775,
+    "kv_needed": 496.49779027581695,
+    "pitch_speed_static_ms": 28.24873827553288,
+    "cruise_thrust_n": 3.4177871265013704
   },
   "hover_point": {
-    "front_g": 951.326474348496,
-    "rear_g": 787.312435382593,
-    "front_w": 99.88326232008488,
-    "rear_w": 75.20020263871727,
-    "front_throttle_frac_thrust": 0.5498996961552001
+    "front_g": 1400.398183485738,
+    "rear_g": 1017.4229051369375,
+    "front_w": 150.05142312566088,
+    "rear_w": 92.92125709349003,
+    "front_rpm": 4763.029558219113,
+    "rear_rpm": 4059.833871381733,
+    "front_throttle_frac_thrust": 0.5345031234678389,
+    "hover_w": 515.3831748558339
   },
+  "selected_lift": "MN4014 KV400 + 15x5",
+  "selected_battery": "6S3P Molicel P45B",
   "bench": {
-    "13": [
-      810,
-      82.0
-    ],
-    "14": [
+    "MN3508-14": [
       710,
       64.4
     ],
-    "15": [
-      820,
-      79.9
+    "MN4014-15": [
+      1250,
+      126.54
+    ],
+    "MN4014-16": [
+      1410,
+      142.08
+    ],
+    "MN4014-17": [
+      1530,
+      168.72
     ]
   }
 }

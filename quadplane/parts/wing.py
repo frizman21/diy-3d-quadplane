@@ -1,7 +1,7 @@
 """Wing: 3 segments per side (root, mid, tip; <= 300 mm span each, printed span-up),
 plus one aileron per side.
 
-Features: 16 mm main-spar bore (y 0 -> 0.65 m), coaxial 8 mm tip-tube bore (0.60 -> 0.88 m),
+Features: main-spar bore (y 0 -> 0.65 m), coaxial 8 mm tip-tube bore (0.60 -> 0.88 m),
 aileron cut-out with 1 mm hinge gap, aileron servo pocket (EMAX ES08MD II class),
 2 x M4 wing-bolt holes in the root segment.
 Print: LW-PLA, 1-2 walls, 0-3% gyroid infill (slicer turns the solid into a light shell).
@@ -61,8 +61,8 @@ def segment(y0: float, y1: float) -> Part:
         p -= Pos(xs, mm(SERVO_Y + y0) / 2 - 1, zb + 6) * Box(6, mm(SERVO_Y - y0) + 4, 6)
     # wing bolts through the root segment into the fuselage saddle
     if y0 == 0.0:
-        for x in (-25.0, mm(-0.80 * W.root_chord)):
-            p -= Pos(x, 30.0, 0) * Cylinder(2.2, 80)
+        for x in G.WING_BOLT_X:
+            p -= Pos(x, 30.0, 0) * Cylinder(2.2, 100)
     return p
 
 

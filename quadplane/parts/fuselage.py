@@ -2,7 +2,7 @@
 
 - Wing saddle: the wing root's lower surface is cut into the pod top; 2 x M4 heat-set
   inserts take the wing bolts.
-- Split into nose and rear halves (each ~310 mm) joined by a glued internal collar.
+- Split into nose and rear halves (each 335 mm, under the bed height) joined by a glued internal collar.
 - Battery bay in the nose with a bottom hatch; the battery slides fore-aft on the floor to set CG.
 - Rear firewall carries the pusher motor (cross pattern M3).
 - Camera cradle (TPU) under the nose for the Insta360 GO 3S.
@@ -21,8 +21,9 @@ from quadplane.params import AIRCRAFT as AC, mm
 MATERIAL = printer.PETG
 F = AC.fuselage
 WALL = 1.2
-X_SPLIT = -0.073
-HATCH = (0.20, -0.04, 0.072)  # x_front, x_rear, width (m)
+X_SPLIT = (F.x_nose + F.x_tail) / 2  # two equal halves, each standing on the split face
+# x_front, x_rear, width (m): the pack plus 6 mm passes through; opening spans the slide range
+HATCH = (F.x_nose - 0.05, X_SPLIT + 0.03, (HW.BATTERY[1] + 6.0) / 1000)
 
 
 def _profile(xs):
@@ -65,12 +66,14 @@ def pod_shell() -> Part:
     for y in (mm(F.width) / 2 - 5, -mm(F.width) / 2 + 5):
         r = Pos(mm(-0.12), y, mm(F.z_top) - 5) * Box(mm(0.22), 6, 10)
         saddle = r if saddle is None else saddle + r
-    for x in (-25.0, mm(-0.80 * AC.wing.root_chord)):
+    for x in G.WING_BOLT_X:
         for y in (30.0, -30.0):
             saddle += Pos(x, y, mm(F.z_top) - 7) * Cylinder(6.0, 14)
+        # cross-web under the wing ties the two bolt bosses to both pod side walls
+        saddle += Pos(x, 0, mm(F.z_top) - 7) * Box(2 * WALL, mm(F.width), 14)
     saddle -= wing_root
     shell += saddle & outer
-    for x in (-25.0, mm(-0.80 * AC.wing.root_chord)):
+    for x in G.WING_BOLT_X:
         for y in (30.0, -30.0):
             shell -= Pos(x, y, mm(F.z_top) - 8) * Cylinder(HW.M3_INSERT_HOLE / 2 + 0.6, 14)  # M4 insert
     # pusher firewall (closed end) with motor pattern and centre hole
@@ -78,7 +81,7 @@ def pod_shell() -> Part:
     zt = mm(AC.pusher.z_thrust)
     wall = Pos(xf + 1.5, 0, zt) * Box(3.0, 60, 60)
     shell += wall & outer
-    a, b = HW.X2820_BOLT_PATTERN
+    a, b = HW.PUSHER_BOLT_PATTERN
     for dy, dz in ((a / 2, 0), (-a / 2, 0), (0, b / 2), (0, -b / 2)):
         shell -= Pos(xf + 1.5, dy, zt + dz) * (Rot(0, 90, 0) * Cylinder(1.7, 10))
     shell -= Pos(xf + 1.5, 0, zt) * (Rot(0, 90, 0) * Cylinder(5.0, 10))
@@ -86,7 +89,7 @@ def pod_shell() -> Part:
     hx0, hx1, hw = HATCH
     shell -= Pos(mm((hx0 + hx1) / 2), 0, mm(F.z_top - F.height)) * Box(mm(hx0 - hx1), mm(hw), 40)
     # cooling / wiring holes in the rear cone (ESC air)
-    shell -= Pos(mm(-0.32), 0, mm(F.z_top - F.height) + 5) * Box(30, 12, 20)
+    shell -= Pos(mm(F.x_tail + 0.08), 0, mm(F.z_top - F.height) + 5) * Box(30, 12, 20)
     return shell
 
 
@@ -103,11 +106,16 @@ def hatch() -> Part:
     return h
 
 
+def camera_station() -> tuple[float, float]:
+    """Camera pocket centre x and the cradle top z (mm): pod bottom at that station."""
+    x0 = mm(F.x_nose) - 30 - HW.GO3S_SIZE[0] / 2
+    w_, h_, zc_ = _profile(np.array([x0 / 1000]))
+    return x0, mm(zc_[0] - h_[0] / 2) + 1.0  # +1 mm embed for gluing
+
+
 def camera_cradle() -> Part:
     L, Wd, H = HW.GO3S_SIZE
-    x0 = mm(F.x_nose) - 30 - L / 2
-    w_, h_, zc_ = _profile(np.array([x0 / 1000]))
-    zb = mm(zc_[0] - h_[0] / 2) + 1.0  # pod bottom at the cradle station (+1 mm embed for gluing)
+    x0, zb = camera_station()
     body = Pos(x0, 0, zb - H / 2 - 2) * Box(L + 6, Wd + 6, H + 4)
     body -= Pos(x0 + 3, 0, zb - H / 2 - 2) * Box(L + 6, Wd + 0.4, H + 0.4)  # pocket, open at the front
     body -= Pos(x0, 0, zb - H - 3) * Box(L - 14, Wd - 8, 6)  # bottom window (button / SD access)
@@ -127,8 +135,10 @@ def make() -> dict[str, Part]:
     pl = Plane(origin=(mm(X_SPLIT), 0, mm(zc[0])), x_dir=(0, 1, 0), z_dir=(-1, 0, 0))
     ww, hh = mm(w[0]) - 2 * WALL - 0.4, mm(h[0]) - 2 * WALL - 0.4
     from build123d import extrude
-    collar = extrude(pl * RectangleRounded(ww, hh, min(ww, hh) * 0.35), amount=10, both=True)
-    collar -= extrude(pl * RectangleRounded(ww - 3.2, hh - 3.2, min(ww, hh) * 0.3), amount=11, both=True)
+    r_out, t_collar = min(ww, hh) * 0.35, 1.6
+    collar = extrude(pl * RectangleRounded(ww, hh, r_out), amount=10, both=True)
+    collar -= extrude(pl * RectangleRounded(ww - 2 * t_collar, hh - 2 * t_collar, r_out - t_collar),
+                      amount=11, both=True)
     return {"fuselage_nose": nose, "fuselage_rear": rear, "fuselage_collar": collar, "battery_hatch": hatch(),
             "camera_cradle": camera_cradle()}
 

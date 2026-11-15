@@ -13,6 +13,8 @@ B = AC.booms
 # Wing segment boundaries (left side, y >= 0), m. Each segment <= 300 mm span (prints span-up).
 WING_STATIONS = [0.0, 0.30, 0.60, AC.wing.semi_span]
 SPAR_X = -mm(0.27 * W.root_chord)  # straight spar line, ~27-28% local chord
+# Wing bolts (x, mm): front bolt behind the LE, rear bolt ahead of where the pod tail cone drops away
+WING_BOLT_X = (-25.0, -mm(0.40 * W.root_chord))
 
 
 def chord_at(y: float) -> float:

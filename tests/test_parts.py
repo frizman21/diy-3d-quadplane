@@ -23,8 +23,8 @@ def test_part_is_valid_and_fits_bed(cache, module, name):
 
 
 def test_layout_constraints():
-    assert AC.wing.span <= 1.9, "SIZE-1 doorway"
-    assert AC.overall_length <= 1.20 + 1e-6, "SIZE-2 Suburban (estimated)"
+    assert AC.wing.span <= AC.limits.span, "SIZE-1 doorway"
+    assert AC.overall_length <= AC.limits.length + 1e-6, "SIZE-2 Suburban (estimated)"
     assert abs(AC.booms.x_rear - (AC.x_tail_le - AC.tail.v_root_chord)) < 1e-3, "boom ends at the fin TE"
     assert AC.booms.x_front >= AC.x_lift_front, "front motor mount sits on the boom"
 

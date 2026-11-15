@@ -1,72 +1,138 @@
 {
   "spar": {
     "n_ultimate": 6.0,
-    "root_moment_ult_nm": 39.92996989426989,
-    "root_shear_ult_n": 100.06199999999998,
-    "root_stress_mpa": 239.9547690358416,
-    "ms_root": 0.6669808297923545,
+    "root_moment_ult_nm": 56.38544622642914,
+    "root_shear_ult_n": 141.26399999999995,
+    "root_stress_mpa": 208.75888305620123,
+    "ms_root": 0.91608612837957,
     "spar_end_y": 0.65,
-    "moment_at_spar_end_nm": 2.1799429536444874,
+    "moment_at_spar_end_nm": 3.080545236562815,
     "outer_tube": "8x6",
-    "outer_stress_mpa": 63.4420474022156,
-    "ms_outer": 5.304966759096597,
-    "spar_end_deflection_limit_mm": 34.77195189816918,
-    "spar_length_m": 1.3
+    "outer_stress_mpa": 89.65193176085285,
+    "ms_outer": 3.461699732996304,
+    "spar_end_deflection_limit_mm": 24.203895343161097,
+    "spar_length_m": 1.3,
+    "spar_tube": "20x18",
+    "spar_i_mm4": 2700.984283923826,
+    "spar_kg": 0.12027587474268532,
+    "candidates": [
+      {
+        "tube": "16x14",
+        "root_stress_mpa": 338.84214694054333,
+        "ms_root": 0.18049069046356858,
+        "kg": 0.09495463795475145
+      },
+      {
+        "tube": "18x16",
+        "root_stress_mpa": 262.12154926866094,
+        "ms_root": 0.5260095978984956,
+        "kg": 0.10761525634871832
+      },
+      {
+        "tube": "20x18",
+        "root_stress_mpa": 208.75888305620123,
+        "ms_root": 0.91608612837957,
+        "kg": 0.12027587474268532
+      },
+      {
+        "tube": "22x20",
+        "root_stress_mpa": 170.16030569129595,
+        "ms_root": 1.3507245028442658,
+        "kg": 0.13293649313665198
+      }
+    ]
   },
   "booms": [
     {
-      "tube": "12x10",
-      "kg_per_m": 0.053564154743705975,
-      "f1_low_hz": 47.24697686445846,
-      "f1_nom_hz": 53.57303613556258,
-      "clear_of_1p": false,
-      "stress_ult_mpa": 58.777778654562084
-    },
-    {
       "tube": "16x14",
       "kg_per_m": 0.07304202919596266,
-      "f1_low_hz": 74.86128489962496,
-      "f1_nom_hz": 84.88471828764112,
+      "f1_low_hz": 54.21722538147784,
+      "f1_nom_hz": 61.476555057998304,
       "clear_of_1p": false,
-      "stress_ult_mpa": 31.024495163981243
+      "stress_ult_mpa": 49.927432746563866,
+      "separation": 0.6097997464350964,
+      "selected": false
     },
     {
       "tube": "18x16",
       "kg_per_m": 0.08278096642209101,
-      "f1_low_hz": 90.13922247548236,
-      "f1_nom_hz": 102.20827116122153,
+      "f1_low_hz": 65.31524322616347,
+      "f1_nom_hz": 74.06052445633914,
       "clear_of_1p": false,
-      "stress_ult_mpa": 23.999932744753263
+      "stress_ult_mpa": 38.6228695004479,
+      "separation": 0.734622963042073,
+      "selected": false
     },
     {
       "tube": "20x18",
       "kg_per_m": 0.09251990364821948,
-      "f1_low_hz": 106.30566212394444,
-      "f1_nom_hz": 120.5392906877209,
+      "f1_low_hz": 77.06847043280214,
+      "f1_nom_hz": 87.38743143828383,
       "clear_of_1p": false,
-      "stress_ult_mpa": 19.11402998798641
+      "stress_ult_mpa": 30.760031442797956,
+      "separation": 0.8668155442738457,
+      "selected": false
     },
     {
-      "tube": "20x17",
-      "kg_per_m": 0.13512775401253097,
-      "f1_low_hz": 124.49892271703743,
-      "f1_nom_hz": 141.1685091448847,
+      "tube": "22x20",
+      "kg_per_m": 0.10225884087434768,
+      "f1_low_hz": 89.43796580538165,
+      "f1_nom_hz": 101.41312083794507,
+      "clear_of_1p": false,
+      "stress_ult_mpa": 25.072640151898412,
+      "separation": 1.0059395051304991,
+      "selected": false
+    },
+    {
+      "tube": "25x23",
+      "kg_per_m": 0.11686724671354051,
+      "f1_low_hz": 109.07609347417925,
+      "f1_nom_hz": 123.68066456362008,
+      "clear_of_1p": false,
+      "stress_ult_mpa": 19.097297106402028,
+      "separation": 1.2268162687168545,
+      "selected": false
+    },
+    {
+      "tube": "28x26",
+      "kg_per_m": 0.131475652552733,
+      "f1_low_hz": 129.9320552149883,
+      "f1_nom_hz": 147.3291023290166,
       "clear_of_1p": true,
-      "stress_ult_mpa": 13.751884648844321
+      "stress_ult_mpa": 15.027625305377466,
+      "separation": 1.4613904301889806,
+      "selected": true
     },
     {
-      "tube": "18x15",
-      "kg_per_m": 0.1205193481733384,
-      "f1_low_hz": 105.19216020895712,
-      "f1_nom_hz": 119.27669819424203,
-      "clear_of_1p": false,
-      "stress_ult_mpa": 17.415638119870252
+      "tube": "30x28",
+      "kg_per_m": 0.14121458977886106,
+      "f1_low_hz": 144.47314533005624,
+      "f1_nom_hz": 163.8171487159806,
+      "clear_of_1p": true,
+      "stress_ult_mpa": 12.996610877031165,
+      "separation": 1.624939062614711,
+      "selected": false
+    },
+    {
+      "tube": "25x22",
+      "kg_per_m": 0.17164876861051254,
+      "f1_low_hz": 128.85174642462212,
+      "f1_nom_hz": 146.1041473011026,
+      "clear_of_1p": true,
+      "stress_ult_mpa": 13.530015301214705,
+      "separation": 1.4492398263577864,
+      "selected": false
     }
   ],
   "hover_1p_band_hz": [
-    63.333333333333336,
-    86.66666666666667
+    59.54423011359874,
+    88.90988508675677
   ],
+  "boom_model": {
+    "overhang_m": 0.2155,
+    "tip_mass_kg": 0.23700000000000002
+  },
+  "design_mass": 4.8,
   "E_low": 70000000000.0,
   "E_nom": 90000000000.0,
   "sigma_allow_mpa": 400.0
