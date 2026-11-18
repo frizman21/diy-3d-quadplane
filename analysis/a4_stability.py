@@ -15,6 +15,7 @@ from analysis import avl
 from analysis import mass as M
 from analysis.common import RHO, G, plt, save_json, savefig
 from analysis.model import airplane
+from quadplane import hardware as HW
 from quadplane.params import AIRCRAFT as AC
 
 SM_TARGET = 0.10  # QuadPlane practice 10-15% MAC; 10% keeps the battery inside the nose
@@ -74,7 +75,7 @@ def main():
 
     # place the battery to hit x_cg (limited by the nose: pack front >= 50 mm behind the tip)
     xb = M.battery_x_for_cg(x_cg)
-    xb_max = AC.fuselage.x_nose - 0.050 - 0.070  # pack front 50 mm behind the nose tip (fits 77x85 mm section)
+    xb_max = AC.fuselage.x_nose - 0.050 - HW.BATTERY[0] / 2000  # pack front 50 mm behind the nose tip
     if xb > xb_max:
         print(f"WARNING: battery x {xb:+.3f} beyond forward limit {xb_max:+.3f}; CG will be aft of target")
         xb = xb_max
@@ -115,7 +116,7 @@ def main():
         "vh": AC.tail.h_span * AC.tail.h_chord * (-(AC.x_tail_le - 0.25 * AC.tail.h_chord) + cg[0])
         / (w.area * w.mac),
         "vv": 2 * AC.tail.v_height * (AC.tail.v_root_chord + AC.tail.v_tip_chord) / 2
-        * (-(AC.x_tail_le - 0.25 * AC.tail.v_root_chord) + cg[0]) / (w.area * w.span),
+        * (-(AC.x_fin_le - 0.25 * AC.tail.v_root_chord) + cg[0]) / (w.area * w.span),
     }
     save_json("stability", res)
     print(f"mass {total:.3f} kg  CL_trim {cl_trim:.3f}")

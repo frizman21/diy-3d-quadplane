@@ -25,6 +25,8 @@ a 3D-printed VTOL quadplane.
 - `docs/AerodynamicsReport.md` has the analysis. Its numbers come from
   `analysis/results/*.json`, so update the report when the results change.
 - `docs/cots-selection.md` has the bought-part (COTS) selections.
+- `docs/build-instructions.md` has the printing and assembly steps. Its dimensions and part
+  table come from params and `make build`, so update it when the design changes.
 - Rule D-000: design v1 for v1 alone. The future 150 kg aircraft matters only for expensive purchases.
 
 ## Analysis loop (keep it closed)

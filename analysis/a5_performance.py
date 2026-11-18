@@ -15,7 +15,7 @@ from analysis.model import EXCRESCENCE_CD, airplane
 from quadplane.params import AIRCRAFT as AC
 
 ETA_CRUISE = 0.55  # prop 0.68 x motor 0.83 x ESC 0.97 at part load (conservative vs sizing 0.62)
-BATTERY_WH = 194.4
+BATTERY_WH = M.BATTERY_WH  # 6S1P Molicel P50B (D-037)
 CLMAX_3D_FACTOR = 0.88
 
 
@@ -57,7 +57,7 @@ def main():
     usable = BATTERY_WH * (1 - AC.mission.reserve_frac)
 
     # mission: 60 s hover takeoff + 20 s transition + cruise + 20 s back-transition + 60 s landing hover
-    p_hover = hover_power(m, 14, front_share=stab["hover_front_share"])
+    p_hover = hover_power(m, front_share=stab["hover_front_share"])
     e_vtol = p_hover * (60 + 60 + 0.6 * 40) / 3600  # transitions ~60% hover power for 40 s total
     e_cruise = usable - e_vtol
     t_end = e_cruise / p_elec[i_end] * 60
@@ -69,18 +69,20 @@ def main():
     # climb rate at 15 m/s with full pusher (dynamic thrust ~ T0 (1 - V/Vp))
     prop = load_json("propulsion")["pusher"]
     t0 = prop["t_static_req_n"] / 1.0
-    vp = 28.0
+    vp = prop["pitch_speed_flight_ms"]
     thrust = np.clip(t0 * (1 - v / vp), 0, None)
     roc = (thrust - drag) * v / W
     v_max = float(v[np.nanargmax(np.where(thrust - drag > 0, v, np.nan))]) if np.any(thrust > drag) else float("nan")
 
     res = {
-        "mass": m, "S": S, "AR": w.aspect_ratio, "mac": w.mac, "wing_loading_gdm2": m * 1e3 / (S * 1e2),
+        "mass": m, "mass_lb": m / 0.45359237, "S": S, "AR": w.aspect_ratio, "mac": w.mac, "wing_loading_gdm2": m * 1e3 / (S * 1e2),
         "clmax_3d": clmax, "vs": vs, "cd0": cd0, "k": k, "e_eff": e_eff,
         "ld_max": float(np.nanmax(ld)), "v_ld_max": float(v[np.nanargmax(ld)]),
         "v_min_power": float(v[i_end]), "p_min_elec": float(p_elec[i_end]),
         "v_max_range": float(v[i_rng]), "p_at_range": float(p_elec[i_rng]),
         "v_cruise": v_cruise, "p_cruise_elec": p_cruise, "cl_cruise": float(W / (0.5 * RHO * 18 ** 2 * S)),
+        "p_15_elec": float(np.interp(15.0, v, p_elec)), "cruise_endurance_min_at_15": e_cruise / float(np.interp(15.0, v, p_elec)) * 60,
+        "usable_wh": usable, "drag_18_n": float(np.interp(18.0, v, drag)),
         "p_hover": p_hover, "hover_min": usable / p_hover * 60,
         "e_vtol_wh": e_vtol, "cruise_endurance_min_at_vmp": t_end, "cruise_endurance_min_at_18": t_cruise,
         "range_km_at_vmr": range_km, "roc_max": float(np.nanmax(roc)), "v_roc_max": float(v[np.nanargmax(roc)]),
@@ -102,7 +104,7 @@ def main():
     axs[1].axvline(vs, color="0.5", ls=":", label=f"Vs {vs:.1f} m/s")
     axs[1].plot(v[i_end], p_elec[i_end], "go", label=f"min power {v[i_end]:.1f} m/s")
     axs[1].plot(v[i_rng], p_elec[i_rng], "bs", label=f"max range {v[i_rng]:.1f} m/s")
-    axs[1].set(xlabel="airspeed (m/s)", ylabel="W", title="Power required", ylim=(0, 430))
+    axs[1].set(xlabel="airspeed (m/s)", ylabel="W", title="Power required", ylim=(0, 1.15 * p_hover))
     axs[1].legend(fontsize=8)
     axs[2].plot(v, roc, "k")
     axs[2].set(xlabel="airspeed (m/s)", ylabel="m/s", title="Rate of climb (pusher only)")

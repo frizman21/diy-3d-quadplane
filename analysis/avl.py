@@ -68,8 +68,9 @@ def write_geometry(td: Path, mach: float = 0.0, xyz_ref=None, wing=None, tail=No
         lines += ["SECTION", f"{xt:.5f} {y:.5f} {t.h_z:.5f} {t.h_chord:.5f} 0", "AFILE", afh,
                   "CONTROL", f"elevator 1.0 {he:.3f} 0 0 0 1"]
     lines += ["SURFACE", "Fin", "8 1.0 8 1.0", "YDUPLICATE", "0.0"]
-    lines += ["SECTION", f"{xt:.5f} {b.y:.5f} {b.z:.5f} {t.v_root_chord:.5f} 0", "AFILE", afv,
-              "SECTION", f"{xt + t.v_root_chord - t.v_tip_chord:.5f} {b.y:.5f} "
+    xf = -AC.x_fin_le
+    lines += ["SECTION", f"{xf:.5f} {b.y:.5f} {b.z:.5f} {t.v_root_chord:.5f} 0", "AFILE", afv,
+              "SECTION", f"{xf + t.v_root_chord - t.v_tip_chord:.5f} {b.y:.5f} "
                          f"{b.z - t.v_height:.5f} {t.v_tip_chord:.5f} 0", "AFILE", afv]
     p = td / "qp.avl"
     p.write_text("\n".join(lines) + "\n")

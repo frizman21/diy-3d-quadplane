@@ -2,8 +2,11 @@
 
 Parametric CAD and engineering analysis for a 3D-printed twin-boom quadplane:
 
-- 1.80 m span, about 3.3 kg.
-- Four lift motors and a pusher.
+- 1.30 m span, 1.07 m long, about 5 lb (2.34 kg) with battery and electronics.
+- Sized around lift motors that cost $29 each: five identical SunnySky V2806 KV400 motors,
+  four for lift and one as the pusher, on a 6S 5 Ah Li-ion pack.
+- Carbon tubes are all stock sizes from one supplier, none longer than 1000 mm.
+- The earlier 10 lb design is in the git history (commit `18e85e6`).
 - ArduPilot QuadPlane.
 
 Everything (CAD, XFOIL, AVL, AeroSandbox) runs in Docker, driven by one parameter file.
@@ -17,6 +20,7 @@ Everything (CAD, XFOIL, AVL, AeroSandbox) runs in Docker, driven by one paramete
 | [docs/requirements.md](docs/requirements.md) | requirements, with IDs |
 | [docs/AerodynamicsReport.md](docs/AerodynamicsReport.md) | airfoil, sizing, propulsion, stability, performance and structures analysis |
 | [docs/cots-selection.md](docs/cots-selection.md) | bought-part (COTS) selections and the reasons for them |
+| [docs/build-instructions.md](docs/build-instructions.md) | printing, assembly, weigh-and-balance and pre-flight checks |
 | [docs/decisions.md](docs/decisions.md) | decision log |
 
 ## Quick start (needs only Docker Desktop)

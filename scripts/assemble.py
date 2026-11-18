@@ -106,7 +106,7 @@ def main():
     render(meshes, "iso", 28, -125, "QP-1 quadplane: isometric (front-left)", zoom=1.9)
     render(meshes, "iso_rear", 22, -35, "QP-1: rear three-quarter", zoom=1.9)
     render(meshes, "top", 90, -90, "QP-1: top view", zoom=1.45)
-    render(meshes, "side", 0, -90, "QP-1: side view (left)", zoom=2.4)
+    render(meshes, "side", 0, -90, "QP-1: side view (left)", zoom=2.0)
     render(meshes, "front", 0, 0, "QP-1: front view", zoom=1.6)
     render(meshes, "rear", 0, 180, "QP-1: rear view", zoom=1.6)
     nose = {k: v for k, v in meshes.items() if not k.startswith(("wing_tip", "aileron", "prop"))}
