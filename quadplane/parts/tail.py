@@ -2,11 +2,10 @@
 horizontal stabiliser in two halves on an 8x6 carbon spar, with two elevator halves joined by
 a 4 mm carbon torque rod.
 
-The boom is a 1000 mm catalogue tube and ends 30 mm behind the stab LE. Each fin sleeves over
-the last 85 mm of the boom and continues aft of the boom end as a solid stub that carries the
-stab-spar boss.
+The boom ends about 30 mm behind the stab LE. Each fin sleeves over the last 85 mm of the boom
+and continues aft of the boom end as a solid stub; the stab-spar boss sits on the sleeve.
 
-Print: LW-PLA throughout (fins carry only ~8 N landing load each); TPU skid shoes on the fin tips.
+Print: LW-PLA throughout (fins carry only ~4 N landing load each); TPU skid shoes on the fin tips.
 """
 
 from build123d import Box, Cylinder, Face, Part, Plane, Pos, Rot, Vector, Wire, loft, mirror

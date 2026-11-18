@@ -1,7 +1,7 @@
-"""Wing: 3 segments per side (root, mid, tip; 230-240 mm span each, printed span-up),
+"""Wing: 3 segments per side (root to the boom, then mid and tip; printed span-up),
 plus one aileron per side.
 
-Features: main-spar bore (y 0 -> 0.30 m), coaxial 10 mm tip-tube bore (0.18 -> 0.68 m),
+Features: main-spar bore (y 0 -> 0.25 m), coaxial 10 mm tip-tube bore (0.13 -> 0.63 m),
 aileron cut-out with 1 mm hinge gap, aileron servo pocket (EMAX ES08MD II class, on its side),
 2 x M4 wing-bolt holes in the root segment.
 Print: LW-PLA, 1-2 walls, 0-3% gyroid infill (slicer turns the solid into a light shell).

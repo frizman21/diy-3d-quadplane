@@ -33,9 +33,9 @@ class LiftOption:
 OPTIONS = {
     "MN3508-14": LiftOption("MN3508 KV380 + 14x4.8", "MN3508 KV380", 14, 710, 64.4, 0, 1730, 310, 0.103, 0.020),
     # SunnySky V2806 KV400, the seller's bench tables at 22.2 V with EOLO CN props. Motor mass
-    # includes 3 g of cable; prop masses are estimates.  # VERIFY
+    # includes 3 g of cable; the 11 and 13 in prop masses are estimates.  # VERIFY
     "V2806-11": LiftOption("V2806 KV400 + 11x4.5", "SunnySky V2806 KV400", 11, 600, 71, 5620, 834, 115, 0.050, 0.011),
-    "V2806-12": LiftOption("V2806 KV400 + 12x5", "SunnySky V2806 KV400", 12, 600, 71, 4828, 1120, 190, 0.050, 0.013),
+    "V2806-12": LiftOption("V2806 KV400 + 12x5", "SunnySky V2806 KV400", 12, 600, 71, 4828, 1120, 190, 0.050, 0.014),
     "V2806-13": LiftOption("V2806 KV400 + 13x5", "SunnySky V2806 KV400", 13, 600, 69, 4140, 1080, 173, 0.050, 0.015),
 }
 SELECTED = "V2806-12"  # D-037; its diameter must match params.Lift.prop_diameter

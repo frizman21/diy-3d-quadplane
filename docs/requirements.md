@@ -1,6 +1,6 @@
 # Requirements: Quadplane v1 (proof of concept)
 
-Status: **Draft rev C**, 2026-11-15 (10 lb class, D-025; sizing is in the [Aerodynamics report](AerodynamicsReport.md))
+Status: **Draft rev D**, 2026-11-18 (5 lb class around $29 lift motors, D-037; rev C was the 10 lb class; sizing is in the [Aerodynamics report](AerodynamicsReport.md))
 Owner: Mike
 
 Each requirement has an ID so the design and tests can refer to it. **Source** says
@@ -29,7 +29,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | PERF-4 | Wingborne endurance is whatever the design gives, not a design target. Report it after test flights. Expected to be several times the hover endurance. | Stated |
 | PERF-5 | Hover thrust-to-weight ratio of **at least 1.8** (all four lift motors at full throttle vs. takeoff weight), for control margin in gusts and during tuning. | Derived |
 | PERF-6 | Hover must stay controllable with no more than ~70% throttle at full takeoff weight. | Derived (from PERF-5) |
-| PERF-7 | Takeoff weight of **approximately 10 lb (4.5 kg)**, battery and electronics included. | Stated (rev C, D-025) |
+| PERF-7 | Takeoff weight of **approximately 5 lb (2.3 kg)**, battery and electronics included. It follows from BUILD-1c: it is the most the chosen lift motors carry with the PERF-5 margin. (Rev C was 10 lb.) | Stated (rev D, D-037) |
 
 ## 3. Payload
 
@@ -59,6 +59,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | BUILD-1 | **Buy off-the-shelf (COTS) parts** whenever they make the aircraft noticeably lighter or stronger than a printed part would. Expected COTS parts: carbon tubes for the wing spar and motor booms, motors, ESCs, props, flight controller, GPS, radio receiver, battery, and possibly carbon landing-gear legs. | Stated |
 | BUILD-1a | **All carbon tubes and rods come from one supplier, carbonkevlarsupply.com**, in sizes and lengths it stocks (nothing longer than 1000 mm). `make test` checks this. | Stated (rev C, D-033) |
 | BUILD-1b | **Bought parts are ordered in US dollars, from a US seller where one has the part in stock.** The price list in [cots-selection.md](cots-selection.md) §1 links each price to its listing. | Stated (D-036) |
+| BUILD-1c | **The four lift motors together cost about $100.** Selected: SunnySky V2806 KV400 at $28.99 each ($116). The aircraft is sized to these motors, not the other way round. | Stated (rev D, D-037) |
 | BUILD-2 | Printed parts must fit on a QIDI Max 4 bed (390 × 390 × 340 mm, minus a 5 mm margin; **VERIFY**). Anything larger is split into keyed segments. | Stated (printer) |
 | BUILD-3 | Available materials: PLA Basic, PETG Basic, plus any others needed (LW-PLA, ASA, PA-CF and TPU are planned). | Stated |
 | BUILD-4 | Assign materials by job: **LW-PLA** for thin aerodynamic skins; **PETG/ASA** for general structure; **ASA or PA-CF** for motor mounts and parts near heat sources (motors, ESCs, battery). PLA is not used for load-bearing parts near heat. | Derived |
@@ -73,7 +74,7 @@ landing gear, folding or detachable wings, and payloads other than the camera.
 | SYS-2 | **Flight software:** ArduPilot QuadPlane (owner has used ArduPilot before). **Flight controller:** Holybro Kakute H743-Wing (D-036; the Matek H7A3-WING of D-016 is end of life). | Stated |
 | SYS-3 | GPS with compass, needed for position hold in hover tuning and for return-to-launch. | Derived |
 | SYS-4 | Telemetry to a ground station for tuning and log review. Onboard logging enabled. | Derived (tuning goal) |
-| SYS-5 | **Battery:** a **6S3P 21700 Li-ion pack** (about 292 Wh, about 1.3 kg; D-028) meets PERF-1 with margin at 10 lb. The 6S2P pack (about 194 Wh, 860 g) is the light configuration. | Derived (Report §5.3) |
+| SYS-5 | **Battery:** a **6S1P 21700 Li-ion pack** (Molicel P50B, 108 Wh, about 450 g; D-037) meets PERF-1 at 5 lb with 11% margin. A larger pack is too heavy for the lift motors. | Derived (Report §5.3) |
 | SYS-6 | The battery is reachable through a hatch without tools and can slide fore and aft to set the balance point. | Derived |
 | SYS-7 | Arming safety: a safety switch or an equivalent arming procedure, and failsafes configured for loss of radio control link and low battery. | Derived |
 
@@ -118,10 +119,10 @@ pneumatic gimbal (up/down). Choose it for that future aircraft, not for v1.
 ## 9. Preliminary sizing (superseded)
 
 > **Superseded** by [AerodynamicsReport.md](AerodynamicsReport.md). The analysed design
-> (rev C, 10 lb class) is 4.59 kg / 10.12 lb (PERF-7 ✅), hovers 27.6 min (PERF-1 ✅), has a
-> 1.80 m span and 1.327 m length (SIZE-1 ✅; SIZE-2 against the unmeasured 1.4 m limit), and
-> a front-motor T/W of 1.88 (PERF-5 ✅). The original 2.75 kg estimate is kept below for
-> traceability.
+> (rev D, 5 lb class) is 2.34 kg / 5.17 lb (PERF-7 ✅), hovers 16.6 min (PERF-1 ✅), has a
+> 1.30 m span and 1.065 m length (SIZE-1 ✅, SIZE-2 ✅ even against the older 1.2 m limit),
+> and a thrust-to-weight of 1.84 on every lift motor (PERF-5 ✅). The original 2.75 kg
+> estimate is kept below for traceability.
 
 This first estimate checks that PERF-1 is achievable. These numbers become `quadplane/params.py`
 once the layout is reviewed.
@@ -155,7 +156,7 @@ A 6S1P pack (≈ 97 Wh) has no margin.
 
 ## 10. Open questions
 
-1. **Suburban cargo measurements (SIZE-2).** Using estimates for now. The rev C aircraft (1.327 m long) depends on about 1.4 m of usable width above the wheel wells; measure before printing.
+1. **Suburban cargo measurements (SIZE-2).** Using estimates for now. The rev D aircraft is 1.065 m long and 1.30 m in span, so it fits the estimated 1.25 m between the wheel wells; the measurement no longer blocks printing.
 2. ~~Radio~~: decided (D-010).
 3. ~~Camera model~~: decided (D-009).
 4. ~~Layout~~: decided (D-007).

@@ -29,7 +29,7 @@ class Wing:
     aileron_chord_frac: float = 0.25
     spar_od: float = 0.020  # §9: 20x18 roll-wrapped CF tube across the centre section (D-039)
     spar_id: float = 0.018
-    spar_half_length: float = 0.250  # §9: 500 mm cut from a 1000 mm catalogue tube (D-039)
+    spar_half_length: float = 0.250  # §9: one uncut 500 mm catalogue tube (D-039)
     spar_x_frac: float = 0.28  # spar centre at 28% local chord (near max thickness)
     tip_spar_od: float = 0.010  # §9: 10x8 CF tube in the outer panels, 500 mm uncut (D-039)
     tip_spar_id: float = 0.008

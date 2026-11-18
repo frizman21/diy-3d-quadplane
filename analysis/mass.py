@@ -21,7 +21,7 @@ PLA_PETG = 1.25
 BATTERY_MASS = 0.450  # 6S1P Molicel P50B: 6 cells at 70 g plus leads and wrap (the seller ships it at 500 g)
 BATTERY_WH = 6 * 3.6 * 5.0  # nominal energy of that pack (D-037)
 LIFT_MOTOR_MASS = 0.050  # SunnySky V2806 KV400: 47 g on the listing, plus cable
-LIFT_PROP_MASS = 0.013  # 12 in carbon-nylon multirotor prop
+LIFT_PROP_MASS = 0.014  # 12x4.5 carbon prop, the seller's figure
 PUSHER_MOTOR_MASS = LIFT_MOTOR_MASS + 0.008  # a fifth V2806 KV400 with its prop adapter (D-037)
 ESC_MASS = 0.008
 # pack centre: its top sits 12 mm under the pod top (quadplane/cots.py)
