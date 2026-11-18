@@ -18,22 +18,22 @@ def mm(x_m: float) -> float:
 @dataclass(frozen=True)
 class Wing:
     airfoil: str = "sd7032"  # Report §3 (airfoil trade)
-    span: float = 1.80  # §4: doorway limit 1.9 m less 0.1 m handling margin
-    center_span: float = 0.60  # constant-chord centre section between the booms
-    root_chord: float = 0.340  # §4: smallest chord meeting Vs <= 10.5 m/s at the 10 lb CAD mass (D-026)
-    tip_chord: float = 0.219  # §4: outer-panel taper 0.643; tip Re >= 1e5
+    span: float = 1.30  # §4: lightest planform meeting the stall-speed limit (D-038)
+    center_span: float = 0.58  # constant-chord centre section between the booms
+    root_chord: float = 0.240  # §4: the smallest chord that keeps the 20 mm spar inside the section (D-038)
+    tip_chord: float = 0.158  # §4: outer-panel taper 0.66; tip Re >= 1e5
     root_incidence_deg: float = 1.0  # §6: fuselage ~level at 18 m/s cruise
     tip_twist_deg: float = -2.0  # washout at the tip (§4: benign tip stall)
     dihedral_deg: float = 0.0  # §6: flat wing so one straight spar runs tip-to-tip
     aileron_span_frac: tuple = (0.55, 0.95)  # fraction of semi-span
     aileron_chord_frac: float = 0.25
-    spar_od: float = 0.020  # §9: 20x18 roll-wrapped CF tube, centre + inner outer panels (D-029)
+    spar_od: float = 0.020  # §9: 20x18 roll-wrapped CF tube across the centre section (D-039)
     spar_id: float = 0.018
-    spar_half_length: float = 0.500  # §9: one uncut 1000 mm catalogue tube (D-033)
+    spar_half_length: float = 0.250  # §9: 500 mm cut from a 1000 mm catalogue tube (D-039)
     spar_x_frac: float = 0.28  # spar centre at 28% local chord (near max thickness)
-    tip_spar_od: float = 0.014  # §9: 14x12 CF tube in the outer panels, 500 mm uncut (D-033)
-    tip_spar_id: float = 0.012
-    tip_spar_start: float = 0.380  # tip tube runs from here to 20 mm inside the tip (120 mm inside the spar)
+    tip_spar_od: float = 0.010  # §9: 10x8 CF tube in the outer panels, 500 mm uncut (D-039)
+    tip_spar_id: float = 0.008
+    tip_spar_start: float = 0.130  # tip tube runs from here to 20 mm inside the tip (120 mm inside the spar)
 
     @property
     def semi_span(self) -> float:
@@ -65,11 +65,11 @@ class Wing:
 
 @dataclass(frozen=True)
 class Booms:
-    y: float = 0.30  # lateral position of each boom (§5: prop clearance)
-    tube_od: float = 0.025  # §9: 25x23, the largest roll-wrapped tube the supplier stocks (D-033)
+    y: float = 0.29  # lateral position of each boom: the rear lift props clear the pusher prop (D-038)
+    tube_od: float = 0.025  # §9: 25x23 roll-wrapped; 20x18 puts the boom mode inside the 1P margin (D-039)
     tube_id: float = 0.023
-    length: float = 1.000  # uncut catalogue tube; front end inside the front motor clamp
-    x_rear: float = -0.7810  # = front motor + clamp overhang - length (checked in tests)
+    length: float = 0.840  # cut from a 1000 mm catalogue tube; front end inside the front motor clamp
+    x_rear: float = -0.6091  # = front motor + clamp overhang - length (checked in tests)
     front_overhang: float = 0.0135  # boom end ahead of the front motor axis (inside the clamp ring)
 
     @property
@@ -80,9 +80,10 @@ class Booms:
 
 @dataclass(frozen=True)
 class Lift:
-    prop_diameter: float = 15 * 0.0254  # §5 propulsion (D-027)
+    prop_diameter: float = 12 * 0.0254  # §5 propulsion (D-037)
     prop_pitch: float = 5.0 * 0.0254
-    tip_gap: float = 0.015  # prop-tip to wing LE/TE clearance (plan view); shortens the boom overhang (D-034)
+    tip_gap: float = 0.015  # rear prop-tip to wing TE and to stab LE clearance (plan view) (D-034)
+    front_gap: float = 0.065  # front prop-tip to wing LE: puts the rotor centre on the CG (D-038)
     motor_height: float = 0.030  # motor mount top above boom centreline
 
     @property
@@ -94,13 +95,13 @@ class Lift:
 class Tail:
     # U-tail: horizontal stabiliser between the booms + two fins hanging below the booms
     # (fins double as the rear landing gear). §6 stability.
-    h_span: float = 0.60  # between the boom centrelines (stab halves meet the fin sleeves)
-    h_chord: float = 0.180  # §6: V_H ~0.45 inside the 1.4 m length limit (D-030)
+    h_span: float = 0.58  # between the boom centrelines (stab halves meet the fin sleeves)
+    h_chord: float = 0.120  # §6: V_H ~0.55 (D-038)
     h_airfoil: str = "naca0009"
     elevator_chord_frac: float = 0.35
-    v_height: float = 0.220  # each fin, below the boom; tips are the rear landing skids
-    v_root_chord: float = 0.140  # §6: V_V ~0.03 with the larger wing
-    v_tip_chord: float = 0.105
+    v_height: float = 0.200  # each fin, below the boom; tips are the rear landing skids
+    v_root_chord: float = 0.120  # §6: V_V ~0.04
+    v_tip_chord: float = 0.090
     v_boom_overlap: float = 0.085  # fin root sleeve on the boom; the rest of the root overhangs the boom end (D-034)
     v_airfoil: str = "naca0009"
     h_incidence_deg: float = -0.3  # §6: near-zero elevator at cruise trim
@@ -109,26 +110,27 @@ class Tail:
 
 @dataclass(frozen=True)
 class Fuselage:
-    x_nose: float = 0.30  # nose ahead of wing LE (battery forward travel for CG, §6)
-    x_tail: float = -0.37  # pusher mount face, 30 mm behind the TE; pod = two halves under the bed height
-    width: float = 0.115  # 6S3P pack (68 mm wide) + the 42.5 mm pusher motor at the firewall
-    height: float = 0.120
+    x_nose: float = 0.25  # nose ahead of wing LE (battery forward travel for CG, §6)
+    x_tail: float = -0.28  # pusher mount face, 30 mm behind the TE; pod = two halves under the bed height
+    width: float = 0.095  # 6S1P pack lying flat (68 mm wide) + the 35 mm pusher motor at the firewall
+    height: float = 0.090
     z_top: float = 0.002  # pod top; the wing's lower surface is cut into it as a saddle
 
 
 @dataclass(frozen=True)
 class Pusher:
-    prop_diameter: float = 12 * 0.0254  # §5 (D-031)
+    prop_diameter: float = 12 * 0.0254  # §5 (D-037: 12x8 on a fifth lift-type motor)
     prop_pitch: float = 8 * 0.0254
-    z_thrust: float = -0.055  # thrust line (pod tail-cone centre)
+    motor_kv: float = 400.0  # rpm/V, SunnySky V2806 KV400
+    z_thrust: float = -0.045  # thrust line (pod tail-cone centre)
 
 
 @dataclass(frozen=True)
 class Mission:
     hover_time_s: float = 15 * 60  # PERF-1
     reserve_frac: float = 0.20  # PERF-1
-    target_mass: float = 4.536  # kg = 10.0 lb take-off target, battery and electronics included (D-025)
-    design_mass: float = 4.8  # kg, structural/propulsion design point (§2: CAD mass 4.65 + growth)
+    target_mass: float = 2.268  # kg = 5.0 lb take-off target, battery and electronics included (D-037)
+    design_mass: float = 2.4  # kg, structural design point: the most the lift motors carry at T/W 1.8 (PERF-5)
     load_factor_limit: float = 4.0  # §8 (gust + pull-up), ultimate = 1.5 x limit
     safety_factor: float = 1.5
 
@@ -154,7 +156,7 @@ class Aircraft:
     # --- derived layout ---
     @property
     def x_lift_front(self) -> float:
-        return self.lift.radius + self.lift.tip_gap  # ahead of root LE
+        return self.lift.radius + self.lift.front_gap  # ahead of root LE
 
     @property
     def x_lift_rear(self) -> float:

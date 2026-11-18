@@ -15,6 +15,7 @@ from analysis import avl
 from analysis import mass as M
 from analysis.common import RHO, G, plt, save_json, savefig
 from analysis.model import airplane
+from quadplane import hardware as HW
 from quadplane.params import AIRCRAFT as AC
 
 SM_TARGET = 0.10  # QuadPlane practice 10-15% MAC; 10% keeps the battery inside the nose
@@ -74,7 +75,7 @@ def main():
 
     # place the battery to hit x_cg (limited by the nose: pack front >= 50 mm behind the tip)
     xb = M.battery_x_for_cg(x_cg)
-    xb_max = AC.fuselage.x_nose - 0.050 - 0.070  # pack front 50 mm behind the nose tip (fits 77x85 mm section)
+    xb_max = AC.fuselage.x_nose - 0.050 - HW.BATTERY[0] / 2000  # pack front 50 mm behind the nose tip
     if xb > xb_max:
         print(f"WARNING: battery x {xb:+.3f} beyond forward limit {xb_max:+.3f}; CG will be aft of target")
         xb = xb_max

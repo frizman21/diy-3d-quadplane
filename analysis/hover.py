@@ -1,8 +1,8 @@
 """Hover power model: actuator-disk momentum theory calibrated to manufacturer bench data.
 
 P_elec = k * T^1.5 / sqrt(2 rho A), with k = 1 / (FM * eta_motor * eta_esc) fitted to the
-manufacturer's bench point nearest the hover thrust (selected: T-Motor MN4014 KV400 +
-P15x5 on 6S, 1250 g at 126.5 W). Hover download from booms/motor pods under the disk and a
+manufacturer's bench point nearest the hover thrust (selected: SunnySky V2806 KV400 +
+12x5 on 6S, 600 g at 71 W). Hover download from booms/motor pods under the disk and a
 battery-voltage-sag allowance are applied explicitly.
 """
 
@@ -32,15 +32,13 @@ class LiftOption:
 # docs/cots-selection.md §2 lists the sources.
 OPTIONS = {
     "MN3508-14": LiftOption("MN3508 KV380 + 14x4.8", "MN3508 KV380", 14, 710, 64.4, 0, 1730, 310, 0.103, 0.020),
-    "MN4014-15": LiftOption("MN4014 KV400 + 15x5", "MN4014 KV400", 15, 1250, 126.54, 4500, 2620, 415, 0.171, 0.026),
-    "MN4014-16": LiftOption("MN4014 KV400 + 16x5.4", "MN4014 KV400", 16, 1410, 142.08, 4200, 3020, 500, 0.171, 0.031),
-    "MN4014-17": LiftOption("MN4014 KV400 + 17x5.8", "MN4014 KV400", 17, 1530, 168.72, 4000, 3360, 571, 0.171, 0.036),
-    # Cheaper alternatives (docs/cots-selection.md §12): SunnySky bench tables at 22.2 V with
-    # the EOLO CN15x5.5 prop. Prop mass is assumed equal to the P15x5.  # VERIFY
-    "V4014-15": LiftOption("SunnySky V4014 KV400 + 15x5.5", "SunnySky V4014 KV400", 15, 1250, 158, 4980, 2750, 473, 0.166, 0.026),
-    "X4110S-15": LiftOption("SunnySky X4110S KV400 + 15x5.5", "SunnySky X4110S KV400", 15, 1250, 153, 0, 2430, 417, 0.165, 0.026),
+    # SunnySky V2806 KV400, the seller's bench tables at 22.2 V with EOLO CN props. Motor mass
+    # includes 3 g of cable; prop masses are estimates.  # VERIFY
+    "V2806-11": LiftOption("V2806 KV400 + 11x4.5", "SunnySky V2806 KV400", 11, 600, 71, 5620, 834, 115, 0.050, 0.011),
+    "V2806-12": LiftOption("V2806 KV400 + 12x5", "SunnySky V2806 KV400", 12, 600, 71, 4828, 1120, 190, 0.050, 0.013),
+    "V2806-13": LiftOption("V2806 KV400 + 13x5", "SunnySky V2806 KV400", 13, 600, 69, 4140, 1080, 173, 0.050, 0.015),
 }
-SELECTED = "MN4014-15"  # D-027; its diameter must match params.Lift.prop_diameter
+SELECTED = "V2806-12"  # D-037; its diameter must match params.Lift.prop_diameter
 assert abs(OPTIONS[SELECTED].d_in * 0.0254 - AC.lift.prop_diameter) < 1e-6
 
 DOWNLOAD = 0.04  # thrust lost to boom + motor pod blockage under the disk (~4%)

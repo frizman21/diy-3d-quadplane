@@ -10,6 +10,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from quadplane import hardware as HW
 from quadplane.params import AIRCRAFT as AC
 
 CARBON_DENSITY = 1550.0  # kg/m^3, roll-wrapped CF/epoxy tube
@@ -17,11 +18,14 @@ LWPLA_FOAMED = 0.75  # g/cm^3: LW-PLA printed at ~230 C (≈40% foaming); VERIFY
 PLA_PETG = 1.25
 
 # COTS masses (kg), docs/cots-selection.md. VERIFY on a scale when the parts arrive.
-BATTERY_MASS = 1.290  # 6S3P Molicel P45B: 18 cells at the 6S2P pack's 71.7 g per cell built
-LIFT_MOTOR_MASS = 0.171  # T-Motor MN4014 KV400, incl. cable
-LIFT_PROP_MASS = 0.026  # T-Motor P15x5 carbon
-PUSHER_MOTOR_MASS = 0.222  # SunnySky X3520 520KV (VERIFY)
+BATTERY_MASS = 0.450  # 6S1P Molicel P50B: 6 cells at 70 g plus leads and wrap (the seller ships it at 500 g)
+BATTERY_WH = 6 * 3.6 * 5.0  # nominal energy of that pack (D-037)
+LIFT_MOTOR_MASS = 0.050  # SunnySky V2806 KV400: 47 g on the listing, plus cable
+LIFT_PROP_MASS = 0.013  # 12 in carbon-nylon multirotor prop
+PUSHER_MOTOR_MASS = LIFT_MOTOR_MASS + 0.008  # a fifth V2806 KV400 with its prop adapter (D-037)
 ESC_MASS = 0.008
+# pack centre: its top sits 12 mm under the pod top (quadplane/cots.py)
+BATTERY_Z = AC.fuselage.z_top - 0.012 - HW.BATTERY[2] / 2000
 
 
 @dataclass
@@ -59,12 +63,12 @@ def components(battery_mass: float = BATTERY_MASS, battery_x: float = -0.06,
     xp = AC.fuselage.x_tail
     items += [
         Item("pusher motor", pusher_motor_mass, xp - 0.02, 0, AC.pusher.z_thrust, "propulsion"),
-        Item("pusher prop + spinner", 0.030, xp - 0.05, 0, AC.pusher.z_thrust, "propulsion"),
+        Item("pusher prop", 0.030, xp - 0.05, 0, AC.pusher.z_thrust, "propulsion"),
         Item("pusher ESC", ESC_MASS, xp + 0.06, 0, AC.pusher.z_thrust, "propulsion"),
     ]
 
     # --- energy ---
-    items.append(Item("battery 6S3P Li-ion", battery_mass, battery_x, 0, -0.065, "battery"))
+    items.append(Item("battery 6S1P Li-ion", battery_mass, battery_x, 0, BATTERY_Z, "battery"))
 
     # --- avionics ---
     items += [
@@ -81,8 +85,8 @@ def components(battery_mass: float = BATTERY_MASS, battery_x: float = -0.06,
         Item("aileron servo", 0.013, -0.15, ya, 0.0, "avionics"),
         Item("aileron servo", 0.013, -0.15, -ya, 0.0, "avionics"),
         Item("elevator servo", 0.013, AC.x_tail_le + 0.02, b.y, b.z, "avionics"),
-        Item("wiring, connectors", 0.160, -0.12, 0, -0.03, "misc"),
-        Item("hardware: inserts, screws, glue", 0.060, -0.12, 0, 0, "misc"),
+        Item("wiring, connectors", 0.110, -0.12, 0, -0.03, "misc"),
+        Item("hardware: inserts, screws, glue", 0.045, -0.12, 0, 0, "misc"),
     ]
 
     # --- carbon (COTS) ---
@@ -103,7 +107,7 @@ def components(battery_mass: float = BATTERY_MASS, battery_x: float = -0.06,
     if cad:
         items += cad
         items.append(Item("TPU feet / skid shoes", 0.016, (xf + xr) / 2, 0, -0.2, "printed"))
-        items.append(Item("glue, paint, hinge tape (printed-part allowance)", 0.040, -0.12, 0, 0, "printed"))
+        items.append(Item("glue, paint, hinge tape (printed-part allowance)", 0.030, -0.12, 0, 0, "printed"))
         return items
     p = printed or printed_estimates()
     xw = -0.40 * w.mac

@@ -15,7 +15,7 @@ from analysis.model import EXCRESCENCE_CD, airplane
 from quadplane.params import AIRCRAFT as AC
 
 ETA_CRUISE = 0.55  # prop 0.68 x motor 0.83 x ESC 0.97 at part load (conservative vs sizing 0.62)
-BATTERY_WH = 6 * 3.6 * 13.5  # 6S3P Molicel P45B (D-028)
+BATTERY_WH = M.BATTERY_WH  # 6S1P Molicel P50B (D-037)
 CLMAX_3D_FACTOR = 0.88
 
 
@@ -69,7 +69,7 @@ def main():
     # climb rate at 15 m/s with full pusher (dynamic thrust ~ T0 (1 - V/Vp))
     prop = load_json("propulsion")["pusher"]
     t0 = prop["t_static_req_n"] / 1.0
-    vp = 28.0
+    vp = prop["pitch_speed_flight_ms"]
     thrust = np.clip(t0 * (1 - v / vp), 0, None)
     roc = (thrust - drag) * v / W
     v_max = float(v[np.nanargmax(np.where(thrust - drag > 0, v, np.nan))]) if np.any(thrust > drag) else float("nan")

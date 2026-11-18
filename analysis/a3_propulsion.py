@@ -1,7 +1,7 @@
 """Propulsion and energy: lift-prop size, battery configuration, pusher sizing.
 
-Hover: calibrated momentum theory (analysis/hover.py) against T-Motor 6S bench data
-(MN4014 KV400 selected; MN3508 KV380 kept in the trade as the previous 3.3 kg choice).
+Hover: calibrated momentum theory (analysis/hover.py) against the seller's 6S bench data
+(SunnySky V2806 KV400 + 12x5 selected; MN3508 KV380 kept in the trade as the 3.3 kg choice).
 Pusher: static-thrust requirement from the transition, prop/KV selection from
 the static thrust coefficient and the cruise pitch-speed ratio.
 """
@@ -15,13 +15,14 @@ from quadplane.params import AIRCRAFT as AC
 
 # Battery options: (label, Wh nominal, pack mass kg, continuous A)
 BATTERIES = [
-    ("6S2P Molicel P45B", 6 * 3.6 * 9.0, 0.860, 90),
-    ("6S LiPo 10000 mAh", 222.0, 1.300, 250),
-    ("6S3P Molicel P45B", 6 * 3.6 * 13.5, M.BATTERY_MASS, 135),
-    ("6S3P Molicel P50B", 6 * 3.6 * 15.0, 1.320, 180),
-    ("6S4P Molicel P45B", 6 * 3.6 * 18.0, 1.720, 180),
+    ("6S1P Molicel P30B", 6 * 3.6 * 3.0, 0.330, 36),
+    ("6S1P Molicel P50B", M.BATTERY_WH, M.BATTERY_MASS, 60),
+    ("6S LiPo 5000 mAh", 111.0, 0.700, 250),
+    ("6S2P Molicel P50B", 6 * 3.6 * 10.0, 0.860, 120),
 ]
-SELECTED_BATTERY = "6S3P Molicel P45B"
+SELECTED_BATTERY = "6S1P Molicel P50B"
+V_BENCH = 22.2  # bench voltage of the motor tables
+KV_LOADED = 0.85  # in-flight prop rpm / no-load rpm at full throttle
 SEL = OPTIONS[SELECTED]
 
 
@@ -29,7 +30,7 @@ def battery_trade(front_share: float, pusher_max_w: float):
     base_items = M.components()
     base_mass, _, _ = M.summarize(base_items)
     rows = []
-    peak_a = (4 * SEL.max_w + pusher_max_w) / 22.2  # all five motors at full throttle
+    peak_a = (4 * SEL.max_w + pusher_max_w) / V_BENCH  # all five motors at full throttle
     for label, wh, mb, amps in BATTERIES:
         m = base_mass - M.BATTERY_MASS + mb
         p = hover_power(m, front_share=front_share)
@@ -54,7 +55,7 @@ def prop_trade(mass: float, front_share: float):
         rows.append({"option": o.label, "selected": key == SELECTED, "prop_in": o.d_in, "auw": m,
                      "hover_w": p, "fm_eta": 1 / k_factor(key), "tw_total": o.max_g * 4 / (m * 1000),
                      "tw_front_motor": o.max_g / t_front, "overall_length": length,
-                     "hover_min": 6 * 3.6 * 13.5 * (1 - AC.mission.reserve_frac) / p * 60,
+                     "hover_min": M.BATTERY_WH * (1 - AC.mission.reserve_frac) / p * 60,
                      "bench_ratio_front": t_front * 1.04 / o.bench_g,
                      "disk_loading_n_m2": m * G / (4 * np.pi * R ** 2)})
     return rows
@@ -65,7 +66,9 @@ def pusher(mass: float, drag_18: float):
     -> static thrust requirement. Cruise climb: 3 m/s at 18 m/s."""
     v_tr, t_tr = 14.0, 6.0
     f_transition = mass * v_tr / t_tr + 0.5 * drag_18 * (v_tr / 18) ** 2
-    t_static_req = 1.3 * f_transition / (1 - v_tr / 2 / 25.0)  # linear thrust lapse, V_pitch 25
+    # in-flight pitch speed at full throttle: the thrust falls to zero near this speed
+    v_pitch = AC.pusher.prop_pitch * AC.pusher.motor_kv * V_BENCH * KV_LOADED / 60
+    t_static_req = 1.3 * f_transition / (1 - v_tr / 2 / v_pitch)  # linear thrust lapse
     climb_thrust = drag_18 + mass * G * 3.0 / 18.0
     D = AC.pusher.prop_diameter
     ct0 = 0.105  # 12x8 static thrust coefficient (UIUC prop database order, APC E props)
@@ -78,7 +81,8 @@ def pusher(mass: float, drag_18: float):
     return {"f_transition_n": f_transition, "t_static_req_n": t_static_req,
             "t_static_req_g": t_static_req / G * 1000, "climb_thrust_n": climb_thrust,
             "static_rpm": rpm, "static_shaft_w": p_shaft, "static_elec_w": p_shaft / 0.82,
-            "kv_needed": kv_needed, "pitch_speed_static_ms": pitch_speed,
+            "kv_needed": kv_needed, "kv_selected": AC.pusher.motor_kv, "pitch_speed_static_ms": pitch_speed,
+            "pitch_speed_flight_ms": v_pitch,
             "cruise_thrust_n": drag_18}
 
 
@@ -130,7 +134,7 @@ def main():
     savefig(fig, "propulsion_battery_trade")
 
     fig, ax = plt.subplots(figsize=(6.5, 4.5))
-    masses = np.linspace(3.4, 5.2, 30)
+    masses = np.linspace(0.75 * mass, 1.15 * mass, 30)
     for key, o in OPTIONS.items():
         ax.plot(masses, [hover_power(m_, key, front_share=front_share) for m_ in masses], label=o.label)
     ax.axvline(mass, color="k", ls=":", label="take-off mass")

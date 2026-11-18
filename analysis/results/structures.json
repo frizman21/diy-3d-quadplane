@@ -1,62 +1,62 @@
 {
   "spar": {
     "n_ultimate": 6.0,
-    "root_moment_ult_nm": 56.38544622642914,
-    "root_shear_ult_n": 141.26399999999995,
-    "root_stress_mpa": 208.75888305620123,
-    "ms_root": 0.91608612837957,
-    "spar_end_y": 0.5,
-    "moment_at_spar_end_nm": 8.93437304810273,
-    "outer_tube": "14x12",
-    "outer_stress_mpa": 72.0626058876226,
-    "ms_outer": 4.550729051122249,
-    "spar_end_deflection_limit_mm": 16.2384349523321,
-    "tip_deflection_limit_mm": 40.286688606677316,
+    "root_moment_ult_nm": 20.46307421807618,
+    "root_shear_ult_n": 70.63199999999999,
+    "root_stress_mpa": 75.76154492964567,
+    "ms_root": 4.279723379076435,
+    "spar_end_y": 0.25,
+    "moment_at_spar_end_nm": 6.781280049654493,
+    "outer_tube": "10x8",
+    "outer_stress_mpa": 116.99449760357356,
+    "ms_outer": 2.4189642093713486,
+    "spar_end_deflection_limit_mm": 1.690214812541428,
+    "tip_deflection_limit_mm": 14.653614976811625,
     "tip_candidates": [
       {
         "tube": "8x6",
-        "stress_mpa": 260.0136473659526,
-        "ms": 0.5383807890553745,
-        "tip_deflection_limit_mm": 60.11688264930626,
+        "stress_mpa": 197.35300395757088,
+        "ms": 1.026824988617839,
+        "tip_deflection_limit_mm": 23.963363882561552,
         "kg": 0.03408628029144925
       },
       {
         "tube": "10x8",
-        "stress_mpa": 154.1408817379462,
-        "ms": 1.595028622452265,
-        "tip_deflection_limit_mm": 47.72943999138636,
+        "stress_mpa": 116.99449760357356,
+        "ms": 2.4189642093713486,
+        "tip_deflection_limit_mm": 14.653614976811625,
         "kg": 0.043825217517577626
       },
       {
         "tube": "14x12",
-        "stress_mpa": 72.0626058876226,
-        "ms": 4.550729051122249,
-        "tip_deflection_limit_mm": 40.286688606677316,
+        "stress_mpa": 54.69625109683808,
+        "ms": 6.313115469135388,
+        "tip_deflection_limit_mm": 9.0600353758386,
         "kg": 0.06330309196983436
       }
     ],
-    "spar_length_m": 1.0,
+    "spar_length_m": 0.5,
     "spar_tube": "20x18",
     "spar_i_mm4": 2700.984283923826,
-    "spar_kg": 0.09251990364821948,
+    "spar_kg": 0.04625995182410974,
     "candidates": [
       {
         "tube": "20x18",
-        "root_stress_mpa": 208.75888305620123,
-        "ms_root": 0.91608612837957,
-        "kg": 0.09251990364821948
+        "root_stress_mpa": 75.76154492964567,
+        "ms_root": 4.279723379076435,
+        "kg": 0.04625995182410974
       },
       {
         "tube": "20x16 pultruded",
-        "root_stress_mpa": 121.59922066908476,
-        "ms_root": 2.289494766488216,
-        "kg": 0.1753008700703105
+        "root_stress_mpa": 44.130073342319044,
+        "ms_root": 8.064113646428396,
+        "kg": 0.08765043503515525
       },
       {
         "tube": "25x23",
-        "root_stress_mpa": 129.60748823481293,
-        "ms_root": 2.086241431323093,
-        "kg": 0.11686724671354051
+        "root_stress_mpa": 47.0363866646901,
+        "ms_root": 7.50405459185234,
+        "kg": 0.058433623356770256
       }
     ]
   },
@@ -64,63 +64,63 @@
     {
       "tube": "20x18",
       "kg_per_m": 0.09251990364821948,
-      "f1_low_hz": 80.7434632258446,
-      "f1_nom_hz": 91.55448158128881,
+      "f1_low_hz": 110.25092880008683,
+      "f1_nom_hz": 125.01280260810795,
       "clear_of_1p": false,
-      "stress_ult_mpa": 29.332651793480192,
-      "separation": 0.9101814647979943,
+      "stress_ult_mpa": 13.265260154697915,
+      "separation": 1.215457024071396,
       "selected": false
     },
     {
       "tube": "25x23",
       "kg_per_m": 0.11686724671354051,
-      "f1_low_hz": 114.30426652735369,
-      "f1_nom_hz": 129.60885558215247,
+      "f1_low_hz": 155.59636087464187,
+      "f1_nom_hz": 176.4296896204127,
       "clear_of_1p": true,
-      "stress_ult_mpa": 18.21111162582653,
-      "separation": 1.288495942383934,
+      "stress_ult_mpa": 8.235707263143794,
+      "separation": 1.71536595476629,
       "selected": true
     },
     {
       "tube": "16x12 pultruded",
       "kg_per_m": 0.136345121165797,
-      "f1_low_hz": 72.55383611916257,
-      "f1_nom_hz": 82.26831730073134,
+      "f1_low_hz": 98.52394185862848,
+      "f1_nom_hz": 111.71564929016476,
       "clear_of_1p": false,
-      "stress_ult_mpa": 28.821425576508112,
-      "separation": 0.8178638145721208,
+      "stress_ult_mpa": 13.034065620573182,
+      "separation": 1.0861733182167759,
       "selected": false
     },
     {
       "tube": "20x16 pultruded",
       "kg_per_m": 0.1753008700703105,
-      "f1_low_hz": 104.9683298579058,
-      "f1_nom_hz": 119.02289843220628,
-      "clear_of_1p": false,
-      "stress_ult_mpa": 17.085872208295804,
-      "separation": 1.1832565066008585,
+      "f1_low_hz": 141.86219804459935,
+      "f1_nom_hz": 160.85661277157286,
+      "clear_of_1p": true,
+      "stress_ult_mpa": 7.726834294038981,
+      "separation": 1.5639542173487788,
       "selected": false
     },
     {
       "tube": "25x22 pultruded",
       "kg_per_m": 0.17164876861051254,
-      "f1_low_hz": 135.0982122252807,
-      "f1_nom_hz": 153.18697376465087,
+      "f1_low_hz": 182.66284559098074,
+      "f1_nom_hz": 207.12019851648262,
       "clear_of_1p": true,
-      "stress_ult_mpa": 12.902172363803357,
-      "separation": 1.5228958950009177,
+      "stress_ult_mpa": 5.834817600931912,
+      "separation": 2.0137593499371182,
       "selected": false
     }
   ],
   "hover_1p_band_hz": [
-    58.82345301235532,
-    88.71139036407953
+    71.32276530116545,
+    90.70738546623487
   ],
   "boom_model": {
-    "overhang_m": 0.20550000000000002,
-    "tip_mass_kg": 0.24945313056648136
+    "overhang_m": 0.21739999999999998,
+    "tip_mass_kg": 0.110290384448377
   },
-  "design_mass": 4.8,
+  "design_mass": 2.4,
   "E_low": 70000000000.0,
   "E_nom": 90000000000.0,
   "sigma_allow_mpa": 400.0

@@ -10,8 +10,9 @@ W = AC.wing
 T = AC.tail
 B = AC.booms
 
-# Wing segment boundaries (left side, y >= 0), m. Each segment <= 300 mm span (prints span-up).
-WING_STATIONS = [0.0, 0.30, 0.60, AC.wing.semi_span]
+# Wing segment boundaries (left side, y >= 0), m: root to the boom, then the outer panel in two
+# equal pieces. Each prints span-up; `make test` checks the bed height.
+WING_STATIONS = [0.0, W.center_span / 2, (W.center_span / 2 + W.semi_span) / 2, W.semi_span]
 SPAR_X = -mm(0.27 * W.root_chord)  # straight spar line, ~27-28% local chord
 # Wing bolts (x, mm): front bolt behind the LE, rear bolt ahead of where the pod tail cone drops away
 WING_BOLT_X = (-25.0, -mm(0.40 * W.root_chord))
@@ -58,23 +59,31 @@ def _depth_at(y: float):
     return pts[near, 1].max(), pts[near, 1].min()
 
 
-def spar_z(od: float | None = None, y_end: float | None = None) -> float:
-    """Spar centre z (mm) maximising the minimum wall between the bore and the skin over the
-    spar's length (straight spar through a tapering, washed-out wing)."""
-    od = mm(od or W.spar_od) + 0.3
-    y_end = W.spar_half_length if y_end is None else y_end
-    ys = np.linspace(0, y_end, 12)
-    tops, bots = zip(*[_depth_at(y) for y in ys])
-    zs = np.linspace(min(bots), max(tops), 400)
-    walls = [min(min(t - (z + od / 2) for t in tops), min((z - od / 2) - b for b in bots)) for z in zs]
+def _spar_stations():
+    """(tube diameter mm incl. bore clearance, top z, bottom z) along the main spar and the tip tube."""
+    out = []
+    for od, y0, y1 in ((W.spar_od, 0.0, W.spar_half_length),
+                       (W.tip_spar_od, W.tip_spar_start, W.semi_span - 0.02)):
+        for y in np.linspace(y0, y1, 12):
+            top, bot = _depth_at(y)
+            out.append((mm(od) + 0.3, top, bot))
+    return out
+
+
+def spar_z() -> float:
+    """Spar centre z (mm) maximising the minimum wall between the bores and the skin, over the
+    main spar and the coaxial tip tube (one straight axis through a tapering, washed-out wing)."""
+    st = _spar_stations()
+    zs = np.linspace(min(b for _, _, b in st), max(t for _, t, _ in st), 800)
+    walls = [min(min(t - (z + d / 2), (z - d / 2) - b) for d, t, b in st) for z in zs]
     return float(zs[int(np.argmax(walls))])
 
 
-def spar_min_wall(od: float | None = None, y_end: float | None = None) -> float:
-    od_mm = mm(od or W.spar_od) + 0.3
-    y_end = W.spar_half_length if y_end is None else y_end
-    z = spar_z(od, y_end)
-    ys = np.linspace(0, y_end, 12)
+def spar_min_wall() -> float:
+    """Minimum wall (mm) around the main spar bore."""
+    od_mm = mm(W.spar_od) + 0.3
+    z = spar_z()
+    ys = np.linspace(0, W.spar_half_length, 12)
     return float(min(min(t - (z + od_mm / 2), (z - od_mm / 2) - b) for t, b in (_depth_at(y) for y in ys)))
 
 

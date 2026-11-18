@@ -33,7 +33,7 @@ def make() -> dict[str, Part]:
     xf = mm(AC.fuselage.x_tail)
     zt = mm(AC.pusher.z_thrust)
     out["pusher_motor"] = Pos(xf - HW.PUSHER_BODY_L / 2, 0, zt) * (Rot(0, 90, 0) * Cylinder(HW.PUSHER_BODY_D / 2, HW.PUSHER_BODY_L))
-    out["pusher_prop"] = Pos(xf - HW.PUSHER_BODY_L - 12, 0, zt) * (Rot(0, 90, 0) * Cylinder(mm(AC.pusher.prop_diameter) / 2, 1.0))
+    out["pusher_prop"] = Pos(xf - HW.PUSHER_BODY_L - HW.PUSHER_PROP_OFFSET, 0, zt) * (Rot(0, 90, 0) * Cylinder(mm(AC.pusher.prop_diameter) / 2, 1.0))
     # battery (at the analysis CG position if available)
     try:
         from analysis.common import load_json

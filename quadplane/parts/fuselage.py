@@ -2,7 +2,7 @@
 
 - Wing saddle: the wing root's lower surface is cut into the pod top; 2 x M4 heat-set
   inserts take the wing bolts.
-- Split into nose and rear halves (each 335 mm, under the bed height) joined by a glued internal collar.
+- Split into nose and rear halves (each 265 mm, under the bed height) joined by a glued internal collar.
 - Battery bay in the nose with a bottom hatch; the battery slides fore-aft on the floor to set CG.
 - Rear firewall carries the pusher motor (cross pattern M3).
 - Camera cradle (TPU) under the nose for the Insta360 GO 3S.
@@ -20,7 +20,7 @@ from quadplane.params import AIRCRAFT as AC, mm
 
 MATERIAL = printer.PETG
 F = AC.fuselage
-WALL = 1.2
+WALL = 2 * printer.LWPLA.min_wall  # two perimeters: the pod carries a 0.45 kg pack
 X_SPLIT = (F.x_nose + F.x_tail) / 2  # two equal halves, each standing on the split face
 # x_front, x_rear, width (m): the pack plus 6 mm passes through; opening spans the slide range
 HATCH = (F.x_nose - 0.05, X_SPLIT + 0.03, (HW.BATTERY[1] + 6.0) / 1000)

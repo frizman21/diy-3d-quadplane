@@ -32,6 +32,18 @@ def test_layout_constraints():
         "stab spar lands on the fin root"
 
 
+def test_pusher_prop_clears_rear_lift_props():
+    """Plan view: the pusher prop tip stays outside the rear lift-prop disks."""
+    from quadplane import hardware as HW
+    x_prop = AC.fuselage.x_tail - (HW.PUSHER_BODY_L + HW.PUSHER_PROP_OFFSET) / 1000
+    dx = abs(x_prop - AC.x_lift_rear)
+    R = AC.lift.radius
+    if dx < R:
+        inner_edge = AC.booms.y - (R ** 2 - dx ** 2) ** 0.5  # lift disk edge at the pusher plane
+        assert inner_edge - AC.pusher.prop_diameter / 2 >= AC.lift.tip_gap, \
+            "pusher prop overlaps a rear lift prop"
+
+
 def test_tubes_are_catalogue_parts():
     """Every carbon tube is a size and length the supplier stocks (docs/cots-selection.md §9)."""
     from quadplane import hardware as HW
